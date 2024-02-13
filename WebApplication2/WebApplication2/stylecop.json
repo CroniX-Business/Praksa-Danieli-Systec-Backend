@@ -1,0 +1,13 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Danieli Systec d.o.o.",
+      "copyrightText": "Copyright (c) {companyName}. All rights reserved.\nCONFIDENTIAL; Property of {companyName}\nUnauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.",
+      "xmlHeader": true
+    },
+    "orderingRules": {
+      "usingDirectivesPlacement": "preserve"
+    }
+  }
+}
