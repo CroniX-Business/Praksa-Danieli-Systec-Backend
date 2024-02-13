@@ -22,7 +22,7 @@ namespace WebApplication2.Controllers
 
         /// <summary>Gets this instance.</summary>
         /// <returns>
-        ///   Returns a collection of weather forecasts.
+        ///  Returns a collection of weather forecasts.
         /// </returns>
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
