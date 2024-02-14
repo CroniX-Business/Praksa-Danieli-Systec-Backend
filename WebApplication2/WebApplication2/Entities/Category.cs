@@ -37,6 +37,6 @@ namespace WebApplication2.Entities
         /// <value>
         /// The restaurant identifier.
         /// </value>
-        public required Restaurant RestaurantId { get; set; }
+        public int RestaurantId { get; set; }
     }
 }
