@@ -25,7 +25,7 @@ namespace WebApplication2.Controllers
         {
             var categories = new List<Category>()
             {
-                new Category()
+                new()
                 {
                     Id = 1,
                     Name = "Test",

@@ -25,7 +25,7 @@ namespace WebApplication2.Controllers
         {
             var items = new List<Item>()
             {
-                new Item()
+                new()
                 {
                     Id = 1,
                     Name = "Test",

@@ -26,7 +26,7 @@ namespace WebApplication2.Controllers
         {
             var restaurant = new List<Restaurant>
             {
-                new Restaurant
+                new()
                 {
                     Id = 1,
                     Name = "Test",
