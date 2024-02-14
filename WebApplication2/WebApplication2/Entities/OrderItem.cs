@@ -7,7 +7,7 @@
 namespace WebApplication2.Entities
 {
     /// <summary>
-    /// this represents an item within an order used to record details of items included in orders.
+    /// This represents an item within an order used to record details of items included in orders.
     /// </summary>
     public class OrderItem
     {
@@ -45,7 +45,7 @@ namespace WebApplication2.Entities
         /// <value>
         /// The category identifier.
         /// </value>
-        public required Category CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the order identifier.
@@ -53,7 +53,7 @@ namespace WebApplication2.Entities
         /// <value>
         /// The order identifier.
         /// </value>
-        public required Order OrderId { get; set; }
+        public int OrderId { get; set; }
 
         /// <summary>
         /// Gets or sets the user identifier.
@@ -61,6 +61,6 @@ namespace WebApplication2.Entities
         /// <value>
         /// The user identifier.
         /// </value>
-        public required User UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

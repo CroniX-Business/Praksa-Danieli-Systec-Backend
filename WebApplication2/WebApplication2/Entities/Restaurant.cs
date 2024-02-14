@@ -24,12 +24,12 @@ namespace WebApplication2.Entities
         public required string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the adress.
+        /// Gets or sets the address.
         /// </summary>
         /// <value>
-        /// The adress.
+        /// The address.
         /// </value>
-        public required string Adress { get; set; }
+        public required string Address { get; set; }
 
         /// <summary>
         /// Gets or sets the telephone number.
