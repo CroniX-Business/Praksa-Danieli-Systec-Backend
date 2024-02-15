@@ -38,5 +38,11 @@ namespace WebApplication2.Entities
         /// The restaurant identifier.
         /// </value>
         public int RestaurantId { get; set; }
+
+        public Restaurant? Restaurant { get; set; } = null;
+
+        public ICollection<Item?> Items { get; } = new List<Item?>();
+
+        public ICollection<OrderItem?> OrderItems { get; } = new List<OrderItem?>();
     }
 }

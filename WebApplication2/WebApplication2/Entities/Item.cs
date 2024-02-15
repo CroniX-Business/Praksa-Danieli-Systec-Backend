@@ -46,5 +46,7 @@ namespace WebApplication2.Entities
         /// The category identifier.
         /// </value>
         public int CategoryId { get; set; }
+
+        public Category Category { get; set; }
     }
 }

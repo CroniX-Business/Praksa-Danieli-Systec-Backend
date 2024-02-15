@@ -24,14 +24,6 @@ namespace WebApplication2.Entities
         public required string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the first name.
-        /// </summary>
-        /// <value>
-        /// The first name.
-        /// </value>
-        public required string FirstName { get; set; }
-
-        /// <summary>
         /// Gets or sets the last name.
         /// </summary>
         /// <value>
@@ -46,5 +38,6 @@ namespace WebApplication2.Entities
         /// The telephone.
         /// </value>
         public required string Telephone { get; set; }
+        public OrderItem OrderItem {  get; set; } 
     }
 }
