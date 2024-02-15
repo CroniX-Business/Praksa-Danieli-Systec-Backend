@@ -5,6 +5,8 @@
 // </copyright>
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApplication2.Data;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -16,26 +18,82 @@ namespace WebApplication2.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
+        private readonly DataContext context;
+
+        /// <summary>Initializes a new instance of the <see cref="ItemController" /> class.</summary>
+        /// <param name="context">The context.</param>
+        public ItemController(DataContext context)
+        {
+            this.context = context;
+        }
+
         /// <summary>Gets all items.</summary>
         /// <returns>
         ///   Returns list of items.
         /// </returns>
         [HttpGet]
-        public IActionResult GetAllItems()
+        public async Task<ActionResult<List<Item>>> GetAllItems()
         {
-            var items = new List<Item>()
-            {
-                new Item()
-                {
-                    Id = 1,
-                    Name = "Test",
-                    Sort = 1,
-                    Price = 1,
-                    CategoryId = 1,
-                },
-            };
+            var items = await this.context.Items.ToListAsync();
 
             return this.Ok(items);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Item>>> GetItem(int id)
+        {
+            var item = await this.context.Items.FindAsync(id);
+            if(item == null)
+            {
+                return NotFound("Item not found.");
+            }
+
+            return this.Ok(item);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Item>>> AddItem(Item item)
+        {
+            this.context.Items.Add(item);
+            await context.SaveChangesAsync();
+
+            return this.Ok(await context.Items.ToListAsync());
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<List<Item>>> UpdateItem(Item updatedItem)
+        {
+            var dbItem = await this.context.Items.FindAsync(updatedItem.Id);
+            if (dbItem == null)
+            {
+                return NotFound("Item not found.");
+            }
+
+            dbItem.Id = updatedItem.Id;
+            dbItem.Name = updatedItem.Name;
+            dbItem.Sort = updatedItem.Sort;
+            dbItem.Price = updatedItem.Price;
+            dbItem.CategoryId = updatedItem.CategoryId;
+
+            await context.SaveChangesAsync();
+
+            return this.Ok(await context.Items.ToListAsync());
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<List<Item>>> DeleteItem(int id)
+        {
+            var dbItem = await this.context.Items.FindAsync(id);
+            if (dbItem == null)
+            {
+                return NotFound("Item not found.");
+            }
+
+            context.Items.Remove(dbItem);
+
+            await context.SaveChangesAsync();
+
+            return this.Ok(await context.Items.ToListAsync());
         }
     }
 }

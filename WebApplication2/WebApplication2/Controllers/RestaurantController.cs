@@ -18,25 +18,81 @@ namespace WebApplication2.Controllers
     [ApiController]
     public class RestaurantController : ControllerBase
     {
+        private readonly DataContext context;
+
+        /// <summary>Initializes a new instance of the <see cref="RestaurantController" /> class.</summary>
+        /// <param name="context">The context.</param>
+        public RestaurantController(DataContext context)
+        {
+            this.context = context;
+        }
+
         /// <summary>Gets all restaurants.</summary>
         /// <returns>
         ///   Returns list of restaurants.
         /// </returns>
         [HttpGet]
-        public IActionResult GetAllRestaurants()
+        public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
         {
-            var restaurants = new List<Restaurant>()
-            {
-                new Restaurant()
-                {
-                    Id = 1,
-                    Name = "Test",
-                    Address = "A.Hebranga 129",
-                    TelephoneNumber = "1234567890",
-                },
-            };
+            var restaurants = await this.context.Restaurants.ToListAsync();
 
             return this.Ok(restaurants);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Restaurant>>> GetRestaurant(int id)
+        {
+            var restaurant = await this.context.Restaurants.FindAsync(id);
+            if (restaurant == null)
+            {
+                return NotFound("Restaurant not found.");
+            }
+
+            return this.Ok(restaurant);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Restaurant>>> AddRestaurant(Restaurant restaurant)
+        {
+            this.context.Restaurants.Add(restaurant);
+            await context.SaveChangesAsync();
+
+            return this.Ok(await context.Restaurants.ToListAsync());
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<List<Restaurant>>> UpdateRestaurant(Restaurant updatedRestaurant)
+        {
+            var dbRestaurant = await this.context.Restaurants.FindAsync(updatedRestaurant.Id);
+            if (dbRestaurant == null)
+            {
+                return NotFound("Restaurant not found.");
+            }
+
+            dbRestaurant.Id = updatedRestaurant.Id;
+            dbRestaurant.Name = updatedRestaurant.Name;
+            dbRestaurant.Address = updatedRestaurant.Address;
+            dbRestaurant.TelephoneNumber = updatedRestaurant.TelephoneNumber;
+
+            await context.SaveChangesAsync();   
+
+            return this.Ok(await context.Restaurants.ToListAsync());
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<List<Restaurant>>> DeleteRestaurant(int id)
+        {
+            var dbRestaurant = await this.context.Restaurants.FindAsync(id);
+            if (dbRestaurant == null)
+            {
+                return NotFound("Restaurant not found.");
+            }
+
+            context.Restaurants.Remove(dbRestaurant);
+
+            await context.SaveChangesAsync();
+
+            return this.Ok(await context.Restaurants.ToListAsync());
         }
     }
 }
