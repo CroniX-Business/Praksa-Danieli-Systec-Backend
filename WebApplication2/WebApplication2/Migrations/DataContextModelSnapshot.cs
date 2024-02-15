@@ -123,11 +123,9 @@ namespace WebApplication2.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId")
-                        .IsUnique();
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("OrderId")
-                        .IsUnique();
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -210,14 +208,14 @@ namespace WebApplication2.Migrations
             modelBuilder.Entity("WebApplication2.Entities.OrderItem", b =>
                 {
                     b.HasOne("WebApplication2.Entities.Category", "Category")
-                        .WithOne("OrderItem")
-                        .HasForeignKey("WebApplication2.Entities.OrderItem", "CategoryId")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApplication2.Entities.Order", "Order")
-                        .WithOne("OrderItem")
-                        .HasForeignKey("WebApplication2.Entities.OrderItem", "OrderId")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -238,12 +236,12 @@ namespace WebApplication2.Migrations
                 {
                     b.Navigation("Items");
 
-                    b.Navigation("OrderItem");
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Order", b =>
                 {
-                    b.Navigation("OrderItem");
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Restaurant", b =>

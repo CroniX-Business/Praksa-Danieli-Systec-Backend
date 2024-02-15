@@ -1,4 +1,9 @@
-﻿using System;
+﻿// <copyright file="20240215121841_ChangeDatabase.cs" company="Danieli Systec d.o.o.">
+// Copyright (c) Danieli Systec d.o.o.. All rights reserved.
+// CONFIDENTIAL; Property of Danieli Systec d.o.o.
+// Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
+// </copyright>
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -19,7 +24,7 @@ namespace WebApplication2.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sort = table.Column<int>(type: "int", nullable: false),
-                    RestaurantId = table.Column<int>(type: "int", nullable: false)
+                    RestaurantId = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -39,7 +44,7 @@ namespace WebApplication2.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false)
+                    Status = table.Column<bool>(type: "bit", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -54,7 +59,7 @@ namespace WebApplication2.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Telephone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Telephone = table.Column<string>(type: "archaic(max)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -70,7 +75,7 @@ namespace WebApplication2.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sort = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -94,7 +99,7 @@ namespace WebApplication2.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -132,14 +137,12 @@ namespace WebApplication2.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItem_CategoryId",
                 table: "OrderItem",
-                column: "CategoryId",
-                unique: true);
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItem_OrderId",
                 table: "OrderItem",
-                column: "OrderId",
-                unique: true);
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItem_UserId",

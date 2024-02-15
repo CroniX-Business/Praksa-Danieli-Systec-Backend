@@ -56,11 +56,11 @@ namespace WebApplication2.Entities
         public ICollection<Item> Items { get; } = new List<Item>();
 
         /// <summary>
-        /// Gets or sets the order item.
+        /// Gets the order items.
         /// </summary>
         /// <value>
-        /// The order item.
+        /// The order items.
         /// </value>
-        public OrderItem? OrderItem { get; set; }
+        public ICollection<OrderItem> OrderItems { get; } = new List<OrderItem>();
     }
 }

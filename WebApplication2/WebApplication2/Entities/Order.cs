@@ -31,8 +31,8 @@ namespace WebApplication2.Entities
         /// </value>
         public bool Status { get; set; }
 
-        /// <summary>Gets or sets the order item.</summary>
-        /// <value>The order item.</value>
-        public OrderItem? OrderItem { get; set; }
+        /// <summary>Gets the order items.</summary>
+        /// <value>The order items.</value>
+        public ICollection<OrderItem> OrderItems { get; } = new List<OrderItem>();
     }
 }
