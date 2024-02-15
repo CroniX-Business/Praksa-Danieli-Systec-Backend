@@ -23,5 +23,9 @@ namespace WebApplication2.Entities
         /// <value>
         /// <c>true</c> if status; otherwise, <c>false</c>.</value>
         public bool Status { get; set; }
+
+        /// <summary>Gets or sets the header.</summary>
+        /// <value>The header.</value>
+        public OrderItem? Header { get; set; }
     }
 }

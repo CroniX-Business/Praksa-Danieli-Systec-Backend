@@ -48,6 +48,14 @@ namespace WebApplication2.Entities
         public int CategoryId { get; set; }
 
         /// <summary>
+        /// Gets or sets the category identifier.
+        /// </summary>
+        /// <value>
+        /// The category identifier.
+        /// </value>
+        public Category Category { get; set; } = null!;
+
+        /// <summary>
         /// Gets or sets the order identifier.
         /// </summary>
         /// <value>
@@ -56,11 +64,27 @@ namespace WebApplication2.Entities
         public int OrderId { get; set; }
 
         /// <summary>
+        /// Gets or sets the order identifier.
+        /// </summary>
+        /// <value>
+        /// The order identifier.
+        /// </value>
+        public Order Order { get; set; } = null!;
+
+        /// <summary>
         /// Gets or sets the user identifier.
         /// </summary>
         /// <value>
         /// The user identifier.
         /// </value>
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        public User User { get; set; } = null!;
     }
 }

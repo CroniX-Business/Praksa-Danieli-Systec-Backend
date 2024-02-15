@@ -4,6 +4,8 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using System.Reflection.Metadata;
+
 namespace WebApplication2.Entities
 {
     /// <summary>
@@ -38,5 +40,29 @@ namespace WebApplication2.Entities
         /// The restaurant identifier.
         /// </value>
         public int RestaurantId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the restaurant identifier.
+        /// </summary>
+        /// <value>
+        /// The restaurant identifier.
+        /// </value>
+        public Restaurant Restaurant { get; set; } = null!;
+
+        /// <summary>
+        /// Gets the items.
+        /// </summary>
+        /// <value>
+        /// The items.
+        /// </value>
+        public ICollection<Item> Items { get; } = new List<Item>();
+
+        /// <summary>
+        /// Gets or sets the header.
+        /// </summary>
+        /// <value>
+        /// The header.
+        /// </value>
+        public OrderItem? Header { get; set; }
     }
 }

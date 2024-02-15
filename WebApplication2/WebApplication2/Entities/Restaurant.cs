@@ -4,6 +4,8 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using Microsoft.Extensions.Hosting;
+
 namespace WebApplication2.Entities
 {
     /// <summary>
@@ -38,5 +40,13 @@ namespace WebApplication2.Entities
         /// The telephone number.
         /// </value>
         public required string TelephoneNumber { get; set; }
+
+        /// <summary>
+        /// Gets the categories.
+        /// </summary>
+        /// <value>
+        /// The categories.
+        /// </value>
+        public ICollection<Category> Categories { get; } = new List<Category>();
     }
 }

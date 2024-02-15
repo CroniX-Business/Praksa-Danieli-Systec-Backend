@@ -4,6 +4,9 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using Microsoft.EntityFrameworkCore;
+using WebApplication2.Data;
+
 namespace WebApplication2
 {
     /// <summary> This application is a basic ASP.NET Core web server configured to host RESTful APIs.
@@ -22,6 +25,11 @@ namespace WebApplication2
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             var app = builder.Build();
 

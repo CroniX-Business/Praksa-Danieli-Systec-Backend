@@ -38,5 +38,13 @@ namespace WebApplication2.Entities
         /// The telephone.
         /// </value>
         public required string Telephone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the header.
+        /// </summary>
+        /// <value>
+        /// The header.
+        /// </value>
+        public OrderItem? Header { get; set; }
     }
 }

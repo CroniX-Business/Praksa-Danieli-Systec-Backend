@@ -4,6 +4,8 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using Microsoft.Extensions.Hosting;
+
 namespace WebApplication2.Entities
 {
     /// <summary>
@@ -40,11 +42,19 @@ namespace WebApplication2.Entities
         public decimal Price { get; set; }
 
         /// <summary>
+        /// Gets or sets the category identifier.
+        /// </summary>
+        /// <value>
+        /// The category identifier.
+        /// </value>
+        public int CategoryId { get; set; }
+
+        /// <summary>
         /// Gets or sets the category.
         /// </summary>
         /// <value>
         /// The category.
         /// </value>
-        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
     }
 }
