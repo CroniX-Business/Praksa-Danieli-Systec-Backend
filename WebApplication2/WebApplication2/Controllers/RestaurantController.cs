@@ -5,6 +5,8 @@
 // </copyright>
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApplication2.Data;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers

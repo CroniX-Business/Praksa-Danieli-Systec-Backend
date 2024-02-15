@@ -30,5 +30,9 @@ namespace WebApplication2.Entities
         ///   <c>true</c> if status; otherwise, <c>false</c>.
         /// </value>
         public bool Status { get; set; }
+
+        /// <summary>Gets or sets the order item.</summary>
+        /// <value>The order item.</value>
+        public OrderItem? OrderItem { get; set; }
     }
 }
