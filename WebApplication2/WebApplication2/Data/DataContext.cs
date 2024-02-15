@@ -18,6 +18,26 @@ namespace WebApplication2.Data
     {
         /// <summary>Gets or sets the restaurants.</summary>
         /// <value>The restaurants.</value>
-        public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; } = null!;
+
+        /// <summary>Gets or sets the categories.</summary>
+        /// <value>The categories.</value>
+        public DbSet<Category> Categories { get; set; } = null!;
+
+        /// <summary>Gets or sets the items.</summary>
+        /// <value>The items.</value>
+        public DbSet<Item> Items { get; set; } = null!;
+
+        /// <summary>Gets or sets the order items.</summary>
+        /// <value>The order items.</value>
+        public DbSet<OrderItem> OrderItems { get; set; } = null!;
+
+        /// <summary>Gets or sets the users.</summary>
+        /// <value>The users.</value>
+        public DbSet<User> Users { get; set; } = null!;
+
+        /// <summary>Gets or sets the orders.</summary>
+        /// <value>The orders.</value>
+        public DbSet<Order> Orders { get; set; } = null!;
     }
 }
