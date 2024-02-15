@@ -44,7 +44,7 @@ namespace WebApplication2.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Item", b =>
@@ -72,7 +72,7 @@ namespace WebApplication2.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Order", b =>
@@ -180,7 +180,7 @@ namespace WebApplication2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Category", b =>
