@@ -9,7 +9,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// Represents an order entity.
     /// </summary>
-    public class Order
+    public class Order : BaseEntity
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

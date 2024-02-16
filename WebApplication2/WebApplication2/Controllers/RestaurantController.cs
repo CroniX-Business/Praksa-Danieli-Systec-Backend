@@ -34,65 +34,89 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
         {
-            var restaurants = await this.context.Restaurants.ToListAsync();
+            var restaurants = await this.context.Restaurants.Include(r => r.Categories).ToListAsync();
 
             return this.Ok(restaurants);
         }
 
+        /// <summary>Gets the restaurant.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   Returns restaurant.
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Restaurant>>> GetRestaurant(int id)
         {
-            var restaurant = await this.context.Restaurants.FindAsync(id);
+            var restaurant = await this.context.Restaurants.Include(r => r.Categories).FirstOrDefaultAsync(r => r.Id == id);
             if (restaurant == null)
             {
-                return NotFound("Restaurant not found.");
+                return this.NotFound("Restaurant not found.");
             }
 
             return this.Ok(restaurant);
         }
 
+        /// <summary>Adds the restaurant.</summary>
+        /// <param name="restaurant">The restaurant.</param>
+        /// <returns>
+        ///   Returns list of restaurants.
+        /// </returns>
         [HttpPost]
         public async Task<ActionResult<List<Restaurant>>> AddRestaurant(Restaurant restaurant)
         {
+            restaurant.ModifiedDate = null;
+            restaurant.CreatedDate = DateTime.Now;
             this.context.Restaurants.Add(restaurant);
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Restaurants.ToListAsync());
+            return this.Ok(await this.context.Restaurants.ToListAsync());
         }
 
+        /// <summary>Updates the restaurant.</summary>
+        /// <param name="updatedRestaurant">The updated restaurant.</param>
+        /// <returns>
+        ///   Returns list of restaurants.
+        /// </returns>
         [HttpPut]
         public async Task<ActionResult<List<Restaurant>>> UpdateRestaurant(Restaurant updatedRestaurant)
         {
             var dbRestaurant = await this.context.Restaurants.FindAsync(updatedRestaurant.Id);
             if (dbRestaurant == null)
             {
-                return NotFound("Restaurant not found.");
+                return this.NotFound("Restaurant not found.");
             }
 
             dbRestaurant.Id = updatedRestaurant.Id;
             dbRestaurant.Name = updatedRestaurant.Name;
             dbRestaurant.Address = updatedRestaurant.Address;
             dbRestaurant.TelephoneNumber = updatedRestaurant.TelephoneNumber;
+            updatedRestaurant.CreatedDate = dbRestaurant.CreatedDate;
+            dbRestaurant.ModifiedDate = DateTime.Now;
 
-            await context.SaveChangesAsync();   
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Restaurants.ToListAsync());
+            return this.Ok(await this.context.Restaurants.ToListAsync());
         }
 
+        /// <summary>Deletes the restaurant.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   Returns list of restaurants.
+        /// </returns>
         [HttpDelete]
         public async Task<ActionResult<List<Restaurant>>> DeleteRestaurant(int id)
         {
             var dbRestaurant = await this.context.Restaurants.FindAsync(id);
             if (dbRestaurant == null)
             {
-                return NotFound("Restaurant not found.");
+                return this.NotFound("Restaurant not found.");
             }
 
-            context.Restaurants.Remove(dbRestaurant);
+            dbRestaurant.IsActive = false;
 
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Restaurants.ToListAsync());
+            return this.Ok(await this.context.Restaurants.ToListAsync());
         }
     }
 }

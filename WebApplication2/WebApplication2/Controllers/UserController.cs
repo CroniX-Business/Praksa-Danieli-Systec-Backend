@@ -39,34 +39,49 @@ namespace WebApplication2.Controllers
             return this.Ok(users);
         }
 
+        /// <summary>Gets the user.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   Returns user.
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<List<User>>> GetUser(int id)
         {
             var user = await this.context.Users.FindAsync(id);
             if (user == null)
             {
-                return NotFound("User not found.");
+                return this.NotFound("User not found.");
             }
 
             return this.Ok(user);
         }
 
+        /// <summary>Adds the user.</summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   Returns added user.
+        /// </returns>
         [HttpPost]
         public async Task<ActionResult<List<User>>> AddUser(User user)
         {
             this.context.Users.Add(user);
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Users.ToListAsync());
+            return this.Ok(await this.context.Users.ToListAsync());
         }
 
+        /// <summary>Updates the user.</summary>
+        /// <param name="updatedUser">The updated user.</param>
+        /// <returns>
+        ///   Returns list of users.
+        /// </returns>
         [HttpPut]
         public async Task<ActionResult<List<User>>> UpdateUser(User updatedUser)
         {
             var dbUser = await this.context.Users.FindAsync(updatedUser.Id);
             if (dbUser == null)
             {
-                return NotFound("User not found.");
+                return this.NotFound("User not found.");
             }
 
             dbUser.Id = updatedUser.Id;
@@ -74,25 +89,30 @@ namespace WebApplication2.Controllers
             dbUser.Telephone = updatedUser.Telephone;
             dbUser.Name = updatedUser.Name;
 
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Users.ToListAsync());
+            return this.Ok(await this.context.Users.ToListAsync());
         }
 
+        /// <summary>Deletes the user.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   Returns list of users.
+        /// </returns>
         [HttpDelete]
         public async Task<ActionResult<List<User>>> DeleteUser(int id)
         {
             var dbUser = await this.context.Users.FindAsync(id);
             if (dbUser == null)
             {
-                return NotFound("User not found.");
+                return this.NotFound("User not found.");
             }
 
-            context.Users.Remove(dbUser);
+            this.context.Users.Remove(dbUser);
 
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Users.ToListAsync());
+            return this.Ok(await this.context.Users.ToListAsync());
         }
     }
 }

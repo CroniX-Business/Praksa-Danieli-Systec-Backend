@@ -9,7 +9,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// Represents a category entity.
     /// </summary>
-    public class Category
+    public class Category : BaseEntity
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
@@ -40,12 +40,12 @@ namespace WebApplication2.Entities
         public int RestaurantId { get; set; }
 
         /// <summary>
-        /// Gets or sets the restaurant.
+        /// Gets the restaurant.
         /// </summary>
         /// <value>
         /// The restaurant.
         /// </value>
-        public Restaurant Restaurant { get; set; } = null!;
+        public Restaurant Restaurant { get; }
 
         /// <summary>
         /// Gets the items.

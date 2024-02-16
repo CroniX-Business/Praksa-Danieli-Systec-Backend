@@ -39,34 +39,49 @@ namespace WebApplication2.Controllers
             return this.Ok(items);
         }
 
+        /// <summary>Gets the item.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   Returns item.
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Item>>> GetItem(int id)
         {
             var item = await this.context.Items.FindAsync(id);
-            if(item == null)
+            if (item == null)
             {
-                return NotFound("Item not found.");
+                return this.NotFound("Item not found.");
             }
 
             return this.Ok(item);
         }
 
+        /// <summary>Adds the item.</summary>
+        /// <param name="item">The item.</param>
+        /// <returns>
+        ///   Returns list of items.
+        /// </returns>
         [HttpPost]
         public async Task<ActionResult<List<Item>>> AddItem(Item item)
         {
             this.context.Items.Add(item);
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Items.ToListAsync());
+            return this.Ok(await this.context.Items.ToListAsync());
         }
 
+        /// <summary>Updates the item.</summary>
+        /// <param name="updatedItem">The updated item.</param>
+        /// <returns>
+        ///   Returns list of items.
+        /// </returns>
         [HttpPut]
         public async Task<ActionResult<List<Item>>> UpdateItem(Item updatedItem)
         {
             var dbItem = await this.context.Items.FindAsync(updatedItem.Id);
             if (dbItem == null)
             {
-                return NotFound("Item not found.");
+                return this.NotFound("Item not found.");
             }
 
             dbItem.Id = updatedItem.Id;
@@ -75,25 +90,30 @@ namespace WebApplication2.Controllers
             dbItem.Price = updatedItem.Price;
             dbItem.CategoryId = updatedItem.CategoryId;
 
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Items.ToListAsync());
+            return this.Ok(await this.context.Items.ToListAsync());
         }
 
+        /// <summary>Deletes the item.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   Returns list of items.
+        /// </returns>
         [HttpDelete]
         public async Task<ActionResult<List<Item>>> DeleteItem(int id)
         {
             var dbItem = await this.context.Items.FindAsync(id);
             if (dbItem == null)
             {
-                return NotFound("Item not found.");
+                return this.NotFound("Item not found.");
             }
 
-            context.Items.Remove(dbItem);
+            this.context.Items.Remove(dbItem);
 
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Items.ToListAsync());
+            return this.Ok(await this.context.Items.ToListAsync());
         }
     }
 }

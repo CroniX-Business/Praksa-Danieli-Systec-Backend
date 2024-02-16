@@ -9,7 +9,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// Represents an item entity.
     /// </summary>
-    public class Item
+    public class Item : BaseEntity
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

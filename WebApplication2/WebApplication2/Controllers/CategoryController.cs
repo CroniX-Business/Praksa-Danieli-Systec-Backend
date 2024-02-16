@@ -40,34 +40,53 @@ namespace WebApplication2.Controllers
             return this.Ok(categories);
         }
 
+        /// <summary>
+        ///   <para>
+        /// Gets the category.
+        /// </para>
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   Returns category.
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Category>>> GetCategory(int id)
         {
-            var category = await this.context.Categories.FindAsync(id);
+            var category = await this.context.Categories.Include(c => c.Restaurant).FirstOrDefaultAsync(c => c.Id == id);
             if (category == null)
             {
-                return NotFound("Category not found.");
+                return this.NotFound("Category not found.");
             }
 
             return this.Ok(category);
         }
 
+        /// <summary>Adds the category.</summary>
+        /// <param name="category">The category.</param>
+        /// <returns>
+        ///   Returns list of categories.
+        /// </returns>
         [HttpPost]
         public async Task<ActionResult<List<Category>>> AddCategory(Category category)
         {
             this.context.Categories.Add(category);
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Categories.ToListAsync());
+            return this.Ok(await this.context.Categories.ToListAsync());
         }
 
+        /// <summary>Updates the category.</summary>
+        /// <param name="updatedCategory">The updated category.</param>
+        /// <returns>
+        ///   Returns list of categories.
+        /// </returns>
         [HttpPut]
         public async Task<ActionResult<List<Category>>> UpdateCategory(Category updatedCategory)
         {
             var dbCategory = await this.context.Categories.FindAsync(updatedCategory.Id);
             if (dbCategory == null)
             {
-                return NotFound("Category not found.");
+                return this.NotFound("Category not found.");
             }
 
             dbCategory.Id = updatedCategory.Id;
@@ -75,25 +94,30 @@ namespace WebApplication2.Controllers
             dbCategory.Sort = updatedCategory.Sort;
             dbCategory.RestaurantId = updatedCategory.RestaurantId;
 
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Categories.ToListAsync());
+            return this.Ok(await this.context.Categories.ToListAsync());
         }
 
+        /// <summary>Deletes the category.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpDelete]
         public async Task<ActionResult<List<Category>>> DeleteCategory(int id)
         {
             var dbCategory = await this.context.Categories.FindAsync(id);
             if (dbCategory == null)
             {
-                return NotFound("Category not found.");
+                return this.NotFound("Category not found.");
             }
 
-            context.Categories.Remove(dbCategory);
+            this.context.Categories.Remove(dbCategory);
 
-            await context.SaveChangesAsync();
+            await this.context.SaveChangesAsync();
 
-            return this.Ok(await context.Categories.ToListAsync());
+            return this.Ok(await this.context.Categories.ToListAsync());
         }
     }
 }

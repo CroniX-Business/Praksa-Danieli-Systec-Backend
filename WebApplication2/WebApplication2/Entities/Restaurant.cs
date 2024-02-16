@@ -9,7 +9,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// Represents a restaurant entity.
     /// </summary>
-    public class Restaurant
+    public class Restaurant : BaseEntity
     {
         /// <summary>
         ///   <para>
