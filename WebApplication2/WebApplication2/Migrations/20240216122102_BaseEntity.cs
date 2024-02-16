@@ -6,11 +6,19 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApplication2.Migrations
 {
     /// <inheritdoc />
-    public partial class addBaseEntityChange : Migration
+    public partial class BaseEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_OrderItems_CategoryId",
+                table: "OrderItems");
+
+            migrationBuilder.DropIndex(
+                name: "IX_OrderItems_OrderId",
+                table: "OrderItems");
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedDate",
                 table: "Users",
@@ -32,12 +40,13 @@ namespace WebApplication2.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<byte>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "TimeStamp",
                 table: "Users",
-                type: "tinyint",
+                type: "rowversion",
+                rowVersion: true,
                 nullable: false,
-                defaultValue: (byte)0);
+                defaultValue: new byte[0]);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedDate",
@@ -60,12 +69,13 @@ namespace WebApplication2.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<byte>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "TimeStamp",
                 table: "Restaurants",
-                type: "tinyint",
+                type: "rowversion",
+                rowVersion: true,
                 nullable: false,
-                defaultValue: (byte)0);
+                defaultValue: new byte[0]);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedDate",
@@ -88,12 +98,13 @@ namespace WebApplication2.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<byte>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "TimeStamp",
                 table: "Orders",
-                type: "tinyint",
+                type: "rowversion",
+                rowVersion: true,
                 nullable: false,
-                defaultValue: (byte)0);
+                defaultValue: new byte[0]);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedDate",
@@ -116,12 +127,13 @@ namespace WebApplication2.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<byte>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "TimeStamp",
                 table: "OrderItems",
-                type: "tinyint",
+                type: "rowversion",
+                rowVersion: true,
                 nullable: false,
-                defaultValue: (byte)0);
+                defaultValue: new byte[0]);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedDate",
@@ -144,12 +156,13 @@ namespace WebApplication2.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<byte>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "TimeStamp",
                 table: "Items",
-                type: "tinyint",
+                type: "rowversion",
+                rowVersion: true,
                 nullable: false,
-                defaultValue: (byte)0);
+                defaultValue: new byte[0]);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedDate",
@@ -172,17 +185,36 @@ namespace WebApplication2.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<byte>(
+            migrationBuilder.AddColumn<byte[]>(
                 name: "TimeStamp",
                 table: "Categories",
-                type: "tinyint",
+                type: "rowversion",
+                rowVersion: true,
                 nullable: false,
-                defaultValue: (byte)0);
+                defaultValue: new byte[0]);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_CategoryId",
+                table: "OrderItems",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_OrderId",
+                table: "OrderItems",
+                column: "OrderId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_OrderItems_CategoryId",
+                table: "OrderItems");
+
+            migrationBuilder.DropIndex(
+                name: "IX_OrderItems_OrderId",
+                table: "OrderItems");
+
             migrationBuilder.DropColumn(
                 name: "CreatedDate",
                 table: "Users");
@@ -278,6 +310,18 @@ namespace WebApplication2.Migrations
             migrationBuilder.DropColumn(
                 name: "TimeStamp",
                 table: "Categories");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_CategoryId",
+                table: "OrderItems",
+                column: "CategoryId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_OrderId",
+                table: "OrderItems",
+                column: "OrderId",
+                unique: true);
         }
     }
 }

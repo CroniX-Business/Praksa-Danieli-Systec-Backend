@@ -41,7 +41,7 @@ namespace WebApplication2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
-            var restaurant = await this.context.Restaurants.FindAsync(id);
+            var restaurant = await this.context.Restaurants.Include(r => r.Categories).FirstOrDefaultAsync(r => r.Id == id);
             if (restaurant is null)
             {
                 return this.NotFound("Restaurant not found");
@@ -58,6 +58,8 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Restaurant>>> AddRestaurant(Restaurant restaurant)
         {
+            restaurant.CreatedDate = DateTime.Now;
+            restaurant.ModifiedDate = null;
             this.context.Restaurants.Add(restaurant);
             await this.context.SaveChangesAsync();
 
@@ -77,6 +79,9 @@ namespace WebApplication2.Controllers
             {
                 return this.NotFound("Restaurant not found");
             }
+
+            updatedRestaurant.CreatedDate = dbRestaurant.CreatedDate;
+            dbRestaurant.ModifiedDate = DateTime.Now;
 
             dbRestaurant.Name = updatedRestaurant.Name;
             dbRestaurant.Address = updatedRestaurant.Address;
@@ -101,7 +106,7 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Restaurant not found");
             }
 
-            this.context.Restaurants.Remove(dbRestaurant);
+            dbRestaurant.IsActive = false;
             await this.context.SaveChangesAsync();
 
             return this.Ok(await this.context.Restaurants.ToListAsync());

@@ -36,7 +36,7 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -48,9 +48,6 @@ namespace WebApplication2.Migrations
 
                     b.Property<int>("Sort")
                         .HasColumnType("int");
-
-                    b.Property<byte>("TimeStamp")
-                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -76,7 +73,7 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -88,9 +85,6 @@ namespace WebApplication2.Migrations
 
                     b.Property<int>("Sort")
                         .HasColumnType("int");
-
-                    b.Property<byte>("TimeStamp")
-                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -116,14 +110,11 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
-
-                    b.Property<byte>("TimeStamp")
-                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -147,7 +138,7 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -162,9 +153,6 @@ namespace WebApplication2.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<byte>("TimeStamp")
-                        .HasColumnType("tinyint");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -199,7 +187,7 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -209,9 +197,6 @@ namespace WebApplication2.Migrations
                     b.Property<string>("TelephoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte>("TimeStamp")
-                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -236,7 +221,7 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -246,9 +231,6 @@ namespace WebApplication2.Migrations
                     b.Property<string>("Telephone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte>("TimeStamp")
-                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
