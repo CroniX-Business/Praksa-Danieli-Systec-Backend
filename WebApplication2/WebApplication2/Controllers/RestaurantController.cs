@@ -29,7 +29,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
         {
-            var restaurant = await this.context.Restaurants.ToListAsync();
+            var restaurant = await this.context.Restaurants.Include(r => r.Categories).ToListAsync();
             return this.Ok(restaurant);
         }
 

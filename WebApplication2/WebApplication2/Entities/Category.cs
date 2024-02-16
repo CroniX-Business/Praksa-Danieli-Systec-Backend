@@ -11,7 +11,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// This is a category entity used for categorizing items in a system.
     /// </summary>
-    public class Category
+    public class Category : BaseEntity
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

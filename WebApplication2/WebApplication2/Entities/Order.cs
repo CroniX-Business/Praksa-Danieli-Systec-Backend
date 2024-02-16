@@ -9,7 +9,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// This is an order entity used to record information about orders placed in a system.
     /// </summary>
-    public class Order
+    public class Order : BaseEntity
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

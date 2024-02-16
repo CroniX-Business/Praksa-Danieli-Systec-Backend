@@ -11,7 +11,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// This is an item entity used to describe individual items within a system.
     /// </summary>
-    public class Item
+    public class Item : BaseEntity
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

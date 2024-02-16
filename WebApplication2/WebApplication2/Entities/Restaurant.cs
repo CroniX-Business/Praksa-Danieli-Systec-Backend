@@ -11,7 +11,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// This is a restaurant entity used to store information about restaurants in a system.
     /// </summary>
-    public class Restaurant
+    public class Restaurant : BaseEntity
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
