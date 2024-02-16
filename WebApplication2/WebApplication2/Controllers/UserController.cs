@@ -1,27 +1,34 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApplication2.Data;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(DataContext context) : ControllerBase
     {
+        private readonly DataContext _context = context;
+
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<ActionResult<User>> GetAllUsers()
         {
-            var users = new List<User>
-            {
-                new User
-                {
-                    Id = 1,
-                    Name = "User",
-                    LastName = "Useric1",
-                    Telephone = "091564678",
-                }
-            };
+            var users = await _context.User.ToListAsync();
             return Ok(users);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            var user = await _context.User.FindAsync(id);
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
     }
 }

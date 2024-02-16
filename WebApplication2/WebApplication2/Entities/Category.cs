@@ -9,7 +9,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// Entity for Category.
     /// </summary>
-    public class Category
+    public class Category : BaseEntity
     {
         /// <summary>Gets or sets the identifier for ID.</summary>
         /// <value>The identifier.</value>

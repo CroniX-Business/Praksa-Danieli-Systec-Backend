@@ -7,7 +7,7 @@
 namespace WebApplication2.Entities
 {
     /// <summary>Entity of order.</summary>
-    public class Order
+    public class Order : BaseEntity
     {
         /// <summary>Gets or sets the identifier for ID.</summary>
         /// <value>The identifier.</value>

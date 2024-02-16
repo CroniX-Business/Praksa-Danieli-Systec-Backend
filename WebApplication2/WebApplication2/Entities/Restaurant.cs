@@ -9,7 +9,7 @@ namespace WebApplication2.Entities
     /// <summary>
     /// Entity of the restaurant.
     /// </summary>
-    public class Restaurant
+    public class Restaurant : BaseEntity
     {
         /// <summary>Gets or sets the identifier for ID.</summary>
         /// <value>The identifier.</value>
