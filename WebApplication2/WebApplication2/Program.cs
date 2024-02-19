@@ -4,6 +4,11 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using WebApplication2.Data;
+
 namespace WebApplication2
 {
     /// <summary> This application is a basic ASP.NET Core web server configured to host RESTful APIs.
@@ -17,11 +22,21 @@ namespace WebApplication2
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
+            });
 
             var app = builder.Build();
 
@@ -37,6 +52,10 @@ namespace WebApplication2
             app.UseAuthorization();
 
             app.MapControllers();
+
+            using var scope = app.Services.CreateScope();
+
+            scope.ServiceProvider.GetService<DataContext>()?.Database.MigrateAsync();
 
             app.Run();
         }
