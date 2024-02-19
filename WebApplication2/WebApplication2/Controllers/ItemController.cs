@@ -14,18 +14,13 @@ namespace WebApplication2.Controllers
     /// <summary>
     ///   Represents a item controller.
     /// </summary>
+    /// <remarks>Initializes a new instance of the <see cref="ItemController" /> class.</remarks>
+    /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemController : ControllerBase
+    public class ItemController(DataContext context) : ControllerBase
     {
-        private readonly DataContext context;
-
-        /// <summary>Initializes a new instance of the <see cref="ItemController" /> class.</summary>
-        /// <param name="context">The context.</param>
-        public ItemController(DataContext context)
-        {
-            this.context = context;
-        }
+        private readonly DataContext context = context;
 
         /// <summary>Gets all items.</summary>
         /// <returns>
@@ -64,6 +59,8 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Item>>> AddItem(Item item)
         {
+            item.CreatedDate = DateTime.Now;
+            item.ModifiedDate = null;
             this.context.Items.Add(item);
             await this.context.SaveChangesAsync();
 
@@ -89,6 +86,8 @@ namespace WebApplication2.Controllers
             dbItem.Sort = updatedItem.Sort;
             dbItem.Price = updatedItem.Price;
             dbItem.CategoryId = updatedItem.CategoryId;
+            dbItem.ModifiedDate = DateTime.Now;
+            updatedItem.CreatedDate = dbItem.CreatedDate;
 
             await this.context.SaveChangesAsync();
 
@@ -109,7 +108,7 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Item not found.");
             }
 
-            this.context.Items.Remove(dbItem);
+            dbItem.IsActive = false;
 
             await this.context.SaveChangesAsync();
 
@@ -117,4 +116,3 @@ namespace WebApplication2.Controllers
         }
     }
 }
-

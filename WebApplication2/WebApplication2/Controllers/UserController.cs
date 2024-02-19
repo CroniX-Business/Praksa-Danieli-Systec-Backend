@@ -14,18 +14,13 @@ namespace WebApplication2.Controllers
     /// <summary>
     ///   Represents a user controller.
     /// </summary>
+    /// <remarks>Initializes a new instance of the <see cref="UserController" /> class.</remarks>
+    /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(DataContext context) : ControllerBase
     {
-        private readonly DataContext context;
-
-        /// <summary>Initializes a new instance of the <see cref="UserController" /> class.</summary>
-        /// <param name="context">The context.</param>
-        public UserController(DataContext context)
-        {
-            this.context = context;
-        }
+        private readonly DataContext context = context;
 
         /// <summary>Gets all users.</summary>
         /// <returns>

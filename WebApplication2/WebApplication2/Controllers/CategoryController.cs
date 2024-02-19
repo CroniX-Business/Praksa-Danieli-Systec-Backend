@@ -31,7 +31,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
-            var categories = await this.context.Categories.ToListAsync();
+            var categories = await this.context.Categories.Include(r => r.Items).Include(r => r.OrderItems).ToListAsync();
 
             return this.Ok(categories);
         }

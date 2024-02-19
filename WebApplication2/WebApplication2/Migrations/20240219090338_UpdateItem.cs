@@ -5,16 +5,18 @@
 namespace WebApplication2.Migrations
 {
     /// <inheritdoc />
-    public partial class RestoranNovo : Migration
+    public partial class UpdateItem : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+
         }
     }
 }
