@@ -38,6 +38,13 @@ namespace WebApplication2.Entities
         /// The telephone.
         /// </value>
         public required string Telephone { get; set; }
-        public OrderItem OrderItem {  get; set; } 
+
+        /// <summary>
+        /// Gets or sets the order item.
+        /// </summary>
+        /// <value>
+        /// The order item.
+        /// </value>
+        public required OrderItem OrderItem { get; set; }
     }
 }

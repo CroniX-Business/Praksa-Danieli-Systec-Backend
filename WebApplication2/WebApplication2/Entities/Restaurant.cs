@@ -39,6 +39,12 @@ namespace WebApplication2.Entities
         /// </value>
         public required string TelephoneNumber { get; set; }
 
+        /// <summary>
+        /// Gets the categories.
+        /// </summary>
+        /// <value>
+        /// The categories.
+        /// </value>
         public ICollection<Category?> Categories { get; } = new List<Category?>();
     }
 }

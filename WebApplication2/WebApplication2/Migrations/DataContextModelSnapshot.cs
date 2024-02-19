@@ -49,12 +49,6 @@ namespace WebApplication2.Migrations
                     b.Property<int>("Sort")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.HasKey("Id");
 
                     b.HasIndex("RestaurantId");
@@ -92,12 +86,6 @@ namespace WebApplication2.Migrations
                     b.Property<int>("Sort")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -128,12 +116,6 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.HasKey("Id");
 
                     b.ToTable("Order");
@@ -156,6 +138,9 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -172,18 +157,14 @@ namespace WebApplication2.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("OrderId");
 
@@ -222,12 +203,6 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
                     b.HasKey("Id");
 
                     b.ToTable("Restaurants");
@@ -261,12 +236,6 @@ namespace WebApplication2.Migrations
                     b.Property<string>("Telephone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -303,8 +272,12 @@ namespace WebApplication2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApplication2.Entities.Item", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ItemId");
+
                     b.HasOne("WebApplication2.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -326,6 +299,16 @@ namespace WebApplication2.Migrations
                 {
                     b.Navigation("Items");
 
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("WebApplication2.Entities.Item", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("WebApplication2.Entities.Order", b =>
+                {
                     b.Navigation("OrderItems");
                 });
 
