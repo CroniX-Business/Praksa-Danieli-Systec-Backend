@@ -42,14 +42,6 @@ namespace WebApplication2.Entities
         public int RestaurantId { get; set; }
 
         /// <summary>
-        /// Gets or sets the restaurant identifier.
-        /// </summary>
-        /// <value>
-        /// The restaurant identifier.
-        /// </value>
-        public Restaurant Restaurant { get; set; } = null!;
-
-        /// <summary>
         /// Gets the items.
         /// </summary>
         /// <value>
