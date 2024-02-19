@@ -59,6 +59,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Item>>> AddItem(Item item)
         {
+            item.IsActive = true;
             item.CreatedDate = DateTime.Now;
             item.ModifiedDate = null;
             this.context.Items.Add(item);

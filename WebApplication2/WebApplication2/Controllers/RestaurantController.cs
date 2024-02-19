@@ -58,6 +58,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Restaurant>>> AddRestaurant(Restaurant restaurant)
         {
+            restaurant.IsActive = true;
             restaurant.CreatedDate = DateTime.Now;
             restaurant.ModifiedDate = null;
             this.context.Restaurants.Add(restaurant);

@@ -48,7 +48,7 @@ namespace WebApplication2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Category>>> GetCategory(int id)
         {
-            var category = await this.context.Categories.FindAsync(id);
+            var category = await this.context.Categories.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
             if (category == null)
             {
                 return this.NotFound("Category not found.");
@@ -65,6 +65,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Category>>> AddCategory(Category category)
         {
+            category.IsActive = true;
             category.CreatedDate = DateTime.Now;
             category.ModifiedDate = null;
             this.context.Categories.Add(category);
