@@ -6,6 +6,7 @@
 
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using WebApplication2.Data;
 
 namespace WebApplication2
@@ -32,7 +33,9 @@ namespace WebApplication2
 
             builder.Services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
             });
 
             var app = builder.Build();
@@ -49,6 +52,10 @@ namespace WebApplication2
             app.UseAuthorization();
 
             app.MapControllers();
+
+            using var scope = app.Services.CreateScope();
+
+            scope.ServiceProvider.GetService<DataContext>()?.Database.MigrateAsync();
 
             app.Run();
         }

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
 using WebApplication2.Entities;
-using WebApplication2.Migrations;
 
 namespace WebApplication2.Controllers
 {
