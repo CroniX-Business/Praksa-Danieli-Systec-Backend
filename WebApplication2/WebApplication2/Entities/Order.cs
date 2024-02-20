@@ -11,18 +11,25 @@ namespace WebApplication2.Entities
     /// </summary>
     public class Order : BaseEntity
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public required string Name { get; set; }
 
         /// <summary>Gets or sets the date of order.</summary>
         /// <value>The date of order.</value>
         public DateTime DateOfOrder { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether this <see cref="Order" /> is status.</summary>
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is open.
+        /// </summary>
         /// <value>
-        /// <c>true</c> if status; otherwise, <c>false</c>.</value>
-        public bool Status { get; set; }
+        ///   <c>true</c> if this instance is open; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsOpen { get; set; }
 
         /// <summary>Gets the order items.</summary>
         /// <value>The order items.</value>

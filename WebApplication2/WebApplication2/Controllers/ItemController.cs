@@ -85,7 +85,6 @@ namespace WebApplication2.Controllers
             dbItem.Id = updatedItem.Id;
             dbItem.Name = updatedItem.Name;
             dbItem.Sort = updatedItem.Sort;
-            dbItem.Price = updatedItem.Price;
             dbItem.CategoryId = updatedItem.CategoryId;
             dbItem.ModifiedDate = DateTime.Now;
             updatedItem.CreatedDate = dbItem.CreatedDate;

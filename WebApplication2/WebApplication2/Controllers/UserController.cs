@@ -27,7 +27,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of users.
         /// </returns>
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        public async Task<ActionResult<List<Customer>>> GetAllUsers()
         {
             var users = await this.context.Users.ToListAsync();
 
@@ -40,7 +40,7 @@ namespace WebApplication2.Controllers
         ///   Returns user.
         /// </returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<User>>> GetUser(int id)
+        public async Task<ActionResult<List<Customer>>> GetUser(int id)
         {
             var user = await this.context.Users.FindAsync(id);
             if (user == null)
@@ -57,7 +57,7 @@ namespace WebApplication2.Controllers
         ///   Returns added user.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<User>>> AddUser(User user)
+        public async Task<ActionResult<List<Customer>>> AddUser(Customer user)
         {
             this.context.Users.Add(user);
             await this.context.SaveChangesAsync();
@@ -71,7 +71,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of users.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<List<User>>> UpdateUser(User updatedUser)
+        public async Task<ActionResult<List<Customer>>> UpdateUser(Customer updatedUser)
         {
             var dbUser = await this.context.Users.FindAsync(updatedUser.Id);
             if (dbUser == null)
@@ -81,8 +81,8 @@ namespace WebApplication2.Controllers
 
             dbUser.Id = updatedUser.Id;
             dbUser.LastName = updatedUser.LastName;
-            dbUser.Telephone = updatedUser.Telephone;
-            dbUser.Name = updatedUser.Name;
+            dbUser.PhoneNumber = updatedUser.PhoneNumber;
+            dbUser.FirstName = updatedUser.FirstName;
 
             await this.context.SaveChangesAsync();
 
@@ -95,7 +95,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of users.
         /// </returns>
         [HttpDelete]
-        public async Task<ActionResult<List<User>>> DeleteUser(int id)
+        public async Task<ActionResult<List<Customer>>> DeleteUser(int id)
         {
             var dbUser = await this.context.Users.FindAsync(id);
             if (dbUser == null)

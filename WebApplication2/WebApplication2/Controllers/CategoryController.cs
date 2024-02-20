@@ -30,7 +30,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
-            var categories = await this.context.Categories.Include(r => r.Items).Include(r => r.OrderItems).ToListAsync();
+            var categories = await this.context.Categories.Include(c => c.Items).Where(c => c.IsActive).ToListAsync();
 
             return this.Ok(categories);
         }
@@ -47,8 +47,8 @@ namespace WebApplication2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Category>>> GetCategory(int id)
         {
-            var category = await this.context.Categories.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
-            if (category == null)
+            var category = await this.context.Categories.Include(c => c.Items).FirstOrDefaultAsync(c => c.Id == id);
+            if (category == null || !category.IsActive)
             {
                 return this.NotFound("Category not found.");
             }
@@ -64,13 +64,12 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Category>>> AddCategory(Category category)
         {
-            category.IsActive = true;
-            category.CreatedDate = DateTime.Now;
             category.ModifiedDate = null;
+            category.CreatedDate = DateTime.UtcNow;
             this.context.Categories.Add(category);
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Categories.ToListAsync());
+            return this.CreatedAtAction(nameof(this.AddCategory), await this.context.Categories.ToListAsync());
         }
 
         /// <summary>Updates the category.</summary>
@@ -87,12 +86,9 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Category not found.");
             }
 
-            dbCategory.Id = updatedCategory.Id;
             dbCategory.Name = updatedCategory.Name;
             dbCategory.Sort = updatedCategory.Sort;
-            dbCategory.RestaurantId = updatedCategory.RestaurantId;
-            dbCategory.ModifiedDate = DateTime.Now;
-            updatedCategory.CreatedDate = dbCategory.CreatedDate;
+            dbCategory.ModifiedDate = DateTime.UtcNow;
 
             await this.context.SaveChangesAsync();
 

@@ -11,10 +11,6 @@ namespace WebApplication2.Entities
     /// </summary>
     public class Item : BaseEntity
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -32,19 +28,35 @@ namespace WebApplication2.Entities
         public int Sort { get; set; }
 
         /// <summary>
-        /// Gets or sets the price.
-        /// </summary>
-        /// <value>
-        /// The price.
-        /// </value>
-        public decimal Price { get; set; }
-
-        /// <summary>
         /// Gets or sets the category identifier.
         /// </summary>
         /// <value>
         /// The category identifier.
         /// </value>
         public int CategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the restaurant identifier.
+        /// </summary>
+        /// <value>
+        /// The restaurant identifier.
+        /// </value>
+        public int RestaurantId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order item.
+        /// </summary>
+        /// <value>
+        /// The order item.
+        /// </value>
+        public OrderItem? OrderItem { get; set; }
+
+        /// <summary>
+        /// Gets the prices.
+        /// </summary>
+        /// <value>
+        /// The prices.
+        /// </value>
+        public ICollection<Price> Prices { get; } = new List<Price>();
     }
 }

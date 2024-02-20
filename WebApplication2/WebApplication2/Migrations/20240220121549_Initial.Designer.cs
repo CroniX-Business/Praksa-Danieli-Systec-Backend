@@ -12,7 +12,7 @@ using WebApplication2.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240219123505_Initial")]
+    [Migration("20240220121549_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,17 +46,46 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Sort")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RestaurantId");
-
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("WebApplication2.Entities.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Item", b =>
@@ -83,8 +112,8 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Sort")
                         .HasColumnType("int");
@@ -92,6 +121,8 @@ namespace WebApplication2.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Items");
                 });
@@ -113,11 +144,15 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -132,14 +167,17 @@ namespace WebApplication2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
@@ -157,19 +195,53 @@ namespace WebApplication2.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.HasIndex("ItemId")
+                        .IsUnique();
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
                     b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("WebApplication2.Entities.Price", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ItemPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ValidFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ValidTo")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Prices");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Restaurant", b =>
@@ -197,56 +269,13 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TelephoneNumber")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Restaurants");
-                });
-
-            modelBuilder.Entity("WebApplication2.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telephone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebApplication2.Entities.Category", b =>
-                {
-                    b.HasOne("WebApplication2.Entities.Restaurant", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Item", b =>
@@ -256,40 +285,63 @@ namespace WebApplication2.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("WebApplication2.Entities.Restaurant", null)
+                        .WithMany("Items")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.OrderItem", b =>
                 {
-                    b.HasOne("WebApplication2.Entities.Category", "Category")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("WebApplication2.Entities.Customer", "Customer")
+                        .WithOne("OrderItem")
+                        .HasForeignKey("WebApplication2.Entities.OrderItem", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication2.Entities.Order", "Order")
+                    b.HasOne("WebApplication2.Entities.Item", "Item")
+                        .WithOne("OrderItem")
+                        .HasForeignKey("WebApplication2.Entities.OrderItem", "ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication2.Entities.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication2.Entities.User", "User")
-                        .WithOne("Header")
-                        .HasForeignKey("WebApplication2.Entities.OrderItem", "UserId")
+                    b.Navigation("Customer");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("WebApplication2.Entities.Price", b =>
+                {
+                    b.HasOne("WebApplication2.Entities.Item", null)
+                        .WithMany("Prices")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Category", b =>
                 {
                     b.Navigation("Items");
+                });
 
-                    b.Navigation("OrderItems");
+            modelBuilder.Entity("WebApplication2.Entities.Customer", b =>
+                {
+                    b.Navigation("OrderItem");
+                });
+
+            modelBuilder.Entity("WebApplication2.Entities.Item", b =>
+                {
+                    b.Navigation("OrderItem");
+
+                    b.Navigation("Prices");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Order", b =>
@@ -299,12 +351,7 @@ namespace WebApplication2.Migrations
 
             modelBuilder.Entity("WebApplication2.Entities.Restaurant", b =>
                 {
-                    b.Navigation("Categories");
-                });
-
-            modelBuilder.Entity("WebApplication2.Entities.User", b =>
-                {
-                    b.Navigation("Header");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
