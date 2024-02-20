@@ -11,10 +11,6 @@ namespace WebApplication2.Entities
     /// </summary>
     public class Category : BaseEntity
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -32,27 +28,11 @@ namespace WebApplication2.Entities
         public int Sort { get; set; }
 
         /// <summary>
-        /// Gets or sets the restaurant identifier.
-        /// </summary>
-        /// <value>
-        /// The restaurant identifier.
-        /// </value>
-        public int RestaurantId { get; set; }
-
-        /// <summary>
         /// Gets the items.
         /// </summary>
         /// <value>
         /// The items.
         /// </value>
         public ICollection<Item> Items { get; } = new List<Item>();
-
-        /// <summary>
-        /// Gets the order items.
-        /// </summary>
-        /// <value>
-        /// The order items.
-        /// </value>
-        public ICollection<OrderItem> OrderItems { get; } = new List<OrderItem>();
     }
 }

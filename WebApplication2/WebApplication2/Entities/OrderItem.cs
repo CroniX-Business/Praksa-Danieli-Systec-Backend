@@ -11,10 +11,6 @@ namespace WebApplication2.Entities
     /// </summary>
     public class OrderItem : BaseEntity
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -40,20 +36,20 @@ namespace WebApplication2.Entities
         public int Quantity { get; set; }
 
         /// <summary>
-        /// Gets or sets the category identifier.
+        /// Gets or sets the item identifier.
         /// </summary>
         /// <value>
-        /// The category identifier.
+        /// The item identifier.
         /// </value>
-        public int CategoryId { get; set; }
+        public int ItemId { get; set; }
 
         /// <summary>
-        /// Gets or sets the category identifier.
+        /// Gets or sets the item.
         /// </summary>
         /// <value>
-        /// The category identifier.
+        /// The item.
         /// </value>
-        public Category Category { get; set; } = null!;
+        public Item Item { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the order identifier.
@@ -64,12 +60,12 @@ namespace WebApplication2.Entities
         public int OrderId { get; set; }
 
         /// <summary>
-        /// Gets or sets the order identifier.
+        /// Gets or sets the user identifier.
         /// </summary>
         /// <value>
-        /// The order identifier.
+        /// The user identifier.
         /// </value>
-        public Order Order { get; set; } = null!;
+        public int CustomerId { get; set; }
 
         /// <summary>
         /// Gets or sets the user identifier.
@@ -77,14 +73,6 @@ namespace WebApplication2.Entities
         /// <value>
         /// The user identifier.
         /// </value>
-        public int UserId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user identifier.
-        /// </summary>
-        /// <value>
-        /// The user identifier.
-        /// </value>
-        public User User { get; set; } = null!;
+        public Customer Customer { get; set; } = null!;
     }
 }

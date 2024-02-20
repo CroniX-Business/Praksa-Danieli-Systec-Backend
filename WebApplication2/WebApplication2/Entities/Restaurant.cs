@@ -11,10 +11,6 @@ namespace WebApplication2.Entities
     /// </summary>
     public class Restaurant : BaseEntity
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -37,7 +33,7 @@ namespace WebApplication2.Entities
         /// <value>
         /// The telephone number.
         /// </value>
-        public required string TelephoneNumber { get; set; }
+        public required string PhoneNumber { get; set; }
 
         /// <summary>
         /// Gets the categories.
@@ -45,6 +41,6 @@ namespace WebApplication2.Entities
         /// <value>
         /// The categories.
         /// </value>
-        public ICollection<Category> Categories { get; } = new List<Category>();
+        public ICollection<Item> Items { get; } = new List<Item>();
     }
 }
