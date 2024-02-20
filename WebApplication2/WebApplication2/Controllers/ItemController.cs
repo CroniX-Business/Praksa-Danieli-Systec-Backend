@@ -1,5 +1,4 @@
-﻿/*
-// <copyright file="ItemController.cs" company="Danieli Systec d.o.o.">
+﻿// <copyright file="ItemController.cs" company="Danieli Systec d.o.o.">
 // Copyright (c) Danieli Systec d.o.o.. All rights reserved.
 // CONFIDENTIAL; Property of Danieli Systec d.o.o.
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
@@ -30,7 +29,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Item>>> GetAllItems()
         {
-            var items = await this.context.Items.ToListAsync();
+            var items = await this.context.Items.Include(r => r.Prices).ToListAsync();
 
             return this.Ok(items);
         }
@@ -43,7 +42,7 @@ namespace WebApplication2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Item>>> GetItem(int id)
         {
-            var item = await this.context.Items.FindAsync(id);
+            var item = await this.context.Items.Include(r => r.Prices).FirstOrDefaultAsync(r => r.Id == id);
             if (item == null)
             {
                 return this.NotFound("Item not found.");
@@ -60,13 +59,12 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Item>>> AddItem(Item item)
         {
-            item.IsActive = true;
-            item.CreatedDate = DateTime.Now;
+            item.CreatedDate = DateTime.UtcNow;
             item.ModifiedDate = null;
             this.context.Items.Add(item);
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Items.ToListAsync());
+            return this.CreatedAtAction(nameof(this.AddItem), await this.context.Items.ToListAsync());
         }
 
         /// <summary>Updates the item.</summary>
@@ -83,13 +81,11 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Item not found.");
             }
 
-            dbItem.Id = updatedItem.Id;
             dbItem.Name = updatedItem.Name;
             dbItem.Sort = updatedItem.Sort;
-            dbItem.Price = updatedItem.Price;
             dbItem.CategoryId = updatedItem.CategoryId;
-            dbItem.ModifiedDate = DateTime.Now;
-            updatedItem.CreatedDate = dbItem.CreatedDate;
+            dbItem.RestaurantId = updatedItem.RestaurantId;
+            dbItem.ModifiedDate = DateTime.UtcNow;
 
             await this.context.SaveChangesAsync();
 
@@ -110,6 +106,8 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Item not found.");
             }
 
+            dbItem.ModifiedDate = DateTime.UtcNow;
+
             dbItem.IsActive = false;
 
             await this.context.SaveChangesAsync();
@@ -118,4 +116,3 @@ namespace WebApplication2.Controllers
         }
     }
 }
-*/

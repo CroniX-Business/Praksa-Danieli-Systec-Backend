@@ -48,7 +48,7 @@ namespace WebApplication2.Controllers
         public async Task<ActionResult<List<Category>>> GetCategory(int id)
         {
             var category = await this.context.Categories.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
-            if (category == null)
+            if (category == null || !category.IsActive)
             {
                 return this.NotFound("Category not found.");
             }
@@ -64,6 +64,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Category>>> AddCategory(Category category)
         {
+            category.CreatedDate = DateTime.UtcNow;
             category.ModifiedDate = null;
             this.context.Categories.Add(category);
             await this.context.SaveChangesAsync();
@@ -85,7 +86,6 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Category not found.");
             }
 
-            dbCategory.Id = updatedCategory.Id;
             dbCategory.Name = updatedCategory.Name;
             dbCategory.Sort = updatedCategory.Sort;
             dbCategory.ModifiedDate = DateTime.UtcNow;
@@ -108,6 +108,8 @@ namespace WebApplication2.Controllers
             {
                 return this.NotFound("Category not found.");
             }
+
+            dbCategory.ModifiedDate = DateTime.UtcNow;
 
             dbCategory.IsActive = false;
 

@@ -28,7 +28,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
         {
-            var restaurant = await this.context.Restaurants.Include(r => r.Items).ToListAsync();
+            var restaurant = await this.context.Restaurants.Include(r => r.Items).Where(r => r.IsActive).ToListAsync();
             return this.Ok(restaurant);
         }
 
@@ -41,9 +41,9 @@ namespace WebApplication2.Controllers
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
             var restaurant = await this.context.Restaurants.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
-            if (restaurant is null)
+            if (restaurant is null || !restaurant.IsActive)
             {
-                return this.NotFound("Restaurant not found");
+                return this.NotFound("Restaurant not found.");
             }
 
             return this.Ok(restaurant);
@@ -57,6 +57,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Restaurant>>> AddRestaurant(Restaurant restaurant)
         {
+            restaurant.CreatedDate = DateTime.UtcNow;
             restaurant.ModifiedDate = null;
             this.context.Restaurants.Add(restaurant);
             await this.context.SaveChangesAsync();
@@ -102,7 +103,10 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Restaurant not found");
             }
 
+            dbRestaurant.ModifiedDate = DateTime.UtcNow;
+
             dbRestaurant.IsActive = false;
+
             await this.context.SaveChangesAsync();
 
             return this.Ok(await this.context.Restaurants.ToListAsync());
