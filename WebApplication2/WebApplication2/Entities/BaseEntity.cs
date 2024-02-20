@@ -22,10 +22,10 @@ namespace WebApplication2.Entities
 
         /// <summary>Gets or sets the created date.</summary>
         /// <value>The created date.</value>
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         /// <summary>Gets or sets the modified date.</summary>
         /// <value>The modified date.</value>
-        public DateTime? ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; } = null;
     }
 }

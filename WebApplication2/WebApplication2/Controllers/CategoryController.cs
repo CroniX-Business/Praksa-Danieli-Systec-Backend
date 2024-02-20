@@ -30,7 +30,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
-            var categories = await this.context.Categories.Include(r => r.Items).Include(r => r.OrderItems).ToListAsync();
+            var categories = await this.context.Categories.Include(r => r.Items).ToListAsync();
 
             return this.Ok(categories);
         }
@@ -64,13 +64,11 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Category>>> AddCategory(Category category)
         {
-            category.IsActive = true;
-            category.CreatedDate = DateTime.Now;
             category.ModifiedDate = null;
             this.context.Categories.Add(category);
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Categories.ToListAsync());
+            return this.CreatedAtAction(nameof(this.AddCategory), await this.context.Categories.ToListAsync());
         }
 
         /// <summary>Updates the category.</summary>
@@ -90,9 +88,7 @@ namespace WebApplication2.Controllers
             dbCategory.Id = updatedCategory.Id;
             dbCategory.Name = updatedCategory.Name;
             dbCategory.Sort = updatedCategory.Sort;
-            dbCategory.RestaurantId = updatedCategory.RestaurantId;
-            dbCategory.ModifiedDate = DateTime.Now;
-            updatedCategory.CreatedDate = dbCategory.CreatedDate;
+            dbCategory.ModifiedDate = DateTime.UtcNow;
 
             await this.context.SaveChangesAsync();
 

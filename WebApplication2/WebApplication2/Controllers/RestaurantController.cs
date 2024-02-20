@@ -28,7 +28,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
         {
-            var restaurant = await this.context.Restaurants.Include(r => r.Categories).ToListAsync();
+            var restaurant = await this.context.Restaurants.Include(r => r.Items).ToListAsync();
             return this.Ok(restaurant);
         }
 
@@ -40,7 +40,7 @@ namespace WebApplication2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
-            var restaurant = await this.context.Restaurants.Include(r => r.Categories).FirstOrDefaultAsync(r => r.Id == id);
+            var restaurant = await this.context.Restaurants.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
             if (restaurant is null)
             {
                 return this.NotFound("Restaurant not found");
@@ -57,13 +57,11 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Restaurant>>> AddRestaurant(Restaurant restaurant)
         {
-            restaurant.IsActive = true;
-            restaurant.CreatedDate = DateTime.Now;
             restaurant.ModifiedDate = null;
             this.context.Restaurants.Add(restaurant);
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Restaurants.ToListAsync());
+            return this.CreatedAtAction(nameof(this.AddRestaurant), await this.context.Restaurants.ToListAsync());
         }
 
         /// <summary>Updates the restaurant.</summary>
@@ -80,12 +78,10 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Restaurant not found");
             }
 
-            updatedRestaurant.CreatedDate = dbRestaurant.CreatedDate;
-            dbRestaurant.ModifiedDate = DateTime.Now;
-
+            dbRestaurant.ModifiedDate = DateTime.UtcNow;
             dbRestaurant.Name = updatedRestaurant.Name;
             dbRestaurant.Address = updatedRestaurant.Address;
-            dbRestaurant.TelephoneNumber = updatedRestaurant.TelephoneNumber;
+            dbRestaurant.PhoneNumber = updatedRestaurant.PhoneNumber;
 
             await this.context.SaveChangesAsync();
 

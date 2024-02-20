@@ -34,10 +34,14 @@ namespace WebApplication2.Data
 
         /// <summary>Gets or sets the users.</summary>
         /// <value>The users.</value>
-        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Customer> Customers { get; set; } = null!;
 
         /// <summary>Gets or sets the orders.</summary>
         /// <value>The orders.</value>
         public DbSet<Order> Orders { get; set; } = null!;
+
+        /// <summary>Gets or sets the prices.</summary>
+        /// <value>The prices.</value>
+        public DbSet<Price>? Prices { get; set; } = null;
     }
 }
