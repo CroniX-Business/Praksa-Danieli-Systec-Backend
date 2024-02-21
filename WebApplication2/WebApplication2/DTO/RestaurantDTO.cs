@@ -1,49 +1,45 @@
-﻿// <copyright file="Customer.cs" company="Danieli Systec d.o.o.">
+﻿// <copyright file="RestaurantDTO.cs" company="Danieli Systec d.o.o.">
 // Copyright (c) Danieli Systec d.o.o.. All rights reserved.
 // CONFIDENTIAL; Property of Danieli Systec d.o.o.
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-using System.Text.Json.Serialization;
-
-namespace WebApplication2.Entities
+namespace WebApplication2.DTO
 {
     /// <summary>
-    /// This is a user entity used to store information about customers in a system.
+    /// Shows the information customer can see.
     /// </summary>
-    public class Customer : BaseEntity
+    public class RestaurantDTO
     {
         /// <summary>
-        /// Gets or sets the first name.
+        /// Gets or sets the name.
         /// </summary>
         /// <value>
-        /// The first name.
+        /// The name.
         /// </value>
-        public required string FirstName { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the last name.
+        /// Gets or sets the address.
         /// </summary>
         /// <value>
-        /// The last name.
+        /// The address.
         /// </value>
-        public required string LastName { get; set; }
+        public required string Address { get; set; }
 
         /// <summary>
-        /// Gets or sets the phone number.
+        /// Gets or sets the telephone number.
         /// </summary>
         /// <value>
-        /// The phone number.
+        /// The telephone number.
         /// </value>
         public required string PhoneNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the header.
+        /// Gets the categories.
         /// </summary>
         /// <value>
-        /// The header.
+        /// The categories.
         /// </value>
-        [JsonIgnore]
-        public OrderItem? OrderItem { get; set; }
     }
 }

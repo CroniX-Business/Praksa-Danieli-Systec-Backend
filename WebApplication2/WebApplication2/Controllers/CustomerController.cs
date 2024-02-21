@@ -60,6 +60,7 @@ namespace WebApplication2.Controllers
         public async Task<ActionResult<List<Customer>>> AddCustomer(Customer customer)
         {
             customer.CreatedDate = DateTime.UtcNow;
+            customer.ModifiedDate = null;
             this.context.Customers.Add(customer);
             await this.context.SaveChangesAsync();
 

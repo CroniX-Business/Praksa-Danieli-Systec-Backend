@@ -4,9 +4,11 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -23,13 +25,21 @@ namespace WebApplication2.Controllers
         /// <summary>The context.</summary>
         private readonly DataContext context = context;
 
+        private readonly IMapper mapper;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestaurantController"/> class.
+        /// </summary>
+        /// <param name="mapper"></param>
+
+
         /// <summary>Gets the restaurant data.</summary>
         /// <returns>Returns data of all restaurants.</returns>
         [HttpGet]
         public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
         {
-            var restaurant = await this.context.Restaurants.Include(r => r.Items).Where(r => r.IsActive).ToListAsync();
-            return this.Ok(restaurant);
+            var restaurants = await this.context.Restaurants.ToListAsync();
+            return this.Ok(restaurants.Select(restaurant => this.mapper.Map<RestaurantDTO>(restaurant)));
         }
 
         /// <summary>Gets the restaurant.</summary>
