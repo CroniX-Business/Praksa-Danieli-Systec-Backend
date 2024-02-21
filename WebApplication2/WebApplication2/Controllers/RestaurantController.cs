@@ -4,9 +4,11 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -18,18 +20,19 @@ namespace WebApplication2.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantController(DataContext context) : ControllerBase
+    public class RestaurantController(IMapper mapper, DataContext context) : ControllerBase
     {
-        /// <summary>The context.</summary>
         private readonly DataContext context = context;
+        public readonly IMapper mapper = mapper;
+        /// <summary>The context.</summary>
 
         /// <summary>Gets the restaurant data.</summary>
         /// <returns>Returns data of all restaurants.</returns>
         [HttpGet]
         public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
         {
-            var restaurant = await this.context.Restaurants.Include(r => r.Categories).ToListAsync();
-            return this.Ok(restaurant);
+            var restaurants = await this.context.Restaurants.Include(r => r.Items).Where(r => r.IsActive).ToListAsync();
+            return Ok(restaurants.Select(restaurant => mapper.Map<RestaurantDTO>(restaurant)));
         }
 
         /// <summary>Gets the restaurant.</summary>
@@ -40,10 +43,10 @@ namespace WebApplication2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
-            var restaurant = await this.context.Restaurants.Include(r => r.Categories).FirstOrDefaultAsync(r => r.Id == id);
-            if (restaurant is null)
+            var restaurant = await this.context.Restaurants.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
+            if (restaurant is null || !restaurant.IsActive)
             {
-                return this.NotFound("Restaurant not found");
+                return this.NotFound("Restaurant not found.");
             }
 
             return this.Ok(restaurant);
@@ -54,16 +57,21 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Posts restaurant to database.
         /// </returns>
+        /// 
+
         [HttpPost]
-        public async Task<ActionResult<List<Restaurant>>> AddRestaurant(Restaurant restaurant)
+        public async Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDTO newRestaurant)
         {
-            restaurant.IsActive = true;
-            restaurant.CreatedDate = DateTime.Now;
-            restaurant.ModifiedDate = null;
+            var restaurant = new Restaurant()
+            {
+                Name = newRestaurant.Name,
+                Address = newRestaurant.Address,
+                PhoneNumber = newRestaurant.PhoneNumber,
+            };
+            //var restaurant = mapper.Map<Restaurant>(newRestaurant);
             this.context.Restaurants.Add(restaurant);
             await this.context.SaveChangesAsync();
-
-            return this.Ok(await this.context.Restaurants.ToListAsync());
+            return this.CreatedAtAction(nameof(this.AddRestaurant), await this.context.Restaurants.ToListAsync());
         }
 
         /// <summary>Updates the restaurant.</summary>
@@ -80,12 +88,10 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Restaurant not found");
             }
 
-            updatedRestaurant.CreatedDate = dbRestaurant.CreatedDate;
-            dbRestaurant.ModifiedDate = DateTime.Now;
-
+            dbRestaurant.ModifiedDate = DateTime.UtcNow;
             dbRestaurant.Name = updatedRestaurant.Name;
             dbRestaurant.Address = updatedRestaurant.Address;
-            dbRestaurant.TelephoneNumber = updatedRestaurant.TelephoneNumber;
+            dbRestaurant.PhoneNumber = updatedRestaurant.PhoneNumber;
 
             await this.context.SaveChangesAsync();
 
@@ -106,7 +112,10 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Restaurant not found");
             }
 
+            dbRestaurant.ModifiedDate = DateTime.UtcNow;
+
             dbRestaurant.IsActive = false;
+
             await this.context.SaveChangesAsync();
 
             return this.Ok(await this.context.Restaurants.ToListAsync());
