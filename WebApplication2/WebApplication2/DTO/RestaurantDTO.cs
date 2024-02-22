@@ -4,6 +4,8 @@ namespace WebApplication2.DTO
 {
     public class RestaurantDTO
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -27,13 +29,5 @@ namespace WebApplication2.DTO
         /// The telephone number.
         /// </value>
         public required string PhoneNumber { get; set; }
-
-        /// <summary>
-        /// Gets the categories.
-        /// </summary>
-        /// <value>
-        /// The categories.
-        /// </value>
-        public ICollection<Item> Items { get; } = new List<Item>();
     }
 }

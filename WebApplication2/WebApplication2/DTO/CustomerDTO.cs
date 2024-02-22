@@ -1,9 +1,23 @@
-﻿using WebApplication2.Entities;
+﻿// <copyright file="CustomerDTO.cs" company="Danieli Systec d.o.o.">
+// Copyright (c) Danieli Systec d.o.o.. All rights reserved.
+// CONFIDENTIAL; Property of Danieli Systec d.o.o.
+// Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
+// </copyright>
+
+// Ignore Spelling: DTO
+using WebApplication2.Entities;
 
 namespace WebApplication2.DTO
 {
+    /// <summary>
+    /// Class for Data transfer object of Customer.
+    /// </summary>
     public class CustomerDTO
     {
+        /// <summary>Gets or sets the identifier.</summary>
+        /// <value>The identifier.</value>
+        public int Id { get; set; }
+
         /// <summary>
         /// Gets or sets the first name.
         /// </summary>
@@ -27,13 +41,5 @@ namespace WebApplication2.DTO
         /// The phone number.
         /// </value>
         public required string PhoneNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the header.
-        /// </summary>
-        /// <value>
-        /// The header.
-        /// </value>
-        public OrderItem? OrderItem { get; set; }
     }
 }

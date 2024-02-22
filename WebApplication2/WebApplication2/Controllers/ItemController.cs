@@ -7,6 +7,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -40,7 +41,7 @@ namespace WebApplication2.Controllers
         ///   Returns item.
         /// </returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Item>>> GetItem(int id)
+        public async Task<ActionResult<Item>> GetItem(int id)
         {
             var item = await this.context.Items.Include(r => r.Prices).FirstOrDefaultAsync(r => r.Id == id);
             if (item == null)
@@ -48,19 +49,30 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Item not found.");
             }
 
+            /// <summary>Adds the item.</summary>
+            /// <param name="item">The item.</param>
+            /// <returns>
+            ///   Returns list of items.
+            /// </returns>
             return this.Ok(item);
         }
 
         /// <summary>Adds the item.</summary>
-        /// <param name="item">The item.</param>
+        /// <param name="newItem">The new item.</param>
         /// <returns>
-        ///   Returns list of items.
+        ///   <br />
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Item>>> AddItem(Item item)
+        public async Task<ActionResult<Item>> AddItem(ItemDTO newItem)
         {
-            item.CreatedDate = DateTime.UtcNow;
-            item.ModifiedDate = null;
+            var item = new Item()
+            {
+                Name = newItem.Name,
+                Sort = newItem.Sort,
+                CategoryId = newItem.CategoryId,
+                RestaurantId = newItem.RestaurantId,
+            };
+
             this.context.Items.Add(item);
             await this.context.SaveChangesAsync();
 

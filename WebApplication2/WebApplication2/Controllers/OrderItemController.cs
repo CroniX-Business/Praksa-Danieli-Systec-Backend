@@ -1,16 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// <copyright file="OrderItemController.cs" company="Danieli Systec d.o.o.">
+// Copyright (c) Danieli Systec d.o.o.. All rights reserved.
+// CONFIDENTIAL; Property of Danieli Systec d.o.o.
+// Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
+// </copyright>
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
 {
+    /// <summary>Class for Order item controller.</summary>
     [Route("api/[controller]")]
     [ApiController]
     public class OrderItemController(DataContext context) : ControllerBase
     {
         private readonly DataContext context = context;
 
+        /// <summary>Gets all order items.</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpGet]
         public async Task<ActionResult<List<OrderItem>>> GetAllOrderItems()
         {
@@ -18,6 +29,11 @@ namespace WebApplication2.Controllers
             return this.Ok(ordersItems);
         }
 
+        /// <summary>Gets the order item.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<List<OrderItem>>> GetOrderItem(int id)
         {
@@ -30,6 +46,11 @@ namespace WebApplication2.Controllers
             return this.Ok(orderItem);
         }
 
+        /// <summary>Adds the order item.</summary>
+        /// <param name="orderItem">The order item.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpPost]
         public async Task<ActionResult<List<OrderItem>>> AddOrderItem(OrderItem orderItem)
         {
@@ -41,6 +62,11 @@ namespace WebApplication2.Controllers
             return this.CreatedAtAction(nameof(this.AddOrderItem), await this.context.Restaurants.ToListAsync());
         }
 
+        /// <summary>Updates the order item.</summary>
+        /// <param name="updatedOrderItem">The updated order item.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpPut]
         public async Task<ActionResult<List<Order>>> UpdateOrderItem(OrderItem updatedOrderItem)
         {
@@ -63,6 +89,11 @@ namespace WebApplication2.Controllers
             return this.Ok(await this.context.Restaurants.ToListAsync());
         }
 
+        /// <summary>Deletes the order.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
         [HttpDelete]
         public async Task<ActionResult<List<Order>>> DeleteOrder(int id)
         {

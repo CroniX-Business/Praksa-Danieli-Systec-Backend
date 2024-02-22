@@ -7,6 +7,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -45,7 +46,7 @@ namespace WebApplication2.Controllers
         ///  Returns category.
         /// </returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Category>>> GetCategory(int id)
+        public async Task<ActionResult<Category>> GetCategory(int id)
         {
             var category = await this.context.Categories.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
             if (category == null || !category.IsActive)
@@ -62,10 +63,13 @@ namespace WebApplication2.Controllers
         ///  Returns list of categories.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Category>>> AddCategory(Category category)
+        public async Task<ActionResult<Category>> AddCategory(CategoryDTO newCategory)
         {
-            category.CreatedDate = DateTime.UtcNow;
-            category.ModifiedDate = null;
+            var category = new Category()
+            {
+                Name = newCategory.Name,
+                Sort = newCategory.Sort
+            };
             this.context.Categories.Add(category);
             await this.context.SaveChangesAsync();
 
@@ -78,7 +82,7 @@ namespace WebApplication2.Controllers
         ///  Returns list of categories.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<List<Category>>> UpdateCategory(Category updatedCategory)
+        public async Task<ActionResult<Category>> UpdateCategory(CategoryDTO updatedCategory)
         {
             var dbCategory = await this.context.Categories.FindAsync(updatedCategory.Id);
             if (dbCategory == null)

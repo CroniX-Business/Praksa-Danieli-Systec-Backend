@@ -23,16 +23,17 @@ namespace WebApplication2.Controllers
     public class RestaurantController(IMapper mapper, DataContext context) : ControllerBase
     {
         private readonly DataContext context = context;
-        public readonly IMapper mapper = mapper;
-        /// <summary>The context.</summary>
+        private readonly IMapper mapper = mapper;
 
-        /// <summary>Gets the restaurant data.</summary>
+        /// <summary>The context.</summary>
         /// <returns>Returns data of all restaurants.</returns>
         [HttpGet]
         public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
         {
             var restaurants = await this.context.Restaurants.Include(r => r.Items).Where(r => r.IsActive).ToListAsync();
-            return Ok(restaurants.Select(restaurant => mapper.Map<RestaurantDTO>(restaurant)));
+            return this.Ok(restaurants);
+
+            // return Ok(restaurants.Select(restaurant => mapper.Map<RestaurantDTO>(restaurant)));
         }
 
         /// <summary>Gets the restaurant.</summary>
@@ -43,6 +44,11 @@ namespace WebApplication2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
+            /// <summary>Adds the restaurant.</summary>
+            /// <param name="restaurant">The restaurant.</param>
+            /// <returns>
+            ///  Posts restaurant to database.
+            /// </returns>
             var restaurant = await this.context.Restaurants.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
             if (restaurant is null || !restaurant.IsActive)
             {
@@ -53,12 +59,10 @@ namespace WebApplication2.Controllers
         }
 
         /// <summary>Adds the restaurant.</summary>
-        /// <param name="restaurant">The restaurant.</param>
+        /// <param name="newRestaurant">The new restaurant.</param>
         /// <returns>
-        ///  Posts restaurant to database.
+        ///   <br />
         /// </returns>
-        /// 
-
         [HttpPost]
         public async Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDTO newRestaurant)
         {
@@ -68,7 +72,8 @@ namespace WebApplication2.Controllers
                 Address = newRestaurant.Address,
                 PhoneNumber = newRestaurant.PhoneNumber,
             };
-            //var restaurant = mapper.Map<Restaurant>(newRestaurant);
+
+            // var restaurant = mapper.Map<Restaurant>(newRestaurant);
             this.context.Restaurants.Add(restaurant);
             await this.context.SaveChangesAsync();
             return this.CreatedAtAction(nameof(this.AddRestaurant), await this.context.Restaurants.ToListAsync());
@@ -80,7 +85,7 @@ namespace WebApplication2.Controllers
         ///  Updates parameters of restaurant.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<List<Restaurant>>> UpdateRestaurant(Restaurant updatedRestaurant)
+        public async Task<ActionResult<List<Restaurant>>> UpdateRestaurant(RestaurantDTO updatedRestaurant)
         {
             var dbRestaurant = await this.context.Restaurants.FindAsync(updatedRestaurant.Id);
             if (dbRestaurant is null)
@@ -104,7 +109,7 @@ namespace WebApplication2.Controllers
         ///  Deletes restaurant by id.
         /// </returns>
         [HttpDelete]
-        public async Task<ActionResult<List<Restaurant>>> DeleteRestaurant(int id)
+        public async Task<ActionResult<Restaurant>> DeleteRestaurant(int id)
         {
             var dbRestaurant = await this.context.Restaurants.FindAsync(id);
             if (dbRestaurant is null)
