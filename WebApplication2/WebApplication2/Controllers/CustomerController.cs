@@ -7,6 +7,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -57,14 +58,22 @@ namespace WebApplication2.Controllers
         ///   Returns added customer.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Customer>>> AddCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> AddCustomer(CustomerDTO newCustomer)
         {
+            var customer = new Customer()
+            {
+                FirstName = newCustomer.FirstName,
+                LastName = newCustomer.LastName,
+                PhoneNumber = newCustomer.PhoneNumber,
+            };
+
             customer.CreatedDate = DateTime.UtcNow;
             customer.ModifiedDate = null;
             this.context.Customers.Add(customer);
             await this.context.SaveChangesAsync();
 
-            return this.CreatedAtAction(nameof(this.AddCustomer), await this.context.Customers.ToListAsync());
+
+            return this.CreatedAtAction(nameof(this.AddCustomer), customer);
         }
 
         /// <summary>Updates the customer.</summary>
@@ -73,7 +82,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of customers.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<List<Customer>>> UpdateCustomer(Customer updatedCustomer)
+        public async Task<ActionResult<List<Customer>>> UpdateCustomer(CustomerDTO updatedCustomer)
         {
             var dbCustomer = await this.context.Customers.FindAsync(updatedCustomer.Id);
             if (dbCustomer == null)

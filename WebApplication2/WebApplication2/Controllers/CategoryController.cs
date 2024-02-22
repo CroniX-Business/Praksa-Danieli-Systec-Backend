@@ -7,6 +7,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -62,14 +63,20 @@ namespace WebApplication2.Controllers
         ///  Returns list of categories.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Category>>> AddCategory(Category category)
+        public async Task<ActionResult<List<Category>>> AddCategory(CategoryDTO newCategory)
         {
+            var category = new Category()
+            {
+                Name = newCategory.Name,
+                Sort = newCategory.Sort,
+            };
+
             category.CreatedDate = DateTime.UtcNow;
             category.ModifiedDate = null;
             this.context.Categories.Add(category);
             await this.context.SaveChangesAsync();
 
-            return this.CreatedAtAction(nameof(this.AddCategory), await this.context.Categories.ToListAsync());
+            return this.CreatedAtAction(nameof(this.AddCategory), category);
         }
 
         /// <summary>Updates the category.</summary>

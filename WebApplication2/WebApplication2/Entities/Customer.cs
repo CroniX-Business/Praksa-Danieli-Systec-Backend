@@ -43,7 +43,6 @@ namespace WebApplication2.Entities
         /// <value>
         /// The header.
         /// </value>
-        [JsonIgnore]
         public OrderItem? OrderItem { get; set; }
     }
 }
