@@ -41,7 +41,7 @@ namespace WebApplication2.Controllers
         ///   Returns Customer.
         /// </returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Customer>>> GetCustomer(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             var customer = await this.context.Customers.FindAsync(id);
             if (customer == null)
@@ -83,7 +83,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of customers.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<List<Customer>>> UpdateCustomer(CustomerDTO updatedCustomer)
+        public async Task<ActionResult<Customer>> UpdateCustomer(CustomerDTO updatedCustomer)
         {
             var dbCustomer = await this.context.Customers.FindAsync(updatedCustomer.Id);
             if (dbCustomer == null)
@@ -108,7 +108,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of customers.
         /// </returns>
         [HttpDelete]
-        public async Task<ActionResult<List<Customer>>> DeleteCustomer(int id)
+        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
         {
             var dbCustomer = await this.context.Customers.FindAsync(id);
             if (dbCustomer == null)

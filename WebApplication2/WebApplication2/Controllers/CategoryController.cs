@@ -58,7 +58,7 @@ namespace WebApplication2.Controllers
         }
 
         /// <summary>Adds the category.</summary>
-        /// <param name="category">The category.</param>
+        /// <param name="newCategory">The category.</param>
         /// <returns>
         ///  Returns list of categories.
         /// </returns>
@@ -68,7 +68,7 @@ namespace WebApplication2.Controllers
             var category = new Category()
             {
                 Name = newCategory.Name,
-                Sort = newCategory.Sort
+                Sort = newCategory.Sort,
             };
             this.context.Categories.Add(category);
             await this.context.SaveChangesAsync();
@@ -105,7 +105,7 @@ namespace WebApplication2.Controllers
         ///  Returns list of categories.
         /// </returns>
         [HttpDelete]
-        public async Task<ActionResult<List<Category>>> DeleteCategory(int id)
+        public async Task<ActionResult<Category>> DeleteCategory(int id)
         {
             var dbCategory = await this.context.Categories.FindAsync(id);
             if (dbCategory == null)
