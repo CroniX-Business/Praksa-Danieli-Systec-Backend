@@ -4,9 +4,11 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -18,10 +20,12 @@ namespace WebApplication2.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantController(DataContext context) : ControllerBase
+    public class RestaurantController(IMapper mapper, DataContext context) : ControllerBase
     {
         /// <summary>The context.</summary>
         private readonly DataContext context = context;
+
+        private readonly IMapper mapper = mapper;
 
         /// <summary>Gets the restaurant data.</summary>
         /// <returns>Returns data of all restaurants.</returns>
@@ -55,14 +59,28 @@ namespace WebApplication2.Controllers
         ///  Posts restaurant to database.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Restaurant>>> AddRestaurant(Restaurant restaurant)
+        public async Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDTO newRestaurant)
         {
-            restaurant.ModifiedDate = null;
+            //restaurant.CreatedDate = DateTime.UtcNow;
+            //restaurant.ModifiedDate = null;
+            //this.context.Restaurants.Add(restaurant);
+            //await this.context.SaveChangesAsync();
+
+            //return this.CreatedAtAction(nameof(this.AddRestaurant), await this.context.Restaurants.ToListAsync());
+
+            var restaurant = new Restaurant()
+            {
+                Name = newRestaurant.Name,
+                Address = newRestaurant.Address,
+                PhoneNumber = newRestaurant.PhoneNumber,
+            };
+
             restaurant.CreatedDate = DateTime.UtcNow;
+            restaurant.ModifiedDate = null;
             this.context.Restaurants.Add(restaurant);
             await this.context.SaveChangesAsync();
 
-            return this.CreatedAtAction(nameof(this.AddRestaurant), await this.context.Restaurants.ToListAsync());
+            return this.CreatedAtAction(nameof(this.AddRestaurant), restaurant);
         }
 
         /// <summary>Updates the restaurant.</summary>
@@ -71,7 +89,7 @@ namespace WebApplication2.Controllers
         ///  Updates parameters of restaurant.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<List<Restaurant>>> UpdateRestaurant(Restaurant updatedRestaurant)
+        public async Task<ActionResult<List<Restaurant>>> UpdateRestaurant(RestaurantDTO updatedRestaurant)
         {
             var dbRestaurant = await this.context.Restaurants.FindAsync(updatedRestaurant.Id);
             if (dbRestaurant is null)
@@ -104,6 +122,7 @@ namespace WebApplication2.Controllers
             }
 
             dbRestaurant.IsActive = false;
+            dbRestaurant.ModifiedDate = DateTime.UtcNow;
             await this.context.SaveChangesAsync();
 
             return this.Ok(await this.context.Restaurants.ToListAsync());

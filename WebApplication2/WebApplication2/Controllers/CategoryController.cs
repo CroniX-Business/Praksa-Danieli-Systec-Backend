@@ -7,6 +7,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Controllers
@@ -62,14 +63,20 @@ namespace WebApplication2.Controllers
         ///  Returns list of categories.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Category>>> AddCategory(Category category)
+        public async Task<ActionResult<List<Category>>> AddCategory(CategoryDTO newCategory)
         {
-            category.ModifiedDate = null;
+            var category = new Category()
+            {
+                Name = newCategory.Name,
+                Sort = newCategory.Sort,
+            };
+
             category.CreatedDate = DateTime.UtcNow;
+            category.ModifiedDate = null;
             this.context.Categories.Add(category);
             await this.context.SaveChangesAsync();
 
-            return this.CreatedAtAction(nameof(this.AddCategory), await this.context.Categories.ToListAsync());
+            return this.CreatedAtAction(nameof(this.AddCategory), category);
         }
 
         /// <summary>Updates the category.</summary>
@@ -78,7 +85,7 @@ namespace WebApplication2.Controllers
         ///  Returns list of categories.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<List<Category>>> UpdateCategory(Category updatedCategory)
+        public async Task<ActionResult<List<Category>>> UpdateCategory(CategoryDTO updatedCategory)
         {
             var dbCategory = await this.context.Categories.FindAsync(updatedCategory.Id);
             if (dbCategory == null)
@@ -110,6 +117,7 @@ namespace WebApplication2.Controllers
             }
 
             dbCategory.IsActive = false;
+            dbCategory.ModifiedDate = DateTime.UtcNow;
 
             await this.context.SaveChangesAsync();
 

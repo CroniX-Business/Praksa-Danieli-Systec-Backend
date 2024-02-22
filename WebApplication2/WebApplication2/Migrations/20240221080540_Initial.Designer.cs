@@ -12,7 +12,7 @@ using WebApplication2.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240220121549_Initial")]
+    [Migration("20240221080540_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -85,7 +85,7 @@ namespace WebApplication2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("WebApplication2.Entities.Item", b =>
