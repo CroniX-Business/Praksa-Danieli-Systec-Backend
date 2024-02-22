@@ -53,12 +53,12 @@ namespace WebApplication2.Controllers
         }
 
         /// <summary>Adds the customer.</summary>
-        /// <param name="customer">The customer.</param>
+        /// <param name="newCustomer">The new customer.</param>
         /// <returns>
-        ///   Returns added customer.
+        ///   Returns customer.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Customer>>> AddCustomer(CustomerDTO newCustomer)
+        public async Task<ActionResult<Customer>> AddCustomer(CustomerDTO newCustomer)
         {
             var customer = new Customer()
             {
@@ -78,7 +78,7 @@ namespace WebApplication2.Controllers
         /// <summary>Updates the customer.</summary>
         /// <param name="updatedCustomer">The updated customer.</param>
         /// <returns>
-        ///   Returns list of users.
+        ///   Returns list of customers.
         /// </returns>
         [HttpPut]
         public async Task<ActionResult<List<Customer>>> UpdateCustomer(CustomerDTO updatedCustomer)
@@ -102,7 +102,7 @@ namespace WebApplication2.Controllers
         /// <summary>Deletes the customer.</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>
-        ///   Returns list of customer.
+        ///   Returns list of customers.
         /// </returns>
         [HttpDelete]
         public async Task<ActionResult<List<Customer>>> DeleteCustomer(int id)

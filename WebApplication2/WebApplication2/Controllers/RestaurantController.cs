@@ -54,20 +54,13 @@ namespace WebApplication2.Controllers
         }
 
         /// <summary>Adds the restaurant.</summary>
-        /// <param name="restaurant">The restaurant.</param>
+        /// <param name="newRestaurant">The new restaurant.</param>
         /// <returns>
-        ///  Posts restaurant to database.
+        ///   Returns restaurant.
         /// </returns>
         [HttpPost]
         public async Task<ActionResult<Restaurant>> AddRestaurant(RestaurantDTO newRestaurant)
         {
-            //restaurant.CreatedDate = DateTime.UtcNow;
-            //restaurant.ModifiedDate = null;
-            //this.context.Restaurants.Add(restaurant);
-            //await this.context.SaveChangesAsync();
-
-            //return this.CreatedAtAction(nameof(this.AddRestaurant), await this.context.Restaurants.ToListAsync());
-
             var restaurant = new Restaurant()
             {
                 Name = newRestaurant.Name,

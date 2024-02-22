@@ -58,12 +58,12 @@ namespace WebApplication2.Controllers
         }
 
         /// <summary>Adds the category.</summary>
-        /// <param name="category">The category.</param>
+        /// <param name="newCategory">The new category.</param>
         /// <returns>
-        ///  Returns list of categories.
+        ///   Returns category.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Category>>> AddCategory(CategoryDTO newCategory)
+        public async Task<ActionResult<Category>> AddCategory(CategoryDTO newCategory)
         {
             var category = new Category()
             {
