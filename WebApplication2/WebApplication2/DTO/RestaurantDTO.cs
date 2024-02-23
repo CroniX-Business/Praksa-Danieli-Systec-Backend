@@ -3,14 +3,14 @@
 // CONFIDENTIAL; Property of Danieli Systec d.o.o.
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
-using WebApplication2.Entities;
+// Ignore Spelling: DTO
 
 namespace WebApplication2.DTO
 {
     /// <summary>
     ///  Data transfer object for restaurant.
     /// </summary>
-    public class RestaurantDTO
+    public class RestaurantDTO : BaseDTO
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

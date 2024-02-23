@@ -21,7 +21,7 @@ namespace WebApplication2.Entities
 
         /// <summary>Gets or sets the valid to.</summary>
         /// <value>The valid to.</value>
-        public DateTime? ValidTo { get; set; } = null!;
+        public DateTime? ValidTo { get; set; }
 
         /// <summary>Gets or sets the item identifier.</summary>
         /// <value>The item identifier.</value>

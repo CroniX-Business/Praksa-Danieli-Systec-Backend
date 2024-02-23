@@ -10,7 +10,7 @@ namespace WebApplication2
         /// Initializes a new instance of the <see cref="AutoMapperProfile"/> class.
         /// </summary>
         public AutoMapperProfile() {
-            this.CreateMap<Restaurant, RestaurantDTO>();
+            this.CreateMap<Restaurant, RestaurantDTO>().ReverseMap();
         }
     }
 }

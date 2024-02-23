@@ -18,14 +18,14 @@ namespace WebApplication2.Entities
         /// The name.
         /// </value>
         public required string Name { get; set; }
-
+            
         /// <summary>
         /// Gets or sets the price.
         /// </summary>
         /// <value>
         /// The price.
         /// </value>
-        public decimal Price { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity.
@@ -49,7 +49,7 @@ namespace WebApplication2.Entities
         /// <value>
         /// The item.
         /// </value>
-        public Item Item { get; set; } = null!;
+        public Item? Item { get; set; }
 
         /// <summary>
         /// Gets or sets the order identifier.
@@ -73,6 +73,6 @@ namespace WebApplication2.Entities
         /// <value>
         /// The user identifier.
         /// </value>
-        public Customer Customer { get; set; } = null!;
+        public Customer? Customer { get; set; }
     }
 }

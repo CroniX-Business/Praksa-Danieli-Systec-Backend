@@ -4,8 +4,6 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-using System.Text.Json.Serialization;
-
 namespace WebApplication2.Entities
 {
     /// <summary>
@@ -38,11 +36,11 @@ namespace WebApplication2.Entities
         public required string PhoneNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the header.
+        /// Gets the order item.
         /// </summary>
         /// <value>
-        /// The header.
+        /// The order item.
         /// </value>
-        public OrderItem? OrderItem { get; set; }
+        public ICollection<OrderItem> OrderItem { get; } = new List<OrderItem>();
     }
 }

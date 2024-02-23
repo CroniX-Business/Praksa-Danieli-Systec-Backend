@@ -4,6 +4,7 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
@@ -19,21 +20,23 @@ namespace WebApplication2.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController(DataContext context) : ControllerBase
+    public class CategoryController(IMapper mapper, DataContext context) : ControllerBase
     {
         /// <summary>The context.</summary>
         private readonly DataContext context = context;
+
+        private readonly IMapper mapper = mapper;
 
         /// <summary>Gets all categories.</summary>
         /// <returns>
         ///   Returns list of categories.
         /// </returns>
         [HttpGet]
-        public async Task<ActionResult<List<Category>>> GetAllCategories()
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAllCategories()
         {
-            var categories = await this.context.Categories.Include(r => r.Items).ToListAsync();
+            var categories = await this.context.Categories.Where(c => c.IsActive).ToListAsync();
 
-            return this.Ok(categories);
+            return this.Ok(categories.Select(this.mapper.Map<CategoryDTO>));
         }
 
         /// <summary>
@@ -46,37 +49,30 @@ namespace WebApplication2.Controllers
         ///  Returns category.
         /// </returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Category>>> GetCategory(int id)
+        public async Task<ActionResult<CategoryDTO>> GetCategory(int id)
         {
-            var category = await this.context.Categories.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
+            var category = await this.context.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (category == null || !category.IsActive)
             {
                 return this.NotFound("Category not found.");
             }
 
-            return this.Ok(category);
+            return this.Ok(this.mapper.Map<CategoryDTO>(category));
         }
 
         /// <summary>Adds the category.</summary>
-        /// <param name="category">The category.</param>
+        /// <param name="newCategory">The new category.</param>
         /// <returns>
-        ///  Returns list of categories.
+        ///   Returns category.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<List<Category>>> AddCategory(CategoryDTO newCategory)
+        public async Task<ActionResult<CategoryDTO>> AddCategory(CategoryDTO newCategory)
         {
-            var category = new Category()
-            {
-                Name = newCategory.Name,
-                Sort = newCategory.Sort,
-            };
-
-            category.CreatedDate = DateTime.UtcNow;
-            category.ModifiedDate = null;
+            var category = this.mapper.Map<Category>(newCategory);
             this.context.Categories.Add(category);
             await this.context.SaveChangesAsync();
 
-            return this.CreatedAtAction(nameof(this.AddCategory), category);
+            return this.CreatedAtAction(nameof(this.AddCategory), this.mapper.Map<CategoryDTO>(category));
         }
 
         /// <summary>Updates the category.</summary>
@@ -84,8 +80,8 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Returns list of categories.
         /// </returns>
-        [HttpPut]
-        public async Task<ActionResult<List<Category>>> UpdateCategory(Category updatedCategory)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<CategoryDTO>> UpdateCategory(CategoryDTO updatedCategory)
         {
             var dbCategory = await this.context.Categories.FindAsync(updatedCategory.Id);
             if (dbCategory == null)
@@ -93,13 +89,13 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Category not found.");
             }
 
-            dbCategory.Name = updatedCategory.Name;
-            dbCategory.Sort = updatedCategory.Sort;
-            dbCategory.ModifiedDate = DateTime.UtcNow;
+            updatedCategory.CreatedDate = dbCategory.CreatedDate;
+
+            this.mapper.Map(updatedCategory, dbCategory);
 
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Categories.ToListAsync());
+            return this.NoContent();
         }
 
         /// <summary>Deletes the category.</summary>
@@ -107,8 +103,8 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Returns list of categories.
         /// </returns>
-        [HttpDelete]
-        public async Task<ActionResult<List<Category>>> DeleteCategory(int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteCategory(int id)
         {
             var dbCategory = await this.context.Categories.FindAsync(id);
             if (dbCategory == null)
@@ -116,13 +112,12 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Category not found.");
             }
 
-            dbCategory.ModifiedDate = DateTime.UtcNow;
-
             dbCategory.IsActive = false;
+            dbCategory.ModifiedDate = DateTime.UtcNow;
 
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Categories.ToListAsync());
+            return this.NoContent();
         }
     }
 }
