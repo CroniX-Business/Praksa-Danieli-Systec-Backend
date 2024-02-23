@@ -10,12 +10,8 @@ namespace WebApplication2.DTO
     /// <summary>
     /// Represents a customer data transfer object.
     /// </summary>
-    public class CustomerDTO
+    public class CustomerDTO : BaseDTO
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

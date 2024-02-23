@@ -18,9 +18,9 @@ namespace WebApplication2
         /// <summary>Initializes a new instance of the <see cref="AutoMapperProfile" /> class.</summary>
         public AutoMapperProfile()
         {
-            this.CreateMap<Restaurant, RestaurantDTO>();
-
-            this.CreateMap<RestaurantDTO, Restaurant>();
+            this.CreateMap<Restaurant, RestaurantDTO>().ReverseMap();
+            this.CreateMap<Category, CategoryDTO>().ReverseMap();
+            this.CreateMap<Customer, CustomerDTO>().ReverseMap();
         }
     }
 }

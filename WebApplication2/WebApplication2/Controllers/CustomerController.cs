@@ -4,6 +4,7 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
@@ -19,20 +20,22 @@ namespace WebApplication2.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController(DataContext context) : ControllerBase
+    public class CustomerController(IMapper mapper, DataContext context) : ControllerBase
     {
         private readonly DataContext context = context;
 
-        /// <summary>Gets all users.</summary>
+        private readonly IMapper mapper = mapper;
+
+        /// <summary>Gets all customers.</summary>
         /// <returns>
-        ///   Returns list of users.
+        ///   Returns list of customers.
         /// </returns>
         [HttpGet]
-        public async Task<ActionResult<List<Customer>>> GetAllCustomers()
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomers()
         {
-            var customers = await this.context.Customers.Include(c => c.OrderItem).Where(c => c.IsActive).ToListAsync();
+            var customers = await this.context.Customers.Where(c => c.IsActive).ToListAsync();
 
-            return this.Ok(customers);
+            return this.Ok(customers.Select(this.mapper.Map<CustomerDTO>));
         }
 
         /// <summary>Gets the customer.</summary>
@@ -41,15 +44,15 @@ namespace WebApplication2.Controllers
         ///   Returns customer.
         /// </returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Customer>>> GetCustomer(int id)
+        public async Task<ActionResult<CustomerDTO>> GetCustomer(int id)
         {
-            var customer = await this.context.Customers.Include(c => c.OrderItem).FirstOrDefaultAsync(c => c.Id == id);
+            var customer = await this.context.Customers.FirstOrDefaultAsync(c => c.Id == id);
             if (customer == null || !customer.IsActive)
             {
                 return this.NotFound("Customer not found.");
             }
 
-            return this.Ok(customer);
+            return this.Ok(this.mapper.Map<CustomerDTO>(customer));
         }
 
         /// <summary>Adds the customer.</summary>
@@ -58,21 +61,13 @@ namespace WebApplication2.Controllers
         ///   Returns customer.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<Customer>> AddCustomer(CustomerDTO newCustomer)
+        public async Task<ActionResult<CustomerDTO>> AddCustomer(CustomerDTO newCustomer)
         {
-            var customer = new Customer()
-            {
-                FirstName = newCustomer.FirstName,
-                LastName = newCustomer.LastName,
-                PhoneNumber = newCustomer.PhoneNumber,
-            };
-
-            customer.CreatedDate = DateTime.UtcNow;
-            customer.ModifiedDate = null;
+            var customer = this.mapper.Map<Customer>(newCustomer);
             this.context.Customers.Add(customer);
             await this.context.SaveChangesAsync();
 
-            return this.CreatedAtAction(nameof(this.AddCustomer), customer);
+            return this.CreatedAtAction(nameof(this.AddCustomer), this.mapper.Map<CustomerDTO>(customer));
         }
 
         /// <summary>Updates the customer.</summary>
@@ -81,7 +76,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of customers.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<List<Customer>>> UpdateCustomer(CustomerDTO updatedCustomer)
+        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(CustomerDTO updatedCustomer)
         {
             var dbCustomer = await this.context.Customers.FindAsync(updatedCustomer.Id);
             if (dbCustomer == null)
@@ -89,14 +84,13 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Customer not found.");
             }
 
-            dbCustomer.FirstName = updatedCustomer.FirstName;
-            dbCustomer.LastName = updatedCustomer.LastName;
-            dbCustomer.PhoneNumber = updatedCustomer.PhoneNumber;
-            dbCustomer.ModifiedDate = DateTime.UtcNow;
+            updatedCustomer.CreatedDate = dbCustomer.CreatedDate;
+
+            this.mapper.Map(updatedCustomer, dbCustomer);
 
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Customers.ToListAsync());
+            return this.NoContent();
         }
 
         /// <summary>Deletes the customer.</summary>
@@ -105,7 +99,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of customers.
         /// </returns>
         [HttpDelete]
-        public async Task<ActionResult<List<Customer>>> DeleteCustomer(int id)
+        public async Task<ActionResult> DeleteCustomer(int id)
         {
             var dbUser = await this.context.Customers.FindAsync(id);
             if (dbUser == null)
@@ -118,7 +112,7 @@ namespace WebApplication2.Controllers
 
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Customers.ToListAsync());
+            return this.NoContent();
         }
     }
 }

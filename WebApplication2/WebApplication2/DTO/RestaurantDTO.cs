@@ -10,16 +10,8 @@ namespace WebApplication2.DTO
     /// <summary>
     /// Represents a restaurant data transfer object.
     /// </summary>
-    public class RestaurantDTO
+    public class RestaurantDTO : BaseDTO
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

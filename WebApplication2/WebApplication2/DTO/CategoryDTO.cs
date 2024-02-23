@@ -10,12 +10,8 @@ namespace WebApplication2.DTO
     /// <summary>
     /// Represents a category data transfer object.
     /// </summary>
-    public class CategoryDTO
+    public class CategoryDTO : BaseDTO
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
