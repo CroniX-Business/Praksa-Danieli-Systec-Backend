@@ -4,6 +4,8 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using AutoMapper;
+using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
@@ -19,20 +21,21 @@ namespace WebApplication2.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController(DataContext context) : ControllerBase
+    public class CustomerController(IMapper mapper, DataContext context) : ControllerBase
     {
         private readonly DataContext context = context;
+        private readonly IMapper mapper = mapper;
 
         /// <summary>Gets all Customers.</summary>
         /// <returns>
         ///   Returns list of Customers.
         /// </returns>
         [HttpGet]
-        public async Task<ActionResult<List<Customer>>> GetAllCustomers()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetAllCustomers()
         {
             var customers = await this.context.Customers.ToListAsync();
 
-            return this.Ok(customers);
+            return this.Ok(customers.Select(this.mapper.Map<CategoryDTO>));
         }
 
         /// <summary>Gets the Customer.</summary>
@@ -54,23 +57,18 @@ namespace WebApplication2.Controllers
             /// <returns>
             ///   Returns added customer.
             /// </returns>
-            return this.Ok(customer);
+            return this.Ok(this.mapper.Map<CustomerDTO>(customer));
         }
 
         /// <summary>Adds the customer.</summary>
-        /// <param name="newCustomer">The new wcustomer.</param>
+        /// <param name="newCustomer">The new customer.</param>
         /// <returns>
         ///   <br />
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<Customer>> AddCustomer(CustomerDTO newCustomer)
+        public async Task<ActionResult<CustomerDTO>> AddCustomer(CustomerDTO newCustomer)
         {
-            var customer = new Customer()
-            {
-                FirstName = newCustomer.FirstName,
-                LastName = newCustomer.LastName,
-                PhoneNumber = newCustomer.PhoneNumber,
-            };
+            var customer = mapper.Map<Customer>(newCustomer);
             this.context.Customers.Add(customer);
             await this.context.SaveChangesAsync();
 
@@ -83,7 +81,7 @@ namespace WebApplication2.Controllers
         ///   Returns list of customers.
         /// </returns>
         [HttpPut]
-        public async Task<ActionResult<Customer>> UpdateCustomer(CustomerDTO updatedCustomer)
+        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(CustomerDTO updatedCustomer)
         {
             var dbCustomer = await this.context.Customers.FindAsync(updatedCustomer.Id);
             if (dbCustomer == null)
@@ -91,15 +89,13 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Customer not found.");
             }
 
-            dbCustomer.Id = updatedCustomer.Id;
-            dbCustomer.LastName = updatedCustomer.LastName;
-            dbCustomer.PhoneNumber = updatedCustomer.PhoneNumber;
-            dbCustomer.FirstName = updatedCustomer.FirstName;
-            dbCustomer.ModifiedDate = DateTime.UtcNow;
+            updatedCustomer.CreatedDate = dbCustomer.CreatedDate;
+
+            this.mapper.Map(updatedCustomer, dbCustomer);
 
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Customers.ToListAsync());
+            return this.NoContent();
         }
 
         /// <summary>Deletes the customer.</summary>
@@ -122,7 +118,7 @@ namespace WebApplication2.Controllers
 
             await this.context.SaveChangesAsync();
 
-            return this.Ok(await this.context.Customers.ToListAsync());
+            return this.NoContent();
         }
     }
 }

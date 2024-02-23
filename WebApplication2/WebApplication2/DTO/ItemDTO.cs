@@ -12,11 +12,23 @@ namespace WebApplication2.DTO
     /// <summary>
     /// Object transfer data class for Item.
     /// </summary>
-    public class ItemDTO
+    public class ItemDTO : BaseDTO
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
+        /// <summary>
+        /// Gets or sets the restaurant identifier.
+        /// </summary>
+        /// <value>
+        /// The restaurant identifier.
+        /// </value>
+        public int RestaurantId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the category identifier.
+        /// </summary>
+        /// <value>
+        /// The category identifier.
+        /// </value>
+        public int CategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -33,22 +45,6 @@ namespace WebApplication2.DTO
         /// The sort.
         /// </value>
         public int Sort { get; set; }
-
-        /// <summary>
-        /// Gets or sets the category identifier.
-        /// </summary>
-        /// <value>
-        /// The category identifier.
-        /// </value>
-        public int CategoryId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the restaurant identifier.
-        /// </summary>
-        /// <value>
-        /// The restaurant identifier.
-        /// </value>
-        public int RestaurantId { get; set; }
 
         /// <summary>
         /// Gets or sets the order item.

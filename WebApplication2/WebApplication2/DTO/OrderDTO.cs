@@ -2,7 +2,7 @@
 
 namespace WebApplication2.DTO
 {
-    public class OrderDTO
+    public class OrderDTO : BaseDTO
     {
         /// <summary>
         /// Gets or sets the name.

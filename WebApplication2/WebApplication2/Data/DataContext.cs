@@ -18,30 +18,30 @@ namespace WebApplication2.Data
     {
         /// <summary>Gets or sets the restaurants.</summary>
         /// <value>The restaurants.</value>
-        public DbSet<Restaurant> Restaurants { get; set; } = null!;
+        public DbSet<Restaurant>? Restaurants { get; set; }
 
         /// <summary>Gets or sets the categories.</summary>
         /// <value>The categories.</value>
-        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Category>? Categories { get; set; }
 
         /// <summary>Gets or sets the items.</summary>
         /// <value>The items.</value>
-        public DbSet<Item> Items { get; set; } = null!;
+        public DbSet<Item>? Items { get; set; }
 
         /// <summary>Gets or sets the order items.</summary>
         /// <value>The order items.</value>
-        public DbSet<OrderItem> OrderItems { get; set; } = null!;
+        public DbSet<OrderItem>? OrderItems { get; set; }
 
         /// <summary>Gets or sets the users.</summary>
         /// <value>The users.</value>
-        public DbSet<Customer> Customers { get; set; } = null!;
+        public DbSet<Customer>? Customers { get; set; }
 
         /// <summary>Gets or sets the orders.</summary>
         /// <value>The orders.</value>
-        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<Order>? Orders { get; set; }
 
         /// <summary>Gets or sets the prices.</summary>
         /// <value>The prices.</value>
-        public DbSet<Price>? Prices { get; set; } = null;
+        public DbSet<Price>? Prices { get; set; }
     }
 }

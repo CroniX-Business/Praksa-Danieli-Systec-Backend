@@ -41,6 +41,6 @@ namespace WebApplication2.Entities
         /// <value>
         /// The header.
         /// </value>
-        public OrderItem? OrderItem { get; set; }
+        public List<OrderItem>? OrderItem { get; set; }
     }
 }

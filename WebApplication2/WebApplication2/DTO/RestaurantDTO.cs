@@ -5,19 +5,13 @@
 // </copyright>
 
 // Ignore Spelling: DTO
-using WebApplication2.Entities;
-
 namespace WebApplication2.DTO
 {
     /// <summary>
     /// DTO class for Restaurant.
     /// </summary>
-    public class RestaurantDTO
+    public class RestaurantDTO : BaseDTO
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

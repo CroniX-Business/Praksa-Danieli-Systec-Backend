@@ -5,19 +5,13 @@
 // </copyright>
 
 // Ignore Spelling: DTO
-using WebApplication2.Entities;
-
 namespace WebApplication2.DTO
 {
     /// <summary>
     /// Data transfer object class for Category.
     /// </summary>
-    public class CategoryDTO
+    public class CategoryDTO : BaseDTO
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

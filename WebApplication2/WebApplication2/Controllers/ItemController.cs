@@ -4,6 +4,7 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
@@ -28,9 +29,9 @@ namespace WebApplication2.Controllers
         ///   Returns list of items.
         /// </returns>
         [HttpGet]
-        public async Task<ActionResult<List<Item>>> GetAllItems()
+        public async Task<ActionResult<IEnumerable<Item>>> GetAllItems()
         {
-            var items = await this.context.Items.Include(r => r.Prices).ToListAsync();
+            IEnumerable items = await this.context.Items.Include(r => r.Prices).ToListAsync();
 
             return this.Ok(items);
         }

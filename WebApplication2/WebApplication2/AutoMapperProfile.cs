@@ -7,13 +7,18 @@
 using AutoMapper;
 using WebApplication2.DTO;
 using WebApplication2.Entities;
+
 namespace WebApplication2
 {
+    /// <summary>Class for AutoMapper.</summary>
     public class AutoMapperProfile : Profile
     {
-        public AutoMapperProfile() {
-            CreateMap<Restaurant, RestaurantDTO>();
-            CreateMap<RestaurantDTO, Restaurant>();
+        /// <summary>Initializes a new instance of the <see cref="AutoMapperProfile" /> class.</summary>
+        public AutoMapperProfile()
+        {
+            this.CreateMap<Restaurant, RestaurantDTO>().ReverseMap();
+            this.CreateMap<Category, CategoryDTO>().ReverseMap();
+            this.CreateMap<Customer, CustomerDTO>().ReverseMap();
         }
     }
 }

@@ -12,12 +12,8 @@ namespace WebApplication2.DTO
     /// <summary>
     /// Class for Data transfer object of Customer.
     /// </summary>
-    public class CustomerDTO
+    public class CustomerDTO : BaseDTO
     {
-        /// <summary>Gets or sets the identifier.</summary>
-        /// <value>The identifier.</value>
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the first name.
         /// </summary>
@@ -41,5 +37,13 @@ namespace WebApplication2.DTO
         /// The phone number.
         /// </value>
         public required string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order item.
+        /// </summary>
+        /// <value>
+        /// The order item.
+        /// </value>
+        public List<OrderItem?> OrderItem { get; set; }
     }
 }

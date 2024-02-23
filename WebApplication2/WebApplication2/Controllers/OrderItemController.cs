@@ -78,7 +78,7 @@ namespace WebApplication2.Controllers
 
             dbOrderItem.ModifiedDate = DateTime.UtcNow;
             dbOrderItem.Name = updatedOrderItem.Name;
-            dbOrderItem.Price = updatedOrderItem.Price;
+            dbOrderItem.Amount = updatedOrderItem.Amount;
             dbOrderItem.ItemId = updatedOrderItem.ItemId;
             dbOrderItem.Quantity = updatedOrderItem.Quantity;
             dbOrderItem.OrderId = updatedOrderItem.OrderId;
