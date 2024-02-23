@@ -37,7 +37,7 @@ namespace WebApplication2.Controllers
         {
             var categories = await this.context.Categories.ToListAsync();
 
-            return Ok(categories.Select(mapper.Map<CategoryDTO>));
+            return this.Ok(categories.Select(this.mapper.Map<CategoryDTO>));
         }
 
         /// <summary>
@@ -81,10 +81,10 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Returns list of categories.
         /// </returns>
-        [HttpPut]
-        public async Task<ActionResult<CategoryDTO>> UpdateCategory(CategoryDTO updatedCategory)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateCategory(CategoryDTO updatedCategory, int id)
         {
-            var dbCategory = await this.context.Categories.FindAsync(updatedCategory.Id);
+            var dbCategory = await this.context.Categories.FindAsync(id);
             if (dbCategory == null)
             {
                 return this.NotFound("Category not found.");
@@ -104,7 +104,7 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Returns list of categories.
         /// </returns>
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             var dbCategory = await this.context.Categories.FindAsync(id);

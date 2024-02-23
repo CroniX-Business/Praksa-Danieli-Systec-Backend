@@ -5,7 +5,6 @@
 // </copyright>
 
 using AutoMapper;
-using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
@@ -68,7 +67,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<CustomerDTO>> AddCustomer(CustomerDTO newCustomer)
         {
-            var customer = mapper.Map<Customer>(newCustomer);
+            var customer = this.mapper.Map<Customer>(newCustomer);
             this.context.Customers.Add(customer);
             await this.context.SaveChangesAsync();
 
@@ -80,10 +79,10 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///   Returns list of customers.
         /// </returns>
-        [HttpPut]
-        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(CustomerDTO updatedCustomer)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateCustomer(CustomerDTO updatedCustomer, int id)
         {
-            var dbCustomer = await this.context.Customers.FindAsync(updatedCustomer.Id);
+            var dbCustomer = await this.context.Customers.FindAsync(id);
             if (dbCustomer == null)
             {
                 return this.NotFound("Customer not found.");
@@ -103,8 +102,8 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///   Returns list of customers.
         /// </returns>
-        [HttpDelete]
-        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteCustomer(int id)
         {
             var dbCustomer = await this.context.Customers.FindAsync(id);
             if (dbCustomer == null)

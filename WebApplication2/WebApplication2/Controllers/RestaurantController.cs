@@ -32,7 +32,7 @@ namespace WebApplication2.Controllers
         {
             var restaurants = await this.context.Restaurants.Where(r => r.IsActive).ToListAsync();
 
-            return Ok(restaurants.Select(mapper.Map<RestaurantDTO>));
+            return Ok(restaurants.Select(this.mapper.Map<RestaurantDTO>));
         }
 
         /// <summary>Gets the restaurant.</summary>
@@ -54,7 +54,7 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Restaurant not found.");
             }
 
-            return this.Ok(mapper.Map<RestaurantDTO>(restaurant));
+            return this.Ok(this.mapper.Map<RestaurantDTO>(restaurant));
         }
 
         /// <summary>Adds the restaurant.</summary>
@@ -76,8 +76,8 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Updates parameters of restaurant.
         /// </returns>
-        [HttpPut]
-        public async Task<ActionResult<List<RestaurantDTO>>> UpdateRestaurant(RestaurantDTO updatedRestaurant)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateRestaurant(RestaurantDTO updatedRestaurant, int id)
         {
             var dbRestaurant = await this.context.Restaurants.FindAsync(updatedRestaurant.Id);
             if (dbRestaurant is null)
@@ -99,7 +99,7 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Deletes restaurant by id.
         /// </returns>
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRestaurant(int id)
         {
             var dbRestaurant = await this.context.Restaurants.FindAsync(id);
