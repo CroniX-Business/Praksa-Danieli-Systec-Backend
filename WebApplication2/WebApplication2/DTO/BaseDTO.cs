@@ -23,10 +23,10 @@ namespace WebApplication2.DTO
 
         /// <summary>Gets or sets the created date.</summary>
         /// <value>The created date.</value>
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; }
 
         /// <summary>Gets or sets the modified date.</summary>
         /// <value>The modified date.</value>
-        public DateTime? ModifiedDate { get; set; } = null;
+        public DateTime? ModifiedDate { get; set; }
     }
 }

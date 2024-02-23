@@ -7,7 +7,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
-using Q3Premium.ProblemSolving.Infrastructure.Interceptors;
+using WebApplication2.Interceptors;
 
 namespace WebApplication2
 {
@@ -57,8 +57,6 @@ namespace WebApplication2
             app.MapControllers();
 
             using var scope = app.Services.CreateScope();
-
-            
 
             scope.ServiceProvider.GetService<DataContext>()?.Database.MigrateAsync();
 

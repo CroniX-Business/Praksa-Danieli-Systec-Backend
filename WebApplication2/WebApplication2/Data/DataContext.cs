@@ -5,8 +5,8 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
-using Q3Premium.ProblemSolving.Infrastructure.Interceptors;
 using WebApplication2.Entities;
+using WebApplication2.Interceptors;
 
 namespace WebApplication2.Data
 {

@@ -12,22 +12,6 @@ namespace WebApplication2.Entities
     public class Item : BaseEntity
     {
         /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        public required string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the sort.
-        /// </summary>
-        /// <value>
-        /// The sort.
-        /// </value>
-        public int Sort { get; set; }
-
-        /// <summary>
         /// Gets or sets the category identifier.
         /// </summary>
         /// <value>
@@ -42,6 +26,22 @@ namespace WebApplication2.Entities
         /// The restaurant identifier.
         /// </value>
         public int RestaurantId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public required string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sort.
+        /// </summary>
+        /// <value>
+        /// The sort.
+        /// </value>
+        public int Sort { get; set; }
 
         /// <summary>
         /// Gets or sets the order item.

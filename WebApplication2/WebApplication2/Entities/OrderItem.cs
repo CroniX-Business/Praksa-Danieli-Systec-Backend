@@ -18,7 +18,7 @@ namespace WebApplication2.Entities
         /// The name.
         /// </value>
         public required string Name { get; set; }
-            
+
         /// <summary>
         /// Gets or sets the price.
         /// </summary>

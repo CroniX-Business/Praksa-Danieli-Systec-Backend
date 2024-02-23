@@ -1,16 +1,15 @@
-﻿// <copyright file="EntitySaveChangesInterceptor.cs" company="Danieli Automation S.p.A.">
-// Copyright (c) Danieli Automation S.p.A.. All rights reserved.
-// CONFIDENTIAL; Property of Danieli Automation S.p.A.
+﻿// <copyright file="EntitySaveChangesInterceptor.cs" company="Danieli Systec d.o.o.">
+// Copyright (c) Danieli Systec d.o.o.. All rights reserved.
+// CONFIDENTIAL; Property of Danieli Systec d.o.o.
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Q3Premium.ProblemSolving.Application.Common.Security;
-using Q3Premium.ProblemSolving.Domain.Common.Entities;
+using WebApplication2.DTO;
 
-namespace Q3Premium.ProblemSolving.Infrastructure.Interceptors;
+namespace WebApplication2.Interceptors;
 
 /// <summary>
 /// Entity save changes interceptor.
@@ -18,18 +17,7 @@ namespace Q3Premium.ProblemSolving.Infrastructure.Interceptors;
 /// <seealso cref="SaveChangesInterceptor" />
 public class EntitySaveChangesInterceptor : SaveChangesInterceptor
 {
-    private readonly IUserContextService userContextService;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="EntitySaveChangesInterceptor"/> class.
-    /// </summary>
-    /// <param name="userContextService">The user context service.</param>
-    public EntitySaveChangesInterceptor(IUserContextService userContextService)
-    {
-        this.userContextService = userContextService;
-    }
-
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         this.UpdateEntities(eventData.Context);
@@ -37,7 +25,7 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
         return base.SavingChanges(eventData, result);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
         DbContextEventData eventData,
         InterceptionResult<int> result,
@@ -60,33 +48,20 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
             return;
         }
 
-        var user = this.userContextService.CurrentUser
-            ?? throw new InvalidOperationException("Unable to save data without user information.");
-
-        foreach (var entry in context.ChangeTracker.Entries<BaseEntity<int>>())
+        foreach (var entry in context.ChangeTracker.Entries<BaseDTO>())
         {
             if (entry.State == EntityState.Added)
             {
-                if (entry.Entity.Guid == Guid.Empty)
+                entry.Property("CreatedDate").CurrentValue = DateTime.UtcNow;
+                entry.Property("ModifiedDate").CurrentValue = null; // Set ModifiedDate to null for newly created entities
+
+                if (entry.State == EntityState.Modified || HasChangedOwnedEntities(entry))
                 {
-                    entry.Entity.Guid = Guid.NewGuid();
+                    entry.Property("CreatedDate").IsModified = false; // Do not modify CreatedDate for modified entities
+
+                    entry.Property("ModifiedDate").CurrentValue = DateTime.UtcNow;
+                    entry.Property("ModifiedDate").IsModified = true; // Ensure ModifiedDate is marked as modified
                 }
-
-                entry.Entity.CreatedBy = user.Name;
-                entry.Entity.CreatedById = user.UserId;
-                entry.Entity.CreatedOn = DateTime.UtcNow;
-            }
-
-            if (entry.State == EntityState.Modified || HasChangedOwnedEntities(entry))
-            {
-                entry.Property(x => x.Guid).IsModified = false;
-                entry.Property(x => x.CreatedBy).IsModified = false;
-                entry.Property(x => x.CreatedById).IsModified = false;
-                entry.Property(x => x.CreatedOn).IsModified = false;
-
-                entry.Entity.ModifiedBy = user.Name;
-                entry.Entity.ModifiedById = user.UserId;
-                entry.Entity.ModifiedOn = DateTime.UtcNow;
             }
         }
     }
