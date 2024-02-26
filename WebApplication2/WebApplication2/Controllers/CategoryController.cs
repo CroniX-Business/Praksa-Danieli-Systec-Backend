@@ -77,13 +77,12 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the category.</summary>
         /// <param name="updatedCategory">The updated category.</param>
-        /// <returns>
-        ///  Returns list of categories.
-        /// </returns>
+        /// <param name="id">The indentifier of category we change.</param>
+        /// <returns>Returns list of categories.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<CategoryDTO>> UpdateCategory(CategoryDTO updatedCategory)
+        public async Task<ActionResult<CategoryDTO>> UpdateCategory(CategoryDTO updatedCategory, int id)
         {
-            var dbCategory = await this.context.Categories.FindAsync(updatedCategory.Id);
+            var dbCategory = await this.context.Categories.FirstOrDefaultAsync(r => r.Id == id);
             if (dbCategory == null)
             {
                 return this.NotFound("Category not found.");
@@ -106,7 +105,7 @@ namespace WebApplication2.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
-            var dbCategory = await this.context.Categories.FindAsync(id);
+            var dbCategory = await this.context.Categories.FirstOrDefaultAsync(r => r.Id == id);
             if (dbCategory == null)
             {
                 return this.NotFound("Category not found.");

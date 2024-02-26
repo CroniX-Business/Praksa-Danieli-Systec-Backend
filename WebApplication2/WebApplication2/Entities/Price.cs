@@ -7,10 +7,14 @@
 namespace WebApplication2.Entities
 {
     /// <summary>
-    ///   <br />
+    ///  This represents a price of item.
     /// </summary>
     public class Price : BaseEntity
     {
+        /// <summary>Gets or sets the item identifier.</summary>
+        /// <value>The item identifier.</value>
+        public int ItemId { get; set; }
+
         /// <summary>Gets or sets the item price.</summary>
         /// <value>The item price.</value>
         public decimal ItemPrice { get; set; }
@@ -22,9 +26,5 @@ namespace WebApplication2.Entities
         /// <summary>Gets or sets the valid to.</summary>
         /// <value>The valid to.</value>
         public DateTime? ValidTo { get; set; }
-
-        /// <summary>Gets or sets the item identifier.</summary>
-        /// <value>The item identifier.</value>
-        public int ItemId { get; set; }
     }
 }

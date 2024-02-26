@@ -12,6 +12,30 @@ namespace WebApplication2.Entities
     public class OrderItem : BaseEntity
     {
         /// <summary>
+        /// Gets or sets the item identifier.
+        /// </summary>
+        /// <value>
+        /// The item identifier.
+        /// </value>
+        public int ItemId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the order identifier.
+        /// </summary>
+        /// <value>
+        /// The order identifier.
+        /// </value>
+        public int OrderId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        public int CustomerId { get; set; }
+
+        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>
@@ -36,12 +60,12 @@ namespace WebApplication2.Entities
         public int Quantity { get; set; }
 
         /// <summary>
-        /// Gets or sets the item identifier.
+        /// Gets or sets the user identifier.
         /// </summary>
         /// <value>
-        /// The item identifier.
+        /// The user identifier.
         /// </value>
-        public int ItemId { get; set; }
+        public Customer? Customer { get; set; }
 
         /// <summary>
         /// Gets or sets the item.
@@ -50,29 +74,5 @@ namespace WebApplication2.Entities
         /// The item.
         /// </value>
         public Item? Item { get; set; }
-
-        /// <summary>
-        /// Gets or sets the order identifier.
-        /// </summary>
-        /// <value>
-        /// The order identifier.
-        /// </value>
-        public int OrderId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user identifier.
-        /// </summary>
-        /// <value>
-        /// The user identifier.
-        /// </value>
-        public int CustomerId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user identifier.
-        /// </summary>
-        /// <value>
-        /// The user identifier.
-        /// </value>
-        public Customer? Customer { get; set; }
     }
 }

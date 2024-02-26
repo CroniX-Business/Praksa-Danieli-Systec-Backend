@@ -70,7 +70,7 @@ namespace WebApplication2.Controllers
         /// <summary>Updates the item.</summary>
         /// <param name="updatedItem">The updated item.</param>
         /// <returns>
-        ///   Returns list of items.
+        ///  Returns list of items.
         /// </returns>
         [HttpPut]
         public async Task<ActionResult<List<Item>>> UpdateItem(Item updatedItem)

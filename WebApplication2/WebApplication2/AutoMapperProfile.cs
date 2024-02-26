@@ -10,6 +10,10 @@ using WebApplication2.Entities;
 
 namespace WebApplication2
 {
+
+    /// <summary>
+    ///  Represents a profile of Automapper.
+    /// </summary>
     public class AutoMapperProfile : Profile
     {
         /// <summary>
@@ -18,6 +22,8 @@ namespace WebApplication2
         public AutoMapperProfile()
         {
             this.CreateMap<Restaurant, RestaurantDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
+            this.CreateMap<Category, CategoryDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
+            this.CreateMap<Customer, CustomerDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
         }
     }
 }
