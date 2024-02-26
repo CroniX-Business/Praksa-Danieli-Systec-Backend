@@ -88,10 +88,10 @@ namespace WebApplication2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sort = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     RestaurantId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Sort = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -190,8 +190,7 @@ namespace WebApplication2.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_CustomerId",
                 table: "OrderItems",
-                column: "CustomerId",
-                unique: true);
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_ItemId",

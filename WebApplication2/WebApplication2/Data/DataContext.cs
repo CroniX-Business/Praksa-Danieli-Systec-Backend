@@ -46,5 +46,10 @@ namespace WebApplication2.Data
         /// <summary>Gets or sets the prices.</summary>
         /// <value>The prices.</value>
         public DbSet<Price>? Prices { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.AddInterceptors(new EntitySaveChangesInterceptor());
+        }
     }
 }

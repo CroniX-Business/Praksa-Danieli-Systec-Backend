@@ -194,8 +194,7 @@ namespace WebApplication2.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ItemId")
                         .IsUnique();
@@ -293,8 +292,8 @@ namespace WebApplication2.Migrations
             modelBuilder.Entity("WebApplication2.Entities.OrderItem", b =>
                 {
                     b.HasOne("WebApplication2.Entities.Customer", "Customer")
-                        .WithOne("OrderItem")
-                        .HasForeignKey("WebApplication2.Entities.OrderItem", "CustomerId")
+                        .WithMany("OrderItem")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

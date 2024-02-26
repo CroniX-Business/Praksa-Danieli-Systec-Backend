@@ -74,18 +74,16 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Updates parameters of restaurant.
         /// </returns>
-        [HttpPut]
-        public async Task<ActionResult<RestaurantDTO>> UpdateRestaurant(RestaurantDTO updatedRestaurant)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<RestaurantDTO>> UpdateRestaurant(RestaurantDTO updatedRestaurant, int id)
         {
-            var dbRestaurant = await this.context.Restaurants.FindAsync(updatedRestaurant.Id);
+            var dbRestaurant = await this.context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
             if (dbRestaurant is null)
             {
                 return this.NotFound("Restaurant not found");
             }
 
-            updatedRestaurant.CreatedDate = dbRestaurant.CreatedDate;
-
-            this.mapper.Map(updatedRestaurant, dbRestaurant);
+            dbRestaurant = this.mapper.Map(updatedRestaurant, dbRestaurant);
 
             await this.context.SaveChangesAsync();
 
@@ -97,7 +95,7 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Deletes restaurant by id.
         /// </returns>
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRestaurant(int id)
         {
             var dbRestaurant = await this.context.Restaurants.FindAsync(id);

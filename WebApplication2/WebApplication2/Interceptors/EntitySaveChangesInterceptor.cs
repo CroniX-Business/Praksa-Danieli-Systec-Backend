@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using WebApplication2.DTO;
+using WebApplication2.Entities;
 
 namespace WebApplication2.Interceptors;
 
@@ -48,20 +49,19 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
             return;
         }
 
-        foreach (var entry in context.ChangeTracker.Entries<BaseDTO>())
+        foreach (var entry in context.ChangeTracker.Entries<BaseEntity>())
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Property("CreatedDate").CurrentValue = DateTime.UtcNow;
-                entry.Property("ModifiedDate").CurrentValue = null; // Set ModifiedDate to null for newly created entities
+                entry.Entity.CreatedDate = DateTime.UtcNow;
 
-                if (entry.State == EntityState.Modified || HasChangedOwnedEntities(entry))
-                {
-                    entry.Property("CreatedDate").IsModified = false; // Do not modify CreatedDate for modified entities
+                entry.Entity.ModifiedDate = null;
+            }
 
-                    entry.Property("ModifiedDate").CurrentValue = DateTime.UtcNow;
-                    entry.Property("ModifiedDate").IsModified = true; // Ensure ModifiedDate is marked as modified
-                }
+            if (entry.State == EntityState.Modified || HasChangedOwnedEntities(entry))
+            {
+                    entry.Property(x => x.CreatedDate).IsModified = false;
+                    entry.Entity.ModifiedDate = DateTime.UtcNow;
             }
         }
     }

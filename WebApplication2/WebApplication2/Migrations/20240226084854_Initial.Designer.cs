@@ -12,7 +12,7 @@ using WebApplication2.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240223122744_Initial")]
+    [Migration("20240226084854_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -197,8 +197,7 @@ namespace WebApplication2.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ItemId")
                         .IsUnique();
@@ -296,8 +295,8 @@ namespace WebApplication2.Migrations
             modelBuilder.Entity("WebApplication2.Entities.OrderItem", b =>
                 {
                     b.HasOne("WebApplication2.Entities.Customer", "Customer")
-                        .WithOne("OrderItem")
-                        .HasForeignKey("WebApplication2.Entities.OrderItem", "CustomerId")
+                        .WithMany("OrderItem")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
