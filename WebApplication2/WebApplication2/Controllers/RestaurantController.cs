@@ -71,7 +71,7 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the restaurant.</summary>
         /// <param name="updatedRestaurant">The updated restaurant.</param>
-        /// <param name="id">id of restaurant we change.</param>
+        /// <param name="id">The indentifier of restaurant we change.</param>
         /// <returns>Updates parameters of restaurant.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<RestaurantDTO>> UpdateRestaurant(RestaurantDTO updatedRestaurant, int id)

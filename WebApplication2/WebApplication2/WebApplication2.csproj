@@ -31,5 +31,11 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
   </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\klanj\OneDrive\Radna površina\Praksa\backend\WebApplication2\WebApplication2\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\klanj\OneDrive\Radna površina\Praksa\backend\WebApplication2\WebApplication2\.editorconfig" />
+  </ItemGroup>
 
 </Project>

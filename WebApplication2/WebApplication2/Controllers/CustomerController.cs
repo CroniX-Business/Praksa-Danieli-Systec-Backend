@@ -72,7 +72,7 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the customer.</summary>
         /// <param name="updatedCustomer">The updated customer.</param>
-        /// <param name="id">id of customer.</param>
+        /// <param name="id">The indentifier of customer we change.</param>
         /// <returns>Returns list of customers.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<CustomerDTO>> UpdateCustomer(CustomerDTO updatedCustomer, int id)
@@ -82,8 +82,6 @@ namespace WebApplication2.Controllers
             {
                 return this.NotFound("Customer not found.");
             }
-
-            updatedCustomer.CreatedDate = dbCustomer.CreatedDate;
 
             this.mapper.Map(updatedCustomer, dbCustomer);
 

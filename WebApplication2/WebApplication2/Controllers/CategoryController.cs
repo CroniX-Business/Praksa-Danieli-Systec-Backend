@@ -88,8 +88,6 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Category not found.");
             }
 
-            updatedCategory.CreatedDate = dbCategory.CreatedDate;
-
             this.mapper.Map(updatedCategory, dbCategory);
 
             await this.context.SaveChangesAsync();
