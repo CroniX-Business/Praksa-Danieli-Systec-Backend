@@ -7,7 +7,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using WebApplication2.DTO;
 using WebApplication2.Entities;
 
 namespace WebApplication2.Interceptors;

@@ -12,7 +12,7 @@ using WebApplication2.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240226084854_Initial")]
+    [Migration("20240226093344_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -49,6 +49,9 @@ namespace WebApplication2.Migrations
                     b.Property<int>("Sort")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -82,6 +85,9 @@ namespace WebApplication2.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
@@ -118,6 +124,9 @@ namespace WebApplication2.Migrations
                     b.Property<int>("Sort")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -153,6 +162,9 @@ namespace WebApplication2.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
@@ -195,6 +207,9 @@ namespace WebApplication2.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -229,6 +244,9 @@ namespace WebApplication2.Migrations
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
@@ -271,6 +289,9 @@ namespace WebApplication2.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
