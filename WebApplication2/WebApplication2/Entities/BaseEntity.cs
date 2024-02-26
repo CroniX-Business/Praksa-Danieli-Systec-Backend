@@ -27,5 +27,9 @@ namespace WebApplication2.Entities
         /// <summary>Gets or sets the modified date.</summary>
         /// <value>The modified date.</value>
         public DateTime? ModifiedDate { get; set; }
+
+        /// <summary>Gets or sets the time stamp.</summary>
+        /// <value>The time stamp.</value>
+        public byte[]? TimeStamp { get; set; }
     }
 }

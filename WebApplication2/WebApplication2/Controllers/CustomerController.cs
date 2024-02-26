@@ -75,8 +75,8 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///   Returns list of customers.
         /// </returns>
-        [HttpPut]
-        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(CustomerDTO updatedCustomer)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateCustomer(CustomerDTO updatedCustomer)
         {
             var dbCustomer = await this.context.Customers.FindAsync(updatedCustomer.Id);
             if (dbCustomer == null)

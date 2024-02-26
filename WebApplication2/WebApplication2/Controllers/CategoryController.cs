@@ -80,8 +80,8 @@ namespace WebApplication2.Controllers
         /// <returns>
         ///  Returns list of categories.
         /// </returns>
-        [HttpPut]
-        public async Task<ActionResult<CategoryDTO>> UpdateCategory(CategoryDTO updatedCategory)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateCategory(CategoryDTO updatedCategory)
         {
             var dbCategory = await this.context.Categories.FindAsync(updatedCategory.Id);
             if (dbCategory == null)

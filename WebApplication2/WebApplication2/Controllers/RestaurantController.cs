@@ -71,19 +71,18 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the restaurant.</summary>
         /// <param name="updatedRestaurant">The updated restaurant.</param>
+        /// <param name="id">The identifier.</param>
         /// <returns>
-        ///  Updates parameters of restaurant.
+        ///   <br />
         /// </returns>
-        [HttpPut]
-        public async Task<ActionResult<RestaurantDTO>> UpdateRestaurant(RestaurantDTO updatedRestaurant)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateRestaurant(RestaurantDTO updatedRestaurant, int id)
         {
-            var dbRestaurant = await this.context.Restaurants.FindAsync(updatedRestaurant.Id);
+            var dbRestaurant = await this.context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
             if (dbRestaurant is null)
             {
                 return this.NotFound("Restaurant not found");
             }
-
-            updatedRestaurant.CreatedDate = dbRestaurant.CreatedDate;
 
             this.mapper.Map(updatedRestaurant, dbRestaurant);
 
