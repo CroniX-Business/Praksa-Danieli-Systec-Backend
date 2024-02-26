@@ -15,37 +15,35 @@ namespace WebApplication2.Data
     /// </summary>
     /// <remarks>Initializes a new instance of the <see cref="DataContext" /> class.</remarks>
     /// <param name="options">The options.</param>
-    public class DataContext(DbContextOptions<DataContext> options, EntitySaveChangesInterceptor saveChangesInterceptor) : DbContext(options)
+    public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
-        private readonly EntitySaveChangesInterceptor saveChangesInterceptor = saveChangesInterceptor;
-
         /// <summary>Gets or sets the restaurants.</summary>
         /// <value>The restaurants.</value>
-        public DbSet<Restaurant>? Restaurants { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
 
         /// <summary>Gets or sets the categories.</summary>
         /// <value>The categories.</value>
-        public DbSet<Category>? Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         /// <summary>Gets or sets the items.</summary>
         /// <value>The items.</value>
-        public DbSet<Item>? Items { get; set; }
+        public DbSet<Item> Items { get; set; }
 
         /// <summary>Gets or sets the order items.</summary>
         /// <value>The order items.</value>
-        public DbSet<OrderItem>? OrderItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         /// <summary>Gets or sets the users.</summary>
         /// <value>The users.</value>
-        public DbSet<Customer>? Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         /// <summary>Gets or sets the orders.</summary>
         /// <value>The orders.</value>
-        public DbSet<Order>? Orders { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         /// <summary>Gets or sets the prices.</summary>
         /// <value>The prices.</value>
-        public DbSet<Price>? Prices { get; set; }
+        public DbSet<Price> Prices { get; set; }
 
         /// <summary>
         /// Override this method to configure the database (and other options) to be used for this context.

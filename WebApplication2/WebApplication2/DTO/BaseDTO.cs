@@ -5,8 +5,6 @@
 // </copyright>
 // Ignore Spelling: DTO
 
-using System.Text.Json.Serialization;
-
 namespace WebApplication2.DTO
 {
     /// <summary>

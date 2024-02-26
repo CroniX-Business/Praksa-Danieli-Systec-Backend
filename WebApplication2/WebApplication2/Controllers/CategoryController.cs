@@ -77,13 +77,14 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the category.</summary>
         /// <param name="updatedCategory">The updated category.</param>
+        /// <param name="id">The identifier.</param>
         /// <returns>
-        ///  Returns list of categories.
+        ///   Returns no content.
         /// </returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCategory(CategoryDTO updatedCategory)
+        public async Task<ActionResult> UpdateCategory(CategoryDTO updatedCategory, int id)
         {
-            var dbCategory = await this.context.Categories.FindAsync(updatedCategory.Id);
+            var dbCategory = await this.context.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (dbCategory == null)
             {
                 return this.NotFound("Category not found.");
@@ -101,7 +102,7 @@ namespace WebApplication2.Controllers
         /// <summary>Deletes the category.</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>
-        ///  Returns list of categories.
+        ///  Returns no content.
         /// </returns>
         [HttpDelete]
         public async Task<ActionResult> DeleteCategory(int id)

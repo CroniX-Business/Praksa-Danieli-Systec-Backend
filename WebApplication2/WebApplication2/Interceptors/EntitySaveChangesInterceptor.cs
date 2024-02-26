@@ -20,7 +20,7 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
     /// <inheritdoc />
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-        this.UpdateEntities(eventData.Context);
+        EntitySaveChangesInterceptor.UpdateEntities(eventData.Context);
 
         return base.SavingChanges(eventData, result);
     }
@@ -31,7 +31,7 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
         InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {
-        this.UpdateEntities(eventData.Context);
+        EntitySaveChangesInterceptor.UpdateEntities(eventData.Context);
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
@@ -41,7 +41,7 @@ public class EntitySaveChangesInterceptor : SaveChangesInterceptor
             r.TargetEntry?.Metadata.IsOwned() == true
             && (r.TargetEntry.State == EntityState.Added || r.TargetEntry.State == EntityState.Modified));
 
-    private void UpdateEntities(DbContext? context)
+    private static void UpdateEntities(DbContext? context)
     {
         if (context == null)
         {

@@ -73,7 +73,7 @@ namespace WebApplication2.Controllers
         /// <param name="updatedRestaurant">The updated restaurant.</param>
         /// <param name="id">The identifier.</param>
         /// <returns>
-        ///   <br />
+        ///   Returns no content.
         /// </returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRestaurant(RestaurantDTO updatedRestaurant, int id)
@@ -94,7 +94,7 @@ namespace WebApplication2.Controllers
         /// <summary>Deletes the restaurant.</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>
-        ///  Deletes restaurant by id.
+        ///  Returns no content.
         /// </returns>
         [HttpDelete]
         public async Task<ActionResult> DeleteRestaurant(int id)

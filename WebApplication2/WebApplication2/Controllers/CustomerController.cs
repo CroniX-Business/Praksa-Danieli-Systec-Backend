@@ -72,13 +72,14 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the customer.</summary>
         /// <param name="updatedCustomer">The updated customer.</param>
+        /// <param name="id">The identifier.</param>
         /// <returns>
-        ///   Returns list of customers.
+        ///   Returns no content.
         /// </returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCustomer(CustomerDTO updatedCustomer)
+        public async Task<ActionResult> UpdateCustomer(CustomerDTO updatedCustomer, int id)
         {
-            var dbCustomer = await this.context.Customers.FindAsync(updatedCustomer.Id);
+            var dbCustomer = await this.context.Customers.FirstOrDefaultAsync(c => c.Id == id);
             if (dbCustomer == null)
             {
                 return this.NotFound("Customer not found.");
@@ -96,7 +97,7 @@ namespace WebApplication2.Controllers
         /// <summary>Deletes the customer.</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>
-        ///   Returns list of customers.
+        ///   Returns no content.
         /// </returns>
         [HttpDelete]
         public async Task<ActionResult> DeleteCustomer(int id)
