@@ -31,5 +31,11 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
   </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Legion\Documents\backend\WebApplication2\WebApplication2\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Legion\Documents\backend\WebApplication2\WebApplication2\.editorconfig" />
+  </ItemGroup>
 
 </Project>

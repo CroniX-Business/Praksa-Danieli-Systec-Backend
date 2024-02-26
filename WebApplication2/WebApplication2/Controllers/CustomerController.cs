@@ -85,8 +85,6 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Customer not found.");
             }
 
-            updatedCustomer.CreatedDate = dbCustomer.CreatedDate;
-
             this.mapper.Map(updatedCustomer, dbCustomer);
 
             await this.context.SaveChangesAsync();
