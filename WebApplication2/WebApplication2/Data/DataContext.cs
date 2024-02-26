@@ -6,6 +6,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Entities;
+using WebApplication2.Interceptors;
 
 namespace WebApplication2.Data
 {
@@ -14,8 +15,10 @@ namespace WebApplication2.Data
     /// </summary>
     /// <remarks>Initializes a new instance of the <see cref="DataContext" /> class.</remarks>
     /// <param name="options">The options.</param>
-    public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
+    public class DataContext(DbContextOptions<DataContext> options, EntitySaveChangesInterceptor saveChangesInterceptor) : DbContext(options)
     {
+        private readonly EntitySaveChangesInterceptor saveChangesInterceptor = saveChangesInterceptor;
+
         /// <summary>Gets or sets the restaurants.</summary>
         /// <value>The restaurants.</value>
         public DbSet<Restaurant>? Restaurants { get; set; }
@@ -43,5 +46,10 @@ namespace WebApplication2.Data
         /// <summary>Gets or sets the prices.</summary>
         /// <value>The prices.</value>
         public DbSet<Price>? Prices { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.AddInterceptors(new EntitySaveChangesInterceptor());
+        }
     }
 }

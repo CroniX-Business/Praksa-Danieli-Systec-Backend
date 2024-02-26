@@ -6,6 +6,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
+using WebApplication2.Interceptors;
 
 namespace WebApplication2
 {
@@ -36,7 +37,7 @@ namespace WebApplication2
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
             });
-
+            builder.Services.AddScoped<EntitySaveChangesInterceptor>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

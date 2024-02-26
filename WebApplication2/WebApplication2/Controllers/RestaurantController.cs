@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication2.Data;
 using WebApplication2.DTO;
 using WebApplication2.Entities;
+using WebApplication2.Interceptors;
 
 namespace WebApplication2.Controllers
 {
@@ -79,16 +80,13 @@ namespace WebApplication2.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateRestaurant(RestaurantDTO updatedRestaurant, int id)
         {
-            var dbRestaurant = await this.context.Restaurants.FindAsync(updatedRestaurant.Id);
+            var dbRestaurant = await this.context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
             if (dbRestaurant is null)
             {
                 return this.NotFound("Restaurant not found");
             }
 
-            updatedRestaurant.CreatedDate = dbRestaurant.CreatedDate;
-
-            this.mapper.Map(updatedRestaurant, dbRestaurant);
-
+            dbRestaurant = this.mapper.Map(updatedRestaurant, dbRestaurant);
             await this.context.SaveChangesAsync();
 
             return this.NoContent();
