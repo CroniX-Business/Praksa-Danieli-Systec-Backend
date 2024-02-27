@@ -6,6 +6,8 @@
 
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
 using WebApplication2.Data;
 using WebApplication2.Interceptors;
 
@@ -33,6 +35,9 @@ namespace WebApplication2
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration).CreateLogger();
 
             builder.Services.AddDbContext<DataContext>(options =>
             {
