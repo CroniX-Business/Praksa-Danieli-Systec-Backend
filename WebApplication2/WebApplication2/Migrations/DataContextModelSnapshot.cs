@@ -46,6 +46,9 @@ namespace WebApplication2.Migrations
                     b.Property<int>("Sort")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -79,6 +82,9 @@ namespace WebApplication2.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
@@ -114,6 +120,9 @@ namespace WebApplication2.Migrations
 
                     b.Property<int>("Sort")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
 
@@ -151,6 +160,9 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
@@ -163,6 +175,9 @@ namespace WebApplication2.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -186,16 +201,15 @@ namespace WebApplication2.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("ItemId")
                         .IsUnique();
@@ -227,6 +241,9 @@ namespace WebApplication2.Migrations
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
@@ -270,6 +287,9 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("TimeStamp")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Restaurants");
@@ -293,8 +313,8 @@ namespace WebApplication2.Migrations
             modelBuilder.Entity("WebApplication2.Entities.OrderItem", b =>
                 {
                     b.HasOne("WebApplication2.Entities.Customer", "Customer")
-                        .WithOne("OrderItem")
-                        .HasForeignKey("WebApplication2.Entities.OrderItem", "CustomerId")
+                        .WithMany("OrderItem")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

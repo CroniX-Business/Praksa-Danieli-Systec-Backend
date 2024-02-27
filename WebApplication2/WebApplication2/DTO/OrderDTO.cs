@@ -4,7 +4,6 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-// Ignore Spelling: DTO
 using WebApplication2.Entities;
 
 namespace WebApplication2.DTO

@@ -76,9 +76,8 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the customer.</summary>
         /// <param name="updatedCustomer">The updated customer.</param>
-        /// <returns>
-        ///   Returns list of customers.
-        /// </returns>
+        /// <param name="id">Id of edited customer.</param>
+        /// <returns>Returns list of customers.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCustomer(CustomerDTO updatedCustomer, int id)
         {

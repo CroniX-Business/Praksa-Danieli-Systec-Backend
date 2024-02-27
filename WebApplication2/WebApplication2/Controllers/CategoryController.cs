@@ -58,7 +58,7 @@ namespace WebApplication2.Controllers
                 return this.NotFound("Category not found.");
             }
 
-            return this.Ok(mapper.Map<RestaurantDTO>(category));
+            return this.Ok(this.mapper.Map<RestaurantDTO>(category));
         }
 
         /// <summary>Adds the category.</summary>
@@ -78,9 +78,8 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the category.</summary>
         /// <param name="updatedCategory">The updated category.</param>
-        /// <returns>
-        ///  Returns list of categories.
-        /// </returns>
+        /// <param name="id">id value of edited Category.</param>
+        /// <returns>Returns list of categories.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCategory(CategoryDTO updatedCategory, int id)
         {

@@ -29,7 +29,13 @@
 	  <AdditionalFiles Include="stylecop.json" />	
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <EditorConfigFiles Remove="C:\Users\Mario\Desktop\praksa\backend\WebApplication2\WebApplication2\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Mario\Desktop\praksa\backend\WebApplication2\WebApplication2\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Mario\Desktop\praksa\backend\WebApplication2\WebApplication2\.editorconfig" />
   </ItemGroup>
 
 </Project>

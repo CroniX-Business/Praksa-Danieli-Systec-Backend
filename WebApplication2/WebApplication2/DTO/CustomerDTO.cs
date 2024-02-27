@@ -4,7 +4,6 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-// Ignore Spelling: DTO
 using WebApplication2.Entities;
 
 namespace WebApplication2.DTO
@@ -44,6 +43,6 @@ namespace WebApplication2.DTO
         /// <value>
         /// The order item.
         /// </value>
-        public List<OrderItem?> OrderItem { get; set; }
+        public List<OrderItem>? OrderItem { get; set; }
     }
 }

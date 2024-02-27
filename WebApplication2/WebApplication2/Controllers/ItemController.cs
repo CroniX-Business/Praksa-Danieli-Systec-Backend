@@ -4,9 +4,9 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using WebApplication2.Data;
 using WebApplication2.DTO;
 using WebApplication2.Entities;
