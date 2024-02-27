@@ -127,3 +127,8 @@ csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
 csharp_style_prefer_not_pattern = true:suggestion
 csharp_style_prefer_extended_property_pattern = true:suggestion
 
+[*]
+vsspell_section_id = 70888f45349b41708ac9e48838a3f2a5
+vsspell_dictionary_languages_70888f45349b41708ac9e48838a3f2a5 = inherited
+vsspell_ignored_words_70888f45349b41708ac9e48838a3f2a5 = File:Dictionary\IgnoredWords.dic
+
