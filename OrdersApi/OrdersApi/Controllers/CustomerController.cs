@@ -151,8 +151,6 @@ namespace WebApplication2.Controllers
                 }
 
                 dbUser.IsActive = false;
-                dbUser.ModifiedDate = DateTime.UtcNow;
-
                 await this.context.SaveChangesAsync();
 
                 this.logger.LogDebug("Customer with ID {Id} deleted successfully.", id);
