@@ -5,10 +5,10 @@
 // </copyright>
 
 using AutoMapper;
-using WebApplication2.DTO;
-using WebApplication2.Entities;
+using OrdersApi.DTO;
+using OrdersApi.Entities;
 
-namespace WebApplication2
+namespace OrdersApi
 {
     /// <summary>
     ///  Represents a profile of Auto mapper.

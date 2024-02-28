@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApplication2.Data;
+using OrdersApi.Data;
 
 #nullable disable
 
-namespace WebApplication2.Migrations
+namespace OrdersApi.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20240228102845_Initial")]

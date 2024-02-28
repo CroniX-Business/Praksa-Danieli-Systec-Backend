@@ -6,11 +6,11 @@
 
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using OrdersApi.Data;
+using OrdersApi.Interceptors;
 using Serilog;
-using WebApplication2.Data;
-using WebApplication2.Interceptors;
 
-namespace WebApplication2
+namespace OrdersApi
 {
     /// <summary> This application is a basic ASP.NET Core web server configured to host RESTful APIs.
     /// It utilizes the WebApplication framework for building the application.</summary>

@@ -4,7 +4,7 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-namespace WebApplication2.Entities
+namespace OrdersApi.Entities
 {
     /// <summary>
     /// This is an order entity used to record information about orders placed in a system.

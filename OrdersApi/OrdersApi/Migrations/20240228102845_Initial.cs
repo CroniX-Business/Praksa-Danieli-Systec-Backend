@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WebApplication2.Migrations
+namespace OrdersApi.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
