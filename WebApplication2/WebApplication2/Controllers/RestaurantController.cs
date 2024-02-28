@@ -21,7 +21,7 @@ namespace WebApplication2.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantController(IMapper mapper, DataContext context, ILogger<RestaurantController> logger) : ControllerBase
+    public class RestaurantController(DataContext context, IMapper mapper, ILogger<RestaurantController> logger) : ControllerBase
     {
         /// <summary>The context.</summary>
         private readonly DataContext context = context;

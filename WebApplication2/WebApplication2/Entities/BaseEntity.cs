@@ -4,6 +4,8 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using System.ComponentModel.DataAnnotations;
+
 namespace WebApplication2.Entities
 {
     /// <summary>
@@ -30,6 +32,7 @@ namespace WebApplication2.Entities
 
         /// <summary>Gets or sets the time stamp.</summary>
         /// <value>The time stamp.</value>
+        [Timestamp]
         public byte[]? TimeStamp { get; set; }
     }
 }
