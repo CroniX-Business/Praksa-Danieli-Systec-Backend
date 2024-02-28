@@ -21,12 +21,14 @@ namespace WebApplication2.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantController(IMapper mapper, DataContext context) : ControllerBase
+    public class RestaurantController(IMapper mapper, DataContext context, Serilog.ILogger logger) : ControllerBase
     {
         /// <summary>The context.</summary>
         private readonly DataContext context = context;
 
         private readonly IMapper mapper = mapper;
+
+        private readonly Serilog.ILogger logger = logger;
 
         /// <summary>Gets the restaurant data.</summary>
         /// <returns>Returns data of all restaurants.</returns>
@@ -37,14 +39,14 @@ namespace WebApplication2.Controllers
             {
                 var restaurants = await this.context.Restaurants.Where(r => r.IsActive).ToListAsync();
 
-                Log.Information("Retrieved restaurants successfully");
+                this.logger.Debug("Retrieved {Count} restaurants successfully.", restaurants.Count);
 
                 return this.Ok(restaurants.Select(this.mapper.Map<RestaurantDTO>));
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "An error occurred while retrieving restaurants");
-                return this.StatusCode(500, "Error occured while processing request.");
+                this.logger.Error(ex, "An error occurred while retrieving restaurants.");
+                return this.StatusCode(500, "Error occurred while processing request.");
             }
         }
 
@@ -61,17 +63,18 @@ namespace WebApplication2.Controllers
                 var restaurant = await this.context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
                 if (restaurant is null || !restaurant.IsActive)
                 {
-                    Log.Warning("Restaurant not found or not active.");
-                    return this.NotFound("Restaurant not found");
+                    this.logger.Warning("Restaurant with ID {Id} not found.", id);
+
+                    return this.NotFound();
                 }
 
-                Log.Information("Restaurant found and returned successfully.");
+                this.logger.Debug("Retrieved restaurant with ID {Id} successfully.", id);
                 return this.Ok(this.mapper.Map<RestaurantDTO>(restaurant));
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "An error occurred while processing the request.");
-                return this.StatusCode(500, "Error occurred while processing request");
+                this.logger.Error(ex, "An error occurred while retrieving restaurant with ID {Id}.", id);
+                return this.StatusCode(500, "Error occurred while processing request.");
             }
         }
 
@@ -89,44 +92,44 @@ namespace WebApplication2.Controllers
                 this.context.Restaurants.Add(restaurant);
                 await this.context.SaveChangesAsync();
 
-                Log.Information("Restaurant added successfully: {Restaurant}", restaurant);
+                this.logger.Debug("Restaurant added successfully: {@Restaurant}.", restaurant);
 
                 return this.CreatedAtAction(nameof(this.AddRestaurant), this.mapper.Map<RestaurantDTO>(restaurant));
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "An error occurred while adding a new restaurant: {NewRestaurant}", newRestaurant);
+                this.logger.Error(ex, "An error occurred while adding a new restaurant: {@NewRestaurant}.", newRestaurant);
                 return this.StatusCode(500, "Error occurred while processing request.");
             }
         }
 
         /// <summary>Updates the restaurant.</summary>
+        /// <param name="id">The identifier of restaurant we change.</param>
         /// <param name="updatedRestaurant">The updated restaurant.</param>
-        /// <param name="id">The indentifier of restaurant we change.</param>
         /// <returns>Updates parameters of restaurant.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<RestaurantDTO>> UpdateRestaurant(RestaurantDTO updatedRestaurant, int id)
+        public async Task<ActionResult<RestaurantDTO>> UpdateRestaurant(int id, RestaurantDTO updatedRestaurant)
         {
             try
             {
                 var dbRestaurant = await this.context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
                 if (dbRestaurant is null)
                 {
-                    Log.Warning("Restaurant's not found while");
-                    return this.NotFound("Restaurant not found");
+                    this.logger.Warning("Restaurant with ID {Id} not found while updating.", id);
+                    return this.NotFound();
                 }
 
                 dbRestaurant = this.mapper.Map(updatedRestaurant, dbRestaurant);
 
                 await this.context.SaveChangesAsync();
 
-                Log.Information("Restaurant updated successfully");
+                this.logger.Debug("Restaurant with ID {Id} updated successfully.", id);
                 return this.NoContent();
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "An error occurred while updating restaurant.");
-                return this.StatusCode(500, "Error occurred while processing your request");
+                this.logger.Error(ex, "An error occurred while updating restaurant with ID {Id}.", id);
+                return this.StatusCode(500, "Error occurred while processing your request.");
             }
         }
 
@@ -143,20 +146,20 @@ namespace WebApplication2.Controllers
                 var dbRestaurant = await this.context.Restaurants.FindAsync(id);
                 if (dbRestaurant is null)
                 {
-                    Log.Warning("Restaurant not found while deleting");
-                    return this.NotFound("Restaurant not found");
+                    this.logger.Warning("Restaurant with ID {Id} not found while deleting.", id);
+                    return this.NotFound();
                 }
 
                 dbRestaurant.IsActive = false;
                 dbRestaurant.ModifiedDate = DateTime.UtcNow;
                 await this.context.SaveChangesAsync();
 
-                Log.Information("Restaurant deleted successfully");
+                this.logger.Debug("Restaurant with ID {Id} deleted successfully.", id);
                 return this.NoContent();
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "An error occurred while deleting restaurant");
+                this.logger.Error(ex, "An error occurred while deleting restaurant with ID {Id}.", id);
                 return this.StatusCode(500, "Error occurred while processing your request");
             }
         }

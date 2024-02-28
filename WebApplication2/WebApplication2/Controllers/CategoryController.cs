@@ -77,7 +77,7 @@ namespace WebApplication2.Controllers
 
         /// <summary>Updates the category.</summary>
         /// <param name="updatedCategory">The updated category.</param>
-        /// <param name="id">The indentifier of category we change.</param>
+        /// <param name="id">The identifier of category we change.</param>
         /// <returns>Returns list of categories.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<CategoryDTO>> UpdateCategory(CategoryDTO updatedCategory, int id)

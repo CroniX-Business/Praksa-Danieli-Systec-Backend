@@ -11,7 +11,7 @@ using WebApplication2.Entities;
 namespace WebApplication2
 {
     /// <summary>
-    ///  Represents a profile of Automapper.
+    ///  Represents a profile of Auto mapper.
     /// </summary>
     public class AutoMapperProfile : Profile
     {
