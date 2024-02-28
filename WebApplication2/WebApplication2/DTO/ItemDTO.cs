@@ -4,8 +4,6 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-using WebApplication2.Entities;
-
 namespace WebApplication2.DTO
 {
     /// <summary>
@@ -44,21 +42,5 @@ namespace WebApplication2.DTO
         /// The sort.
         /// </value>
         public int Sort { get; set; }
-
-        /// <summary>
-        /// Gets or sets the order item.
-        /// </summary>
-        /// <value>
-        /// The order item.
-        /// </value>
-        public OrderItem? OrderItem { get; set; }
-
-        /// <summary>
-        /// Gets the prices.
-        /// </summary>
-        /// <value>
-        /// The prices.
-        /// </value>
-        public ICollection<Price> Prices { get; } = new List<Price>();
     }
 }

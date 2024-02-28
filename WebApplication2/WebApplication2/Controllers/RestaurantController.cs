@@ -151,7 +151,6 @@ namespace WebApplication2.Controllers
                 }
 
                 dbRestaurant.IsActive = false;
-                dbRestaurant.ModifiedDate = DateTime.UtcNow;
                 await this.context.SaveChangesAsync();
 
                 this.logger.LogDebug("Restaurant with ID {Id} deleted successfully.", id);

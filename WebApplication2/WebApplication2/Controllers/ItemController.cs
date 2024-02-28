@@ -149,7 +149,6 @@ namespace WebApplication2.Controllers
                 }
 
                 dbItem.IsActive = false;
-                dbItem.ModifiedDate = DateTime.UtcNow;
                 await this.context.SaveChangesAsync();
 
                 this.logger.LogDebug("Item with ID {Id} deleted successfully.", id);
@@ -158,7 +157,7 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "An error occurred while deleting Item with ID {Id}.", id);
+                this.logger.LogError(ex, "An error occurred while deleting item with ID {Id}.", id);
                 return this.StatusCode(500, "Error occurred while processing your request");
             }
         }
