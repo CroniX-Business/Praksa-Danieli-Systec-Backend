@@ -5,10 +5,10 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Entities;
-using WebApplication2.Interceptors;
+using OrdersApi.Entities;
+using OrdersApi.Interceptors;
 
-namespace WebApplication2.Data
+namespace OrdersApi.Data
 {
     /// <summary>
     ///  Gives context for data base.

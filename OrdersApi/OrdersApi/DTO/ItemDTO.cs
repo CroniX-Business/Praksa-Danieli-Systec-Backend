@@ -4,9 +4,9 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-using WebApplication2.Entities;
+using OrdersApi.Entities;
 
-namespace WebApplication2.DTO
+namespace OrdersApi.DTO
 {
     /// <summary>
     /// Object transfer data class for Item.

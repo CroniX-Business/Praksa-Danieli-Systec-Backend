@@ -7,9 +7,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using WebApplication2.Entities;
+using OrdersApi.Entities;
 
-namespace WebApplication2.Interceptors;
+namespace OrdersApi.Interceptors;
 
 /// <summary>
 /// Entity save changes interceptor.

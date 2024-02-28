@@ -6,7 +6,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication2.Entities
+namespace OrdersApi.Entities
 {
     /// <summary>
     ///  Base entity that is extended by all other classes.

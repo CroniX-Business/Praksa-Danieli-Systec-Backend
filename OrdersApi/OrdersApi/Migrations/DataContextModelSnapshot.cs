@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApplication2.Data;
+using OrdersApi.Data;
 
 #nullable disable
 
-namespace WebApplication2.Migrations
+namespace OrdersApi.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace WebApplication2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebApplication2.Entities.Category", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,14 +47,16 @@ namespace WebApplication2.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("TimeStamp")
-                        .HasColumnType("varbinary(max)");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Customer", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,14 +86,16 @@ namespace WebApplication2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("TimeStamp")
-                        .HasColumnType("varbinary(max)");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Item", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Item", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,7 +126,9 @@ namespace WebApplication2.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("TimeStamp")
-                        .HasColumnType("varbinary(max)");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -133,7 +139,7 @@ namespace WebApplication2.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Order", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -161,14 +167,16 @@ namespace WebApplication2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("TimeStamp")
-                        .HasColumnType("varbinary(max)");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.OrderItem", b =>
+            modelBuilder.Entity("OrdersApi.Entities.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,7 +213,9 @@ namespace WebApplication2.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("TimeStamp")
-                        .HasColumnType("varbinary(max)");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -219,7 +229,7 @@ namespace WebApplication2.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Price", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Price", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -243,7 +253,9 @@ namespace WebApplication2.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<byte[]>("TimeStamp")
-                        .HasColumnType("varbinary(max)");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
@@ -258,7 +270,7 @@ namespace WebApplication2.Migrations
                     b.ToTable("Prices");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Restaurant", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Restaurant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -288,43 +300,45 @@ namespace WebApplication2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("TimeStamp")
-                        .HasColumnType("varbinary(max)");
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
                     b.ToTable("Restaurants");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Item", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Item", b =>
                 {
-                    b.HasOne("WebApplication2.Entities.Category", null)
+                    b.HasOne("OrdersApi.Entities.Category", null)
                         .WithMany("Items")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication2.Entities.Restaurant", null)
+                    b.HasOne("OrdersApi.Entities.Restaurant", null)
                         .WithMany("Items")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.OrderItem", b =>
+            modelBuilder.Entity("OrdersApi.Entities.OrderItem", b =>
                 {
-                    b.HasOne("WebApplication2.Entities.Customer", "Customer")
+                    b.HasOne("OrdersApi.Entities.Customer", "Customer")
                         .WithMany("OrderItem")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication2.Entities.Item", "Item")
+                    b.HasOne("OrdersApi.Entities.Item", "Item")
                         .WithOne("OrderItem")
-                        .HasForeignKey("WebApplication2.Entities.OrderItem", "ItemId")
+                        .HasForeignKey("OrdersApi.Entities.OrderItem", "ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication2.Entities.Order", null)
+                    b.HasOne("OrdersApi.Entities.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -335,38 +349,38 @@ namespace WebApplication2.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Price", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Price", b =>
                 {
-                    b.HasOne("WebApplication2.Entities.Item", null)
+                    b.HasOne("OrdersApi.Entities.Item", null)
                         .WithMany("Prices")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Category", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Category", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Customer", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Customer", b =>
                 {
                     b.Navigation("OrderItem");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Item", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Item", b =>
                 {
                     b.Navigation("OrderItem");
 
                     b.Navigation("Prices");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Order", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("WebApplication2.Entities.Restaurant", b =>
+            modelBuilder.Entity("OrdersApi.Entities.Restaurant", b =>
                 {
                     b.Navigation("Items");
                 });
