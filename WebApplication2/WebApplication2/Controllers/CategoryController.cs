@@ -20,12 +20,14 @@ namespace WebApplication2.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController(IMapper mapper, DataContext context) : ControllerBase
+    public class CategoryController(IMapper mapper, DataContext context, ILogger<CategoryController> logger) : ControllerBase
     {
         /// <summary>The context.</summary>
         private readonly DataContext context = context;
 
         private readonly IMapper mapper = mapper;
+
+        private readonly ILogger<CategoryController> logger = logger;
 
         /// <summary>Gets all categories.</summary>
         /// <returns>
@@ -34,9 +36,19 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAllCategories()
         {
-            var categories = await this.context.Categories.Where(c => c.IsActive).ToListAsync();
+            try
+            {
+                var categories = await this.context.Categories.Where(r => r.IsActive).ToListAsync();
 
-            return this.Ok(categories.Select(this.mapper.Map<CategoryDTO>));
+                this.logger.LogDebug("Retrieved {Count} categories successfully.", categories.Count);
+
+                return this.Ok(categories.Select(this.mapper.Map<CategoryDTO>));
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while retrieving categories.");
+                return this.StatusCode(500, "Error occurred while processing request.");
+            }
         }
 
         /// <summary>
@@ -51,13 +63,24 @@ namespace WebApplication2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDTO>> GetCategory(int id)
         {
-            var category = await this.context.Categories.FirstOrDefaultAsync(c => c.Id == id);
-            if (category == null || !category.IsActive)
+            try
             {
-                return this.NotFound("Category not found.");
-            }
+                var category = await this.context.Categories.FirstOrDefaultAsync(r => r.Id == id);
+                if (category is null || !category.IsActive)
+                {
+                    this.logger.LogWarning("Category with ID {Id} not found.", id);
 
-            return this.Ok(this.mapper.Map<CategoryDTO>(category));
+                    return this.NotFound();
+                }
+
+                this.logger.LogDebug("Retrieved category with ID {Id} successfully.", id);
+                return this.Ok(this.mapper.Map<CategoryDTO>(category));
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while retrieving category with ID {Id}.", id);
+                return this.StatusCode(500, "Error occurred while processing request.");
+            }
         }
 
         /// <summary>Adds the category.</summary>
@@ -68,31 +91,51 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<CategoryDTO>> AddCategory(CategoryDTO newCategory)
         {
-            var category = this.mapper.Map<Category>(newCategory);
-            this.context.Categories.Add(category);
-            await this.context.SaveChangesAsync();
+            try
+            {
+                var category = this.mapper.Map<Category>(newCategory);
+                this.context.Categories.Add(category);
+                await this.context.SaveChangesAsync();
 
-            return this.CreatedAtAction(nameof(this.AddCategory), this.mapper.Map<CategoryDTO>(category));
+                this.logger.LogDebug("Category added successfully: {@category}.", category);
+
+                return this.CreatedAtAction(nameof(this.AddCategory), this.mapper.Map<CategoryDTO>(category));
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while adding a new category: {@NewCategory}.", newCategory);
+                return this.StatusCode(500, "Error occurred while processing request.");
+            }
         }
 
         /// <summary>Updates the category.</summary>
+        /// /// <param name="id">The identifier of category we change.</param>
         /// <param name="updatedCategory">The updated category.</param>
-        /// <param name="id">The identifier of category we change.</param>
         /// <returns>Returns list of categories.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<CategoryDTO>> UpdateCategory(CategoryDTO updatedCategory, int id)
+        public async Task<ActionResult<CategoryDTO>> UpdateCategory(int id, CategoryDTO updatedCategory)
         {
-            var dbCategory = await this.context.Categories.FirstOrDefaultAsync(r => r.Id == id);
-            if (dbCategory == null)
+            try
             {
-                return this.NotFound("Category not found.");
+                var dbCategory = await this.context.Categories.FirstOrDefaultAsync(r => r.Id == id);
+                if (dbCategory is null)
+                {
+                    this.logger.LogWarning("Category with ID {Id} not found while updating.", id);
+                    return this.NotFound();
+                }
+
+                dbCategory = this.mapper.Map(updatedCategory, dbCategory);
+
+                await this.context.SaveChangesAsync();
+
+                this.logger.LogDebug("Category with ID {Id} updated successfully.", id);
+                return this.NoContent();
             }
-
-            this.mapper.Map(updatedCategory, dbCategory);
-
-            await this.context.SaveChangesAsync();
-
-            return this.NoContent();
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while updating category with ID {Id}.", id);
+                return this.StatusCode(500, "Error occurred while processing your request.");
+            }
         }
 
         /// <summary>Deletes the category.</summary>
@@ -103,18 +146,27 @@ namespace WebApplication2.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
-            var dbCategory = await this.context.Categories.FirstOrDefaultAsync(r => r.Id == id);
-            if (dbCategory == null)
+            try
             {
-                return this.NotFound("Category not found.");
+                var dbCategory = await this.context.Categories.FindAsync(id);
+                if (dbCategory is null)
+                {
+                    this.logger.LogWarning("Category with ID {Id} not found while deleting.", id);
+                    return this.NotFound();
+                }
+
+                dbCategory.IsActive = false;
+                dbCategory.ModifiedDate = DateTime.UtcNow;
+                await this.context.SaveChangesAsync();
+
+                this.logger.LogDebug("Category with ID {Id} deleted successfully.", id);
+                return this.NoContent();
             }
-
-            dbCategory.IsActive = false;
-            dbCategory.ModifiedDate = DateTime.UtcNow;
-
-            await this.context.SaveChangesAsync();
-
-            return this.NoContent();
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while deleting category with ID {Id}.", id);
+                return this.StatusCode(500, "Error occurred while processing your request");
+            }
         }
     }
 }

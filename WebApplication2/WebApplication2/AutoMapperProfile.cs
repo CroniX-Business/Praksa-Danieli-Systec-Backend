@@ -23,6 +23,7 @@ namespace WebApplication2
             this.CreateMap<Restaurant, RestaurantDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
             this.CreateMap<Category, CategoryDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
             this.CreateMap<Customer, CustomerDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
+            this.CreateMap<Item, ItemDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
         }
     }
 }
