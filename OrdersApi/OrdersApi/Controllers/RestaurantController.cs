@@ -7,11 +7,11 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Data;
-using WebApplication2.DTO;
-using WebApplication2.Entities;
+using OrdersApi.Data;
+using OrdersApi.DTO;
+using OrdersApi.Entities;
 
-namespace WebApplication2.Controllers
+namespace OrdersApi.Controllers
 {
     /// <summary>
     ///   Controller for restaurant to return data.
