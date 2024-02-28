@@ -7,7 +7,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using WebApplication2.Data;
 using WebApplication2.DTO;
 using WebApplication2.Entities;
@@ -151,7 +150,6 @@ namespace WebApplication2.Controllers
                 }
 
                 dbRestaurant.IsActive = false;
-                dbRestaurant.ModifiedDate = DateTime.UtcNow;
                 await this.context.SaveChangesAsync();
 
                 this.logger.LogDebug("Restaurant with ID {Id} deleted successfully.", id);

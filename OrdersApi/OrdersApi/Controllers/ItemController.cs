@@ -153,7 +153,6 @@ namespace WebApplication2.Controllers
                 }
 
                 dbItem.IsActive = false;
-                dbItem.ModifiedDate = DateTime.UtcNow;
                 await this.context.SaveChangesAsync();
 
                 this.logger.LogDebug("Item with ID {Id} deleted successfully.", id);

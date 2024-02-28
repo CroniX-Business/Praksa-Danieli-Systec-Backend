@@ -156,7 +156,6 @@ namespace WebApplication2.Controllers
                 }
 
                 dbCategory.IsActive = false;
-                dbCategory.ModifiedDate = DateTime.UtcNow;
                 await this.context.SaveChangesAsync();
 
                 this.logger.LogDebug("Category with ID {Id} deleted successfully.", id);

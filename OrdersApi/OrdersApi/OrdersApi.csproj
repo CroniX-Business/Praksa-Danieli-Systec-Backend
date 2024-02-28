@@ -36,10 +36,10 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
-    <EditorConfigFiles Remove="C:\Users\klanj\OneDrive\Radna površina\Praksa\backend\WebApplication2\WebApplication2\.editorconfig" />
+    <EditorConfigFiles Remove="C:\Users\Mario\Desktop\praksa\backend\OrdersApi\WebProject2" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\Users\klanj\OneDrive\Radna površina\Praksa\backend\WebApplication2\WebApplication2\.editorconfig" />
+    <None Include="C:\Users\Mario\Desktop\praksa\backend\OrdersApi\WebProject2.editorconfig" />
   </ItemGroup>
 
 </Project>

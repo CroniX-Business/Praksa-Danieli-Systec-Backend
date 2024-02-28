@@ -86,31 +86,51 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<CustomerDTO>> AddCustomer(CustomerDTO newCustomer)
         {
-            var customer = this.mapper.Map<Customer>(newCustomer);
-            this.context.Customers.Add(customer);
-            await this.context.SaveChangesAsync();
+            try
+            {
+                var customer = this.mapper.Map<Customer>(newCustomer);
+                this.context.Customers.Add(customer);
+                await this.context.SaveChangesAsync();
 
-            return this.CreatedAtAction(nameof(this.AddCustomer), this.mapper.Map<CustomerDTO>(customer));
+                this.logger.LogDebug("Customer added successfully: {@Customer}.", customer);
+
+                return this.CreatedAtAction(nameof(this.AddCustomer), this.mapper.Map<CustomerDTO>(customer));
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while adding a new customer: {@NewCustomer}.", newCustomer);
+                return this.StatusCode(500, "Error occurred while processing request.");
+            }
         }
 
         /// <summary>Updates the customer.</summary>
-        /// <param name="updatedCustomer">The updated customer.</param>
         /// <param name="id">The identifier of customer we change.</param>
+        /// <param name="updatedCustomer">The updated customer.</param>
         /// <returns>Returns list of customers.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(CustomerDTO updatedCustomer, int id)
+        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(int id, CustomerDTO updatedCustomer)
         {
-            var dbCustomer = await this.context.Customers.FirstOrDefaultAsync(r => r.Id == id);
-            if (dbCustomer == null)
+            try
             {
-                return this.NotFound("Customer not found.");
+                var dbCustomer = await this.context.Customers.FirstOrDefaultAsync(r => r.Id == id);
+                if (dbCustomer is null)
+                {
+                    this.logger.LogWarning("Customer with ID {Id} not found while updating.", id);
+                    return this.NotFound();
+                }
+
+                dbCustomer = this.mapper.Map(updatedCustomer, dbCustomer);
+
+                await this.context.SaveChangesAsync();
+
+                this.logger.LogDebug("Customer with ID {Id} updated successfully.", id);
+                return this.NoContent();
             }
-
-            this.mapper.Map(updatedCustomer, dbCustomer);
-
-            await this.context.SaveChangesAsync();
-
-            return this.NoContent();
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while updating customer with ID {Id}.", id);
+                return this.StatusCode(500, "Error occurred while processing your request.");
+            }
         }
 
         /// <summary>Deletes the customer.</summary>
@@ -121,18 +141,26 @@ namespace WebApplication2.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCustomer(int id)
         {
-            var dbUser = await this.context.Customers.FindAsync(id);
-            if (dbUser == null)
+            try
             {
-                return this.NotFound("Customer not found.");
+                var dbCustomer = await this.context.Customers.FindAsync(id);
+                if (dbCustomer is null)
+                {
+                    this.logger.LogWarning("Customer with ID {Id} not found while deleting.", id);
+                    return this.NotFound();
+                }
+
+                dbCustomer.IsActive = false;
+                await this.context.SaveChangesAsync();
+
+                this.logger.LogDebug("Customer with ID {Id} deleted successfully.", id);
+                return this.NoContent();
             }
-
-            dbUser.IsActive = false;
-            dbUser.ModifiedDate = DateTime.UtcNow;
-
-            await this.context.SaveChangesAsync();
-
-            return this.NoContent();
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while deleting customer with ID {Id}.", id);
+                return this.StatusCode(500, "Error occurred while processing your request");
+            }
         }
     }
 }
