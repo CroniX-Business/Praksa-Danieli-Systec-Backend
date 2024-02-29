@@ -5,12 +5,15 @@
 // </copyright>
 
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using OrdersApi.Data;
 using OrdersApi.DTO;
 using OrdersApi.Entities;
+using Serilog;
+using System;
 
 namespace OrdersApi.Controllers
 {
@@ -21,7 +24,7 @@ namespace OrdersApi.Controllers
     /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class RestaurantController(DataContext context, IMapper mapper, ILogger<RestaurantController> logger) : ControllerBase
+    public class RestaurantController(DataContext context, IMapper mapper, ILogger<RestaurantController> logger, IValidator<RestaurantDTO> validator) : ControllerBase
     {
         /// <summary>The context.</summary>
         private readonly DataContext context = context;
@@ -29,6 +32,8 @@ namespace OrdersApi.Controllers
         private readonly IMapper mapper = mapper;
 
         private readonly ILogger<RestaurantController> logger = logger;
+
+        private readonly IValidator<RestaurantDTO> validator = validator;
 
         /// <summary>Gets the restaurant data.</summary>
         /// <returns>Returns data of all restaurants.</returns>
@@ -88,6 +93,12 @@ namespace OrdersApi.Controllers
         {
             try
             {
+                ValidationResult result = await this.validator.ValidateAsync(newRestaurant);
+                if (!result.IsValid)
+                {
+                    return this.StatusCode(500, result.Errors.ToString());
+                }
+
                 var restaurant = this.mapper.Map<Restaurant>(newRestaurant);
                 this.context.Restaurants.Add(restaurant);
                 await this.context.SaveChangesAsync();
@@ -112,6 +123,12 @@ namespace OrdersApi.Controllers
         {
             try
             {
+                ValidationResult result = await this.validator.ValidateAsync(updatedRestaurant);
+                if (!result.IsValid)
+                {
+                    return this.StatusCode(500, result.Errors.ToString());
+                }
+
                 var dbRestaurant = await this.context.Restaurants.FirstOrDefaultAsync(r => r.Id == id);
                 if (dbRestaurant is null)
                 {

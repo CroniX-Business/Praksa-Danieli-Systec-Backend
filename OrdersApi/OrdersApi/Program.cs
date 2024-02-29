@@ -9,6 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using OrdersApi.Data;
 using OrdersApi.Interceptors;
 using Serilog;
+using FluentValidation;
+using Microsoft.AspNetCore.Identity;
+using OrdersApi.Controllers;
+using OrdersApi.DTO;
+using FluentValidation.AspNetCore;
+using OrdersApi.Validators;
 
 namespace OrdersApi
 {
@@ -23,10 +29,7 @@ namespace OrdersApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+            builder.Services.AddControllers();
 
             builder.Services.AddScoped<EntitySaveChangesInterceptor>();
 
@@ -46,6 +49,7 @@ namespace OrdersApi
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
             });
+            builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters().AddValidatorsFromAssemblyContaining<RestaurantDTOValidator>();
 
             var app = builder.Build();
 
