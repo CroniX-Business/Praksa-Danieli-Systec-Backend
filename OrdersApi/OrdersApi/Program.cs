@@ -4,11 +4,10 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using OrdersApi.Data;
 using OrdersApi.Interceptors;
+using Serilog;
 
 namespace OrdersApi
 {
@@ -23,10 +22,7 @@ namespace OrdersApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+            builder.Services.AddControllers();
 
             builder.Services.AddScoped<EntitySaveChangesInterceptor>();
 
