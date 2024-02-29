@@ -5,9 +5,12 @@
 // </copyright>
 
 using System.Text.Json.Serialization;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using OrdersApi.Data;
 using OrdersApi.Interceptors;
+using OrdersApi.Validators;
 using Serilog;
 
 namespace OrdersApi
@@ -46,6 +49,8 @@ namespace OrdersApi
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
             });
+
+            builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters().AddValidatorsFromAssemblyContaining<RestaurantDTOValidator>();
 
             var app = builder.Build();
 
