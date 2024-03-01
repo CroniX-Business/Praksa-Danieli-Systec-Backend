@@ -1,15 +1,13 @@
-﻿// <copyright file="BaseDTO.cs" company="Danieli Systec d.o.o.">
+﻿// <copyright file="BaseDto.cs" company="Danieli Systec d.o.o.">
 // Copyright (c) Danieli Systec d.o.o.. All rights reserved.
 // CONFIDENTIAL; Property of Danieli Systec d.o.o.
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-namespace OrdersApi.DTO
+namespace OrdersApi.Dto
 {
-    /// <summary>
-    ///   Data transfer object for Base entity.
-    /// </summary>
-    public abstract class BaseDTO
+    /// <summary>Data transfer object for Base entity.</summary>
+    public abstract class BaseDto
     {
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>

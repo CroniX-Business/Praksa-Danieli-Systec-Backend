@@ -8,9 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OrdersApi.Entities
 {
-    /// <summary>
-    ///  Base entity that is extended by all other classes.
-    /// </summary>
+    /// <summary>Base entity that is extended by all other classes.</summary>
     public abstract class BaseEntity
     {
         /// <summary>Gets or sets the identifier.</summary>

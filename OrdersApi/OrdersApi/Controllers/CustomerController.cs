@@ -8,16 +8,13 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrdersApi.Data;
-using OrdersApi.DTO;
+using OrdersApi.Dto;
 using OrdersApi.Entities;
 
 namespace OrdersApi.Controllers
 {
-    /// <summary>
-    ///   Represents a customer controller.
-    /// </summary>
+    /// <summary>Represents a customer controller.</summary>
     /// <remarks>Initializes a new instance of the <see cref="CustomerController" /> class.</remarks>
-    /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController(DataContext context, IMapper mapper, ILogger<CustomerController> logger) : ControllerBase
@@ -29,11 +26,9 @@ namespace OrdersApi.Controllers
         private readonly ILogger<CustomerController> logger = logger;
 
         /// <summary>Gets all customers.</summary>
-        /// <returns>
-        ///   Returns list of customers.
-        /// </returns>
+        /// <returns>Returns list of customers.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomers()
+        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetAllCustomers()
         {
             try
             {
@@ -41,7 +36,7 @@ namespace OrdersApi.Controllers
 
                 this.logger.LogDebug("Retrieved {Count} customers successfully.", customers.Count);
 
-                return this.Ok(customers.Select(this.mapper.Map<CustomerDTO>));
+                return this.Ok(this.mapper.Map<List<CustomerDto>>(customers));
             }
             catch (Exception ex)
             {
@@ -52,16 +47,15 @@ namespace OrdersApi.Controllers
 
         /// <summary>Gets the customer.</summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>
-        ///   Returns customer.
-        /// </returns>
+        /// <returns>Returns customer.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<CustomerDTO>> GetCustomer(int id)
+        public async Task<ActionResult<CustomerDto>> GetCustomer(int id)
         {
             try
             {
-                var customer = await this.context.Customers.FirstOrDefaultAsync(c => c.Id == id);
-                if (customer == null || !customer.IsActive)
+                var customer = await this.context.Customers.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
+
+                if (customer == null)
                 {
                     this.logger.LogWarning("Customer with ID {Id} not found.", id);
 
@@ -69,7 +63,7 @@ namespace OrdersApi.Controllers
                 }
 
                 this.logger.LogDebug("Retrieved customer with ID {Id} successfully.", id);
-                return this.Ok(this.mapper.Map<CustomerDTO>(customer));
+                return this.Ok(this.mapper.Map<CustomerDto>(customer));
             }
             catch (Exception ex)
             {
@@ -80,11 +74,9 @@ namespace OrdersApi.Controllers
 
         /// <summary>Adds the customer.</summary>
         /// <param name="newCustomer">The new customer.</param>
-        /// <returns>
-        ///   Returns customer.
-        /// </returns>
+        /// <returns>Returns customer.</returns>
         [HttpPost]
-        public async Task<ActionResult<CustomerDTO>> AddCustomer(CustomerDTO newCustomer)
+        public async Task<ActionResult<CustomerDto>> AddCustomer(CustomerDto newCustomer)
         {
             try
             {
@@ -94,7 +86,9 @@ namespace OrdersApi.Controllers
 
                 this.logger.LogDebug("Customer added successfully: {@Customer}.", customer);
 
-                return this.CreatedAtAction(nameof(this.AddCustomer), this.mapper.Map<CustomerDTO>(customer));
+                return this.CreatedAtAction(
+                    nameof(this.AddCustomer),
+                    this.mapper.Map<CustomerDto>(customer));
             }
             catch (Exception ex)
             {
@@ -104,15 +98,16 @@ namespace OrdersApi.Controllers
         }
 
         /// <summary>Updates the customer.</summary>
+        /// <param name="id">The identifier.</param>
         /// <param name="updatedCustomer">The updated customer.</param>
-        /// <param name="id">The identifier of customer we change.</param>
-        /// <returns>Returns list of customers.</returns>
+        /// <returns>Returns no content.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(CustomerDTO updatedCustomer, int id)
+        public async Task<ActionResult<CustomerDto>> UpdateCustomer(int id, CustomerDto updatedCustomer)
         {
             try
             {
-                var dbCustomer = await this.context.Customers.FirstOrDefaultAsync(r => r.Id == id);
+                var dbCustomer = await this.context.Customers.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
+
                 if (dbCustomer == null)
                 {
                     this.logger.LogWarning("Customer with ID {Id} not found while updating.", id);
@@ -123,7 +118,7 @@ namespace OrdersApi.Controllers
 
                 await this.context.SaveChangesAsync();
 
-                this.logger.LogDebug("Customer with ID {Id} updated successfully.", id);
+                this.logger.LogDebug("Customer {@dbCustomer} updated successfully.", dbCustomer);
                 return this.NoContent();
             }
             catch (Exception ex)
@@ -135,15 +130,14 @@ namespace OrdersApi.Controllers
 
         /// <summary>Deletes the customer.</summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>
-        ///   Returns list of customers.
-        /// </returns>
+        /// <returns>Returns list of customers.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCustomer(int id)
         {
             try
             {
-                var dbUser = await this.context.Customers.FindAsync(id);
+                var dbUser = await this.context.Customers.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
+
                 if (dbUser == null)
                 {
                     this.logger.LogWarning("Customer with ID {Id} not found while deleting.", id);

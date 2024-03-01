@@ -11,9 +11,7 @@ using OrdersApi.Entities;
 
 namespace OrdersApi.Interceptors;
 
-/// <summary>
-/// Entity save changes interceptor.
-/// </summary>
+/// <summary>Entity save changes interceptor.</summary>
 /// <seealso cref="SaveChangesInterceptor" />
 public class EntitySaveChangesInterceptor : SaveChangesInterceptor
 {

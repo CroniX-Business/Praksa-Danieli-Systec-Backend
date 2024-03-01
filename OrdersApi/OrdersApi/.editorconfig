@@ -129,4 +129,4 @@ csharp_style_prefer_extended_property_pattern = true:suggestion
 
 
 vsspell_section_id = 1A9CD7DD3DAB4A7DB21EDCFB6351977A
-vsspell_ignored_keywords_1A9CD7DD3DAB4A7DB21EDCFB6351977A = DTO|Api|Validators|Validator
+vsspell_ignored_keywords_1A9CD7DD3DAB4A7DB21EDCFB6351977A = Dto|Api|Validators|Validator
