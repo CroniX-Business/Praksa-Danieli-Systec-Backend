@@ -1,27 +1,34 @@
-﻿// <copyright file="RestaurantDTOValidator.cs" company="Danieli Systec d.o.o.">
+﻿// <copyright file="RestaurantDtoValidator.cs" company="Danieli Systec d.o.o.">
 // Copyright (c) Danieli Systec d.o.o.. All rights reserved.
 // CONFIDENTIAL; Property of Danieli Systec d.o.o.
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
 using FluentValidation;
-using OrdersApi.DTO;
+using OrdersApi.Dto;
 
 namespace OrdersApi.Validators
 {
     /// <summary>
-    ///   <br />
+    ///   Validator for restaurant.
     /// </summary>
-    public class RestaurantDTOValidator : AbstractValidator<RestaurantDTO>
+    public class RestaurantDtoValidator : AbstractValidator<RestaurantDto>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RestaurantDTOValidator"/> class.
+        /// Initializes a new instance of the <see cref="RestaurantDtoValidator"/> class.
         /// </summary>
-        public RestaurantDTOValidator()
+        public RestaurantDtoValidator()
         {
-            this.RuleFor(restaurantDTO => restaurantDTO.Name).NotEmpty().Matches(@"^(?!-)[A-Za-z0-9]+(?:-[A-Za-z0-9'_-]+)*(?<!-)$");
-            this.RuleFor(restaurantDTO => restaurantDTO.Address).NotEmpty().Matches(@"^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$");
-            this.RuleFor(restaurantDTO => restaurantDTO.PhoneNumber).NotEmpty().Matches(@"^\+?[0-9]+\/?[0-9]{5,15}$");
+            this.RuleFor(restaurant => restaurant.Name)
+                .NotEmpty()
+                .Matches(@"^(?!-)[A-Za-z0-9ĆćčČžŽšŠđĐ]+(?:-[A-Za-z0-ĆćčČžŽšŠđĐ'_-]+)*(?<!-)");
+            this.RuleFor(restaurant => restaurant.Address)
+                .NotEmpty()
+                .Matches(@"^(?!-)[A-Za-z0-9ĆćčČžŽšŠđĐ]+(?:-[A-Za-z0-ĆćčČžŽšŠđĐ'_-]+)*(?<!-)");
+            this.RuleFor(restaurant => restaurant.PhoneNumber)
+                .NotEmpty()
+                .Matches(@"^\+?[0-9]+\/?[0-9]$")
+                .Length(5, 15);
         }
     }
 }

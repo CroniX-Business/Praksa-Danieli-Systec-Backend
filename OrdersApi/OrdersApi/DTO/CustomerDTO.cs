@@ -1,15 +1,15 @@
-﻿// <copyright file="CustomerDTO.cs" company="Danieli Systec d.o.o.">
+﻿// <copyright file="CustomerDto.cs" company="Danieli Systec d.o.o.">
 // Copyright (c) Danieli Systec d.o.o.. All rights reserved.
 // CONFIDENTIAL; Property of Danieli Systec d.o.o.
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-namespace OrdersApi.DTO
+namespace OrdersApi.Dto
 {
     /// <summary>
     ///  Data Transfer Object for customer.
     /// </summary>
-    public class CustomerDTO : BaseDTO
+    public class CustomerDto : BaseDto
     {
         /// <summary>
         /// Gets or sets the first name.

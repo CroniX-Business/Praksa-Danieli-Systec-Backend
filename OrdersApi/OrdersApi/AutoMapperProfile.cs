@@ -5,7 +5,7 @@
 // </copyright>
 
 using AutoMapper;
-using OrdersApi.DTO;
+using OrdersApi.Dto;
 using OrdersApi.Entities;
 
 namespace OrdersApi
@@ -20,9 +20,15 @@ namespace OrdersApi
         /// </summary>
         public AutoMapperProfile()
         {
-            this.CreateMap<Restaurant, RestaurantDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
-            this.CreateMap<Category, CategoryDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
-            this.CreateMap<Customer, CustomerDTO>().ReverseMap().ForMember(x => x.Id, opt => opt.Ignore());
+            this.CreateMap<Restaurant, RestaurantDto>()
+                .ReverseMap()
+                .ForMember(x => x.Id, opt => opt.Ignore());
+            this.CreateMap<Category, CategoryDto>()
+                .ReverseMap()
+                .ForMember(x => x.Id, opt => opt.Ignore());
+            this.CreateMap<Customer, CustomerDto>()
+                .ReverseMap()
+                .ForMember(x => x.Id, opt => opt.Ignore());
         }
     }
 }

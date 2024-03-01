@@ -26,7 +26,8 @@ namespace OrdersApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllers().AddJsonOptions(options =>
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
@@ -41,8 +42,6 @@ namespace OrdersApi
             builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
                 loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 
-            builder.Services.AddSingleton(Log.Logger);
-
             builder.Services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(
@@ -50,7 +49,10 @@ namespace OrdersApi
                     builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
             });
 
-            builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters().AddValidatorsFromAssemblyContaining<RestaurantDTOValidator>();
+            builder.Services.AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters()
+                .AddValidatorsFromAssemblyContaining<RestaurantDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<CustomerDtoValidator>();
 
             var app = builder.Build();
 
@@ -69,7 +71,8 @@ namespace OrdersApi
 
             using var scope = app.Services.CreateScope();
 
-            scope.ServiceProvider.GetService<DataContext>()?.Database.MigrateAsync();
+            scope.ServiceProvider.GetService<DataContext>()?.Database
+                .MigrateAsync();
 
             app.Run();
         }

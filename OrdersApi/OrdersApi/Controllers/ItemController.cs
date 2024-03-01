@@ -8,7 +8,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrdersApi.Data;
-using OrdersApi.DTO;
+using OrdersApi.Dto;
 using OrdersApi.Entities;
 
 namespace OrdersApi.Controllers
@@ -33,15 +33,17 @@ namespace OrdersApi.Controllers
         ///   Returns list of items.
         /// </returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAllItems()
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetAllItems()
         {
             try
             {
-                var items = await this.context.Items.Where(i => i.IsActive).ToListAsync();
+                var items = await this.context.Items.Where(i => i.IsActive)
+                    .ToListAsync();
 
                 this.logger.LogDebug("Retrieved {Count} items successfully.", items.Count);
 
-                return this.Ok(items.Select(this.mapper.Map<ItemDTO>));
+                return this.Ok(this.mapper
+                    .Map<ItemDto>(items));
             }
             catch (Exception ex)
             {
@@ -56,12 +58,13 @@ namespace OrdersApi.Controllers
         ///   Returns item.
         /// </returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemDTO>> GetItem(int id)
+        public async Task<ActionResult<ItemDto>> GetItem(int id)
         {
             try
             {
-                var item = await this.context.Items.FirstOrDefaultAsync(c => c.Id == id);
-                if (item == null || !item.IsActive)
+                var item = await this.context.Items.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
+
+                if (item == null)
                 {
                     this.logger.LogWarning("Item with ID {Id} not found.", id);
 
@@ -69,7 +72,7 @@ namespace OrdersApi.Controllers
                 }
 
                 this.logger.LogDebug("Retrieved item with ID {Id} successfully.", id);
-                return this.Ok(this.mapper.Map<ItemDTO>(item));
+                return this.Ok(this.mapper.Map<ItemDto>(item));
             }
             catch (Exception ex)
             {
@@ -82,7 +85,7 @@ namespace OrdersApi.Controllers
         /// <param name="newItem">The new item.</param>
         /// <returns>Returns list of items.</returns>
         [HttpPost]
-        public async Task<ActionResult<ItemDTO>> AddItem(ItemDTO newItem)
+        public async Task<ActionResult<ItemDto>> AddItem(ItemDto newItem)
         {
             try
             {
@@ -92,7 +95,7 @@ namespace OrdersApi.Controllers
 
                 this.logger.LogDebug("Item added successfully: {@item}.", item);
 
-                return this.CreatedAtAction(nameof(this.AddItem), this.mapper.Map<ItemDTO>(item));
+                return this.CreatedAtAction(nameof(this.AddItem), this.mapper.Map<ItemDto>(item));
             }
             catch (Exception ex)
             {
@@ -102,15 +105,16 @@ namespace OrdersApi.Controllers
         }
 
         /// <summary>Updates the item.</summary>
-        /// <param name="updatedItem">The updated item.</param>
         /// <param name="id">Id of item.</param>
+        /// <param name="updatedItem">The updated item.</param>
         /// <returns>Returns list of items.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ItemDTO>> UpdateItem(ItemDTO updatedItem, int id)
+        public async Task<ActionResult<ItemDto>> UpdateItem(int id, ItemDto updatedItem)
         {
             try
             {
-                var dbItem = await this.context.Items.FirstOrDefaultAsync(r => r.Id == id);
+                var dbItem = await this.context.Items.FirstOrDefaultAsync(r => r.Id == id && r.IsActive);
+
                 if (dbItem == null)
                 {
                     this.logger.LogWarning("Item with ID {Id} not found while updating.", id);
@@ -121,7 +125,7 @@ namespace OrdersApi.Controllers
 
                 await this.context.SaveChangesAsync();
 
-                this.logger.LogDebug("Item with ID {Id} updated successfully.", id);
+                this.logger.LogDebug("Item updated successfully: {@dbItem}.", dbItem);
                 return this.NoContent();
             }
             catch (Exception ex)
@@ -141,7 +145,8 @@ namespace OrdersApi.Controllers
         {
             try
             {
-                var dbItem = await this.context.Items.FirstOrDefaultAsync(r => r.Id == id);
+                var dbItem = await this.context.Items.FirstOrDefaultAsync(r => r.Id == id && r.IsActive);
+
                 if (dbItem == null)
                 {
                     this.logger.LogWarning("Item with ID {Id} not found while deleting.", id);
