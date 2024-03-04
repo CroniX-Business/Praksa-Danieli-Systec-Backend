@@ -260,7 +260,7 @@ namespace OrdersApi.Migrations
                     b.Property<DateTime>("ValidFrom")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("ValidTo")
+                    b.Property<DateTime?>("Validto")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

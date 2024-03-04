@@ -4,17 +4,13 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-using System.Text.Json.Serialization;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using OrdersApi.Data;
 using OrdersApi.Interceptors;
-using Serilog;
-using FluentValidation;
-using Microsoft.AspNetCore.Identity;
-using OrdersApi.Controllers;
-using OrdersApi.DTO;
-using FluentValidation.AspNetCore;
 using OrdersApi.Validators;
+using Serilog;
 
 namespace OrdersApi
 {
@@ -41,15 +37,16 @@ namespace OrdersApi
             builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
                 loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 
-            builder.Services.AddSingleton(Log.Logger);
-
             builder.Services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
             });
-            builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters().AddValidatorsFromAssemblyContaining<RestaurantDTOValidator>();
+            builder.Services.AddFluentValidationAutoValidation()
+                .AddValidatorsFromAssemblyContaining<RestaurantDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<CategoryDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<CustomerDtoValidator>();
 
             var app = builder.Build();
 
@@ -68,7 +65,8 @@ namespace OrdersApi
 
             using var scope = app.Services.CreateScope();
 
-            scope.ServiceProvider.GetService<DataContext>()?.Database.MigrateAsync();
+            scope.ServiceProvider.GetService<DataContext>()?.
+                Database.MigrateAsync();
 
             app.Run();
         }

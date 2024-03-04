@@ -173,7 +173,7 @@ namespace OrdersApi.Migrations
                     ItemId = table.Column<int>(type: "int", nullable: false),
                     ItemPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ValidTo = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Validto = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),

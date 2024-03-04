@@ -5,18 +5,23 @@
 // </copyright>
 
 using FluentValidation;
-using OrdersApi.DTO;
+using OrdersApi.Dto;
 
 namespace OrdersApi.Validators
 {
-    public class RestaurantDTOValidator : AbstractValidator<RestaurantDTO>
-
+    /// <summary>Restaurant validator class.</summary>
+    public class RestaurantDtoValidator : AbstractValidator<RestaurantDto>
     {
-        public RestaurantDTOValidator()
+        /// <summary>Initializes a new instance of the <see cref="RestaurantDtoValidator" /> class.</summary>
+        public RestaurantDtoValidator()
         {
-            this.RuleFor(restaurant => restaurant.Name).NotEmpty().Matches(@"^(?!-)[A-Za-z0-9]+(?:-[A-Za-z0-9'_-]+)*(?<!-)$");
-            this.RuleFor(restaurant => restaurant.Address).NotEmpty().Matches(@"^(?:[A-Za-z0-9]+(?:-[A-Za-z0-9'_-]+)*|\s*)+$");
-            this.RuleFor(restaurant => restaurant.PhoneNumber).NotEmpty().Matches(@"^\+?[0-9]+\/?[0-9]{5,15}$");
+            this.RuleFor(restaurant => restaurant.Name).NotEmpty()
+                .Matches(@"^(?!-)[A-Za-z0-9ĆćčČžŽšŠđĐ]+(?:-[A-Za-z0-ĆćčČžŽšŠđĐ'_-]+)*(?<!-)");
+            this.RuleFor(restaurant => restaurant.Address).NotEmpty()
+                .Matches(@"^(?!-)[A-Za-z0-9ĆćčČžŽšŠđĐ]+(?:-[A-Za-z0-ĆćčČžŽšŠđĐ'_-]+)*(?<!-)");
+            this.RuleFor(restaurant => restaurant.PhoneNumber).NotEmpty()
+                .Matches(@"^\+?[0-9]+\/?[0-9]$")
+                .Length(5, 15);
         }
     }
 }

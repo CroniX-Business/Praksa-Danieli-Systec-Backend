@@ -4,6 +4,8 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
+using Microsoft.EntityFrameworkCore;
+
 namespace OrdersApi.Entities
 {
     /// <summary>
@@ -17,6 +19,7 @@ namespace OrdersApi.Entities
 
         /// <summary>Gets or sets the item price.</summary>
         /// <value>The item price.</value>
+        [Precision(6, 2)]
         public decimal ItemPrice { get; set; }
 
         /// <summary>Gets or sets the valid from.</summary>
