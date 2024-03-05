@@ -1,4 +1,9 @@
-﻿using System;
+﻿// <copyright file="20240301125335_Initial.cs" company="Danieli Systec d.o.o.">
+// Copyright (c) Danieli Systec d.o.o.. All rights reserved.
+// CONFIDENTIAL; Property of Danieli Systec d.o.o.
+// Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
+// </copyright>
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -22,7 +27,7 @@ namespace OrdersApi.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -41,7 +46,7 @@ namespace OrdersApi.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -60,7 +65,7 @@ namespace OrdersApi.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -79,7 +84,7 @@ namespace OrdersApi.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -99,7 +104,7 @@ namespace OrdersApi.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -133,7 +138,7 @@ namespace OrdersApi.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -171,7 +176,7 @@ namespace OrdersApi.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                 },
                 constraints: table =>
                 {
