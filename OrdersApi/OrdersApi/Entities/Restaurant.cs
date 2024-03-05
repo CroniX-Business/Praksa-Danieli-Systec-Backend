@@ -7,7 +7,7 @@
 namespace OrdersApi.Entities
 {
     /// <summary>This is a restaurant entity used to store information about restaurants in a system.</summary>
-    /// <seealso cref="OrdersApi.Entities.BaseEntity" />
+    /// <seealso cref="BaseEntity" />
     public class Restaurant : BaseEntity
     {
         /// <summary>Gets or sets the name.</summary>

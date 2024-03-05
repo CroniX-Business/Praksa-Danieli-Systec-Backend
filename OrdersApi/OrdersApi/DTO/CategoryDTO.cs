@@ -7,7 +7,7 @@
 namespace OrdersApi.Dto
 {
     /// <summary>Data transfer object for Category.</summary>
-    /// <seealso cref="OrdersApi.Dto.BaseDto" />
+    /// <seealso cref="BaseDto" />
     public class CategoryDto : BaseDto
     {
         /// <summary>Gets or sets the name.</summary>

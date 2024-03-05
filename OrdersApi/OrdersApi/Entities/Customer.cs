@@ -7,7 +7,7 @@
 namespace OrdersApi.Entities
 {
     /// <summary>This is a user entity used to store information about customers in a system.</summary>
-    /// <seealso cref="OrdersApi.Entities.BaseEntity" />
+    /// <seealso cref="BaseEntity" />
     public class Customer : BaseEntity
     {
         /// <summary>Gets or sets the first name.</summary>

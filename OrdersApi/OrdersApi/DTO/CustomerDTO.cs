@@ -7,7 +7,7 @@
 namespace OrdersApi.Dto
 {
     /// <summary>Data Transfer Object for customer.</summary>
-    /// <seealso cref="OrdersApi.Dto.BaseDto" />
+    /// <seealso cref="BaseDto" />
     public class CustomerDto : BaseDto
     {
         /// <summary>Gets or sets the first name.</summary>

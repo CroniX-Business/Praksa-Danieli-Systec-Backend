@@ -7,7 +7,7 @@
 namespace OrdersApi.Entities
 {
     /// <summary>This is an item entity used to describe individual items within a system.</summary>
-    /// <seealso cref="OrdersApi.Entities.BaseEntity" />
+    /// <seealso cref="BaseEntity" />
     public class Item : BaseEntity
     {
         /// <summary>Gets or sets the category identifier.</summary>

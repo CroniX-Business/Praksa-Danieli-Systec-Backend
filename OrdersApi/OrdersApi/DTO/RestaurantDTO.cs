@@ -7,7 +7,7 @@
 namespace OrdersApi.Dto
 {
     /// <summary>Data transfer object for restaurant.</summary>
-    /// <seealso cref="OrdersApi.Dto.BaseDto" />
+    /// <seealso cref="BaseDto" />
     public class RestaurantDto : BaseDto
     {
         /// <summary>Gets or sets the name.</summary>

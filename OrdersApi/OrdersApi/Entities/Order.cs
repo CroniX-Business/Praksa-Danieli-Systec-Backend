@@ -7,7 +7,7 @@
 namespace OrdersApi.Entities
 {
     /// <summary>This is an order entity used to record information about orders placed in a system.</summary>
-    /// <seealso cref="OrdersApi.Entities.BaseEntity" />
+    /// <seealso cref="BaseEntity" />
     public class Order : BaseEntity
     {
         /// <summary>Gets or sets the name.</summary>

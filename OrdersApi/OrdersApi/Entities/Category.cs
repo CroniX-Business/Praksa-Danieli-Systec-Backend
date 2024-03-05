@@ -7,7 +7,7 @@
 namespace OrdersApi.Entities
 {
     /// <summary>This is a category entity used for categorizing items in a system.</summary>
-    /// <seealso cref="OrdersApi.Entities.BaseEntity" />
+    /// <seealso cref="BaseEntity" />
     public class Category : BaseEntity
     {
         /// <summary>Gets or sets the name.</summary>

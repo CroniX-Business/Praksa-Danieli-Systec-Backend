@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace OrdersApi.Entities
 {
     /// <summary>This represents an item within an order used to record details of items included in orders.</summary>
-    /// <seealso cref="OrdersApi.Entities.BaseEntity" />
+    /// <seealso cref="BaseEntity" />
     public class OrderItem : BaseEntity
     {
         /// <summary>Gets or sets the item identifier.</summary>

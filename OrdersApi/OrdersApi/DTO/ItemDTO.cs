@@ -7,7 +7,7 @@
 namespace OrdersApi.Dto
 {
     /// <summary>Object transfer data class for Item.</summary>
-    /// <seealso cref="OrdersApi.Dto.BaseDto" />
+    /// <seealso cref="BaseDto" />
     public class ItemDto : BaseDto
     {
         /// <summary>Gets or sets the restaurant identifier.</summary>
