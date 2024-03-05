@@ -46,7 +46,9 @@ namespace OrdersApi
 
             builder.Services.AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters()
-                .AddValidatorsFromAssemblyContaining<RestaurantDtoValidator>();
+                .AddValidatorsFromAssemblyContaining<RestaurantDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<CategoryDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<CustomerDtoValidator>();
 
             var app = builder.Build();
 
