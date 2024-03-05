@@ -6,17 +6,12 @@
 
 namespace OrdersApi.Entities
 {
-    /// <summary>
-    /// This is an order entity used to record information about orders placed in a system.
-    /// </summary>
+    /// <summary>This is an order entity used to record information about orders placed in a system.</summary>
+    /// <seealso cref="OrdersApi.Entities.BaseEntity" />
     public class Order : BaseEntity
     {
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
+        /// <summary>Gets or sets the name.</summary>
+        /// <value>The name.</value>
         public required string Name { get; set; }
 
         /// <summary>Gets or sets the date of order.</summary>
@@ -24,8 +19,7 @@ namespace OrdersApi.Entities
         public DateTime DateOfOrder { get; set; }
 
         /// <summary>Gets or sets a value indicating whether this instance is open.</summary>
-        /// <value>
-        ///   <c>true</c> if this instance is open; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> if this instance is open; otherwise, <c>false</c>.</value>
         public bool IsOpen { get; set; }
 
         /// <summary>Gets the order items.</summary>

@@ -8,21 +8,17 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrdersApi.Data;
-using OrdersApi.DTO;
+using OrdersApi.Dto;
 using OrdersApi.Entities;
 
 namespace OrdersApi.Controllers
 {
-    /// <summary>
-    ///   Represents a category controller.
-    /// </summary>
+    /// <summary>Represents a category controller.</summary>
     /// <remarks>Initializes a new instance of the <see cref="CategoryController" /> class.</remarks>
-    /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController(DataContext context, IMapper mapper, ILogger<CategoryController> logger) : ControllerBase
     {
-        /// <summary>The context.</summary>
         private readonly DataContext context = context;
 
         private readonly IMapper mapper = mapper;
@@ -30,11 +26,9 @@ namespace OrdersApi.Controllers
         private readonly ILogger<CategoryController> logger = logger;
 
         /// <summary>Gets all categories.</summary>
-        /// <returns>
-        ///   Returns list of categories.
-        /// </returns>
+        /// <returns>Returns categories.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAllCategories()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllCategories()
         {
             try
             {
@@ -42,7 +36,7 @@ namespace OrdersApi.Controllers
 
                 this.logger.LogDebug("Retrieved {Count} categories successfully.", categories.Count);
 
-                return this.Ok(categories.Select(this.mapper.Map<CategoryDTO>));
+                return this.Ok(this.mapper.Map<List<CategoryDto>>(categories));
             }
             catch (Exception ex)
             {
@@ -51,22 +45,17 @@ namespace OrdersApi.Controllers
             }
         }
 
-        /// <summary>
-        ///   <para>
-        /// Gets the category.
-        /// </para>
-        /// </summary>
+        /// <summary>Gets the category.</summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>
-        ///  Returns category.
-        /// </returns>
+        /// <returns>Returns category.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryDTO>> GetCategory(int id)
+        public async Task<ActionResult<CategoryDto>> GetCategory(int id)
         {
             try
             {
-                var category = await this.context.Categories.FirstOrDefaultAsync(c => c.Id == id);
-                if (category == null || !category.IsActive)
+                var category = await this.context.Categories.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
+
+                if (category == null)
                 {
                     this.logger.LogWarning("Category with ID {Id} not found.", id);
 
@@ -74,7 +63,7 @@ namespace OrdersApi.Controllers
                 }
 
                 this.logger.LogDebug("Retrieved category with ID {Id} successfully.", id);
-                return this.Ok(this.mapper.Map<CategoryDTO>(category));
+                return this.Ok(this.mapper.Map<CategoryDto>(category));
             }
             catch (Exception ex)
             {
@@ -85,11 +74,9 @@ namespace OrdersApi.Controllers
 
         /// <summary>Adds the category.</summary>
         /// <param name="newCategory">The new category.</param>
-        /// <returns>
-        ///   Returns category.
-        /// </returns>
+        /// <returns>Returns category.</returns>
         [HttpPost]
-        public async Task<ActionResult<CategoryDTO>> AddCategory(CategoryDTO newCategory)
+        public async Task<ActionResult<CategoryDto>> AddCategory(CategoryDto newCategory)
         {
             try
             {
@@ -99,7 +86,9 @@ namespace OrdersApi.Controllers
 
                 this.logger.LogDebug("Category added successfully: {@category}.", category);
 
-                return this.CreatedAtAction(nameof(this.AddCategory), this.mapper.Map<CategoryDTO>(category));
+                return this.CreatedAtAction(
+                    nameof(this.AddCategory),
+                    this.mapper.Map<CategoryDto>(category));
             }
             catch (Exception ex)
             {
@@ -109,15 +98,16 @@ namespace OrdersApi.Controllers
         }
 
         /// <summary>Updates the category.</summary>
+        /// <param name="id">The identifier.</param>
         /// <param name="updatedCategory">The updated category.</param>
-        /// <param name="id">The identifier of category we change.</param>
-        /// <returns>Returns list of categories.</returns>
+        /// <returns>Returns no content.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<CategoryDTO>> UpdateCategory(CategoryDTO updatedCategory, int id)
+        public async Task<ActionResult<CategoryDto>> UpdateCategory(int id, CategoryDto updatedCategory)
         {
             try
             {
-                var dbCategory = await this.context.Categories.FirstOrDefaultAsync(r => r.Id == id);
+                var dbCategory = await this.context.Categories.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
+
                 if (dbCategory == null)
                 {
                     this.logger.LogWarning("Category with ID {Id} not found while updating.", id);
@@ -128,7 +118,7 @@ namespace OrdersApi.Controllers
 
                 await this.context.SaveChangesAsync();
 
-                this.logger.LogDebug("Category with ID {Id} updated successfully.", id);
+                this.logger.LogDebug("Category {@dbCategory} updated successfully.", dbCategory);
                 return this.NoContent();
             }
             catch (Exception ex)
@@ -140,15 +130,14 @@ namespace OrdersApi.Controllers
 
         /// <summary>Deletes the category.</summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>
-        ///  Returns list of categories.
-        /// </returns>
+        /// <returns>Returns list of categories.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             try
             {
-                var dbCategory = await this.context.Categories.FirstOrDefaultAsync(r => r.Id == id);
+                var dbCategory = await this.context.Categories.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
+
                 if (dbCategory == null)
                 {
                     this.logger.LogWarning("Category with ID {Id} not found while deleting.", id);

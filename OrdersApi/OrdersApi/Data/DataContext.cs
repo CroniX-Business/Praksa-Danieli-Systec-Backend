@@ -10,11 +10,8 @@ using OrdersApi.Interceptors;
 
 namespace OrdersApi.Data
 {
-    /// <summary>
-    ///  Gives context for data base.
-    /// </summary>
+    /// <summary>Gives context for data base.</summary>
     /// <remarks>Initializes a new instance of the <see cref="DataContext" /> class.</remarks>
-    /// <param name="options">The options.</param>
     public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
         /// <summary>Gets or sets the restaurants.</summary>
@@ -55,16 +52,12 @@ namespace OrdersApi.Data
         /// typically define extension methods on this object that allow you to configure the context.
         /// </param>
         /// <remarks>
-        ///   <para>
         /// In situations where an instance of <see cref="T:Microsoft.EntityFrameworkCore.DbContextOptions">DbContextOptions</see> may or may not have been passed
         /// to the constructor, you can use <see cref="P:Microsoft.EntityFrameworkCore.DbContextOptionsBuilder.IsConfigured">IsConfigured</see> to determine if
         /// the options have already been set, and skip some or all of the logic in
         /// <see cref="M:Microsoft.EntityFrameworkCore.DbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)</see>.
-        /// </para>
-        ///   <para>
         /// See <a href="https://aka.ms/efcore-docs-dbcontext">DbContext lifetime, configuration, and initialization</a>
         /// for more information and examples.
-        /// </para>
         /// </remarks>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

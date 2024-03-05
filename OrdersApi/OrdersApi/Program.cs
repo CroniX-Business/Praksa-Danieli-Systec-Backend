@@ -4,10 +4,12 @@
 // Unauthorized reproduction, copying, distribution or any other use of the whole or any part of this documentation/data/software is strictly prohibited.
 // </copyright>
 
-using System.Text.Json.Serialization;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using OrdersApi.Data;
 using OrdersApi.Interceptors;
+using OrdersApi.Validators;
 using Serilog;
 
 namespace OrdersApi
@@ -23,10 +25,7 @@ namespace OrdersApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+            builder.Services.AddControllers();
 
             builder.Services.AddScoped<EntitySaveChangesInterceptor>();
 
@@ -38,14 +37,18 @@ namespace OrdersApi
             builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
                 loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 
-            builder.Services.AddSingleton(Log.Logger);
-
             builder.Services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(DataContext).Assembly.FullName));
             });
+
+            builder.Services.AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters()
+                .AddValidatorsFromAssemblyContaining<RestaurantDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<CategoryDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<CustomerDtoValidator>();
 
             var app = builder.Build();
 

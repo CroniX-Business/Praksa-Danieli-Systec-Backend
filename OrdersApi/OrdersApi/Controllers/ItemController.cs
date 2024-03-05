@@ -8,16 +8,13 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrdersApi.Data;
-using OrdersApi.DTO;
+using OrdersApi.Dto;
 using OrdersApi.Entities;
 
 namespace OrdersApi.Controllers
 {
-    /// <summary>
-    ///   Represents a item controller.
-    /// </summary>
+    /// <summary>Represents a item controller.</summary>
     /// <remarks>Initializes a new instance of the <see cref="ItemController" /> class.</remarks>
-    /// <param name="context">The context.</param>
     [Route("api/[controller]")]
     [ApiController]
     public class ItemController(DataContext context, IMapper mapper, ILogger<ItemController> logger) : ControllerBase
@@ -29,11 +26,9 @@ namespace OrdersApi.Controllers
         private readonly ILogger<ItemController> logger = logger;
 
         /// <summary>Gets all items.</summary>
-        /// <returns>
-        ///   Returns list of items.
-        /// </returns>
+        /// <returns>Returns list of items.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAllItems()
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetAllItems()
         {
             try
             {
@@ -41,7 +36,7 @@ namespace OrdersApi.Controllers
 
                 this.logger.LogDebug("Retrieved {Count} items successfully.", items.Count);
 
-                return this.Ok(items.Select(this.mapper.Map<ItemDTO>));
+                return this.Ok(items.Select(this.mapper.Map<ItemDto>));
             }
             catch (Exception ex)
             {
@@ -52,16 +47,15 @@ namespace OrdersApi.Controllers
 
         /// <summary>Gets the item.</summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>
-        ///   Returns item.
-        /// </returns>
+        /// <returns>Returns item.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemDTO>> GetItem(int id)
+        public async Task<ActionResult<ItemDto>> GetItem(int id)
         {
             try
             {
-                var item = await this.context.Items.FirstOrDefaultAsync(c => c.Id == id);
-                if (item == null || !item.IsActive)
+                var item = await this.context.Items.FirstOrDefaultAsync(i => i.Id == id && i.IsActive);
+
+                if (item == null)
                 {
                     this.logger.LogWarning("Item with ID {Id} not found.", id);
 
@@ -69,7 +63,7 @@ namespace OrdersApi.Controllers
                 }
 
                 this.logger.LogDebug("Retrieved item with ID {Id} successfully.", id);
-                return this.Ok(this.mapper.Map<ItemDTO>(item));
+                return this.Ok(this.mapper.Map<ItemDto>(item));
             }
             catch (Exception ex)
             {
@@ -82,7 +76,7 @@ namespace OrdersApi.Controllers
         /// <param name="newItem">The new item.</param>
         /// <returns>Returns list of items.</returns>
         [HttpPost]
-        public async Task<ActionResult<ItemDTO>> AddItem(ItemDTO newItem)
+        public async Task<ActionResult<ItemDto>> AddItem(ItemDto newItem)
         {
             try
             {
@@ -92,7 +86,9 @@ namespace OrdersApi.Controllers
 
                 this.logger.LogDebug("Item added successfully: {@item}.", item);
 
-                return this.CreatedAtAction(nameof(this.AddItem), this.mapper.Map<ItemDTO>(item));
+                return this.CreatedAtAction(
+                    nameof(this.AddItem),
+                    this.mapper.Map<ItemDto>(item));
             }
             catch (Exception ex)
             {
@@ -106,11 +102,12 @@ namespace OrdersApi.Controllers
         /// <param name="id">Id of item.</param>
         /// <returns>Returns list of items.</returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ItemDTO>> UpdateItem(ItemDTO updatedItem, int id)
+        public async Task<ActionResult<ItemDto>> UpdateItem(ItemDto updatedItem, int id)
         {
             try
             {
                 var dbItem = await this.context.Items.FirstOrDefaultAsync(r => r.Id == id);
+
                 if (dbItem == null)
                 {
                     this.logger.LogWarning("Item with ID {Id} not found while updating.", id);
@@ -133,15 +130,14 @@ namespace OrdersApi.Controllers
 
         /// <summary>Deletes the item.</summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>
-        ///   Returns list of items.
-        /// </returns>
+        /// <returns>Returns list of items.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteItem(int id)
         {
             try
             {
-                var dbItem = await this.context.Items.FirstOrDefaultAsync(r => r.Id == id);
+                var dbItem = await this.context.Items.FirstOrDefaultAsync(c => c.Id == id && c.IsActive);
+
                 if (dbItem == null)
                 {
                     this.logger.LogWarning("Item with ID {Id} not found while deleting.", id);
