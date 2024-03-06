@@ -18,20 +18,16 @@ namespace OrdersUnitTests.ControllersTests
         [Fact]
         public void RestaurantController_GetAllRestaurants_ReturnsOk()
         {
-            //Arrange
             var restaurantController = new RestaurantController(context, mapper, logger);
 
-            //Act
             var result = restaurantController.GetAllRestaurants();
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<IEnumerable<RestaurantDto>>>>();
         }
 
         [Fact]
         public void RestaurantController_GetRestaurant_ReturnsOk()
         {
-            //Arrange
             var restaurantController = new RestaurantController(context, mapper, logger);
             var restaurant = new Restaurant()
             {
@@ -41,17 +37,14 @@ namespace OrdersUnitTests.ControllersTests
                 PhoneNumber = "32131321",
             };
 
-            //Act
             var result = restaurantController.GetRestaurant(restaurant.Id);
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
         }
 
         [Fact]
         public void RestaurantController_AddRestaurant_ReturnsCreatedAtAction()
         {
-            //Arrange
             var restaurantController = new RestaurantController(context, mapper, logger);
             var restaurantDto = new RestaurantDto()
             {
@@ -61,17 +54,14 @@ namespace OrdersUnitTests.ControllersTests
                 PhoneNumber = "12321312312",
             };
 
-            //Act
             var result = restaurantController.AddRestaurant(restaurantDto);
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
         }
 
         [Fact]
         public void RestaurantController_UpdateRestaurant_ReturnsNoContent()
         {
-            //Arrange
             var restaurantController = new RestaurantController(context, mapper, logger);
             var restaurant = new Restaurant()
             {
@@ -88,17 +78,14 @@ namespace OrdersUnitTests.ControllersTests
                 PhoneNumber = "12321312312",
             };
 
-            //Act
             var result = restaurantController.UpdateRestaurant(restaurant.Id, restaurantDto);
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
         }
 
         [Fact]
         public void RestaurantController_DeleteRestaurant_ReturnsNoContent()
         {
-            //Arrange
             var restaurantController = new RestaurantController(context, mapper, logger);
             var restaurant = new Restaurant()
             {
@@ -108,10 +95,8 @@ namespace OrdersUnitTests.ControllersTests
                 PhoneNumber = "32131321",
             };
 
-            //Act
             var result = restaurantController.DeleteRestaurant(restaurant.Id);
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult>>();
         }
     }

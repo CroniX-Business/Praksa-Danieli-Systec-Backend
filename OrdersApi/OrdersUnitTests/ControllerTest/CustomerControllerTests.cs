@@ -18,20 +18,16 @@ namespace OrdersUnitTests.ControllersTests
         [Fact]
         public void CustomerController_GetAllCustomers_ReturnsOk()
         {
-            //Arrange
             var customerController = new CustomerController(context, mapper, logger);
 
-            //Act
             var result = customerController.GetAllCustomers();
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<IEnumerable<CustomerDto>>>>();
         }
 
         [Fact]
         public void CustomerController_GetCustomer_ReturnsOk()
         {
-            //Arrange
             var customerController = new CustomerController(context, mapper, logger);
             var customer = new Customer()
             {

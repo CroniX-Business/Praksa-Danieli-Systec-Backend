@@ -18,13 +18,10 @@ namespace OrdersUnitTests.ControllersTests
         [Fact]
         public void CategoryController_GetAllCategories_ReturnsOk()
         {
-            //Arrange
             var categoryController = new CategoryController(context, mapper, logger);
 
-            //Act
             var result = categoryController.GetAllCategories();
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<IEnumerable<CategoryDto>>>>();
         }
 
@@ -32,7 +29,6 @@ namespace OrdersUnitTests.ControllersTests
         [Fact]
         public void CategoryController_GetCategory_ReturnsOk()
         {
-            //Arrange
             var categoryController = new CategoryController(context, mapper, logger);
             var category = new Category()
             {
@@ -41,17 +37,14 @@ namespace OrdersUnitTests.ControllersTests
                 Sort = 3,
             };
 
-            //Act
             var result = categoryController.GetCategory(category.Id);
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<CategoryDto>>>();
         }
 
         [Fact]
         public void CategoryController_AddCategory_ReturnsCreatedAtAction()
         {
-            //Arrange
             var categoryController = new CategoryController(context, mapper, logger);
             var categoryDto = new CategoryDto()
             {
@@ -60,17 +53,14 @@ namespace OrdersUnitTests.ControllersTests
                 Sort = 3,
             };
 
-            //Act
             var result = categoryController.AddCategory(categoryDto);
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<CategoryDto>>>();
         }
 
         [Fact]
         public void CategoryController_UpdateCategory_ReturnsNoContent()
         {
-            //Arrange
             var categoryController = new CategoryController(context, mapper, logger);
             var category = new Category()
             {
@@ -85,17 +75,14 @@ namespace OrdersUnitTests.ControllersTests
                 Sort = 4,
             };
 
-            //Act
             var result = categoryController.UpdateCategory(category.Id, categoryDto);
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult<CategoryDto>>>();
         }
 
         [Fact]
         public void CategoryController_DeleteCategory_ReturnsNoContent()
         {
-            //Arrange
             var categoryController = new CategoryController(context, mapper, logger);
             var category = new Category()
             {
@@ -104,10 +91,8 @@ namespace OrdersUnitTests.ControllersTests
                 Sort = 5,
             };
 
-            //Act
             var result = categoryController.DeleteCategory(category.Id);
 
-            //Assert
             result.Should().BeOfType<Task<ActionResult>>();
         }
     }
