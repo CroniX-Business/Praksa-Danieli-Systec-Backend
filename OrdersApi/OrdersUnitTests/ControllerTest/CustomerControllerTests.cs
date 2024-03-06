@@ -75,7 +75,7 @@ namespace OrdersUnitTests.ControllerTest
 
             var result = controller.UpdateCustomer(customer.Id, newCustomer);
 
-            result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
+            result.Should().BeOfType<Task<ActionResult<CustomerDto>>>();
         }
 
         [Fact]
