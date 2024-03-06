@@ -50,5 +50,42 @@ namespace OrdersUnitTests.ControllerTest
             result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
 
         }
+        [Fact]
+        public void UpdateRestaurantTest()
+        {
+            var controller = new RestaurantController(context, mapper, logger);
+
+            var restaurant = new RestaurantDto
+            {
+                Id = 1,
+                Name = "TestRestaurant",
+                Address = "TestAddress",
+                PhoneNumber = "123456",
+            };
+
+            var newRestaurant = new RestaurantDto
+            {
+                Id = 1,
+                Name = "NewRestaurant",
+                Address = "NewAddress",
+                PhoneNumber = "123456",
+            };
+
+            controller.AddRestaurant(restaurant);
+
+            var result = controller.UpdateRestaurant(restaurant.Id, newRestaurant);
+
+            result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
+        }
+
+        [Fact]
+        public void DeleteRestaurantTest()
+        {
+            var controller = new RestaurantController(context, mapper, logger);
+
+            var result = controller.DeleteRestaurant(1);
+
+            result.Should().BeOfType<Task<ActionResult>>();
+        }
     }
 }
