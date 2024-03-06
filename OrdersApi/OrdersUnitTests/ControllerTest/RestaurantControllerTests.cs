@@ -5,8 +5,9 @@ using Microsoft.Extensions.Logging;
 using OrdersApi.Controllers;
 using OrdersApi.Data;
 using OrdersApi.Dto;
+using OrdersApi.Entities;
 
-namespace OrdersUnitTests.ControllerTest
+namespace OrdersUnitTests.ControllersTests
 {
     public class RestaurantControllerTests
     {
@@ -15,40 +16,104 @@ namespace OrdersUnitTests.ControllerTest
         private readonly ILogger<RestaurantController> logger;
 
         [Fact]
-        public void GetAllTest()
+        public void RestaurantController_GetAllRestaurants_ReturnsOk()
         {
-            var controller = new RestaurantController(context, mapper, logger);
+            //Arrange
+            var restaurantController = new RestaurantController(context, mapper, logger);
 
-            var result = controller.GetAllRestaurants();
+            //Act
+            var result = restaurantController.GetAllRestaurants();
 
+            //Assert
             result.Should().BeOfType<Task<ActionResult<IEnumerable<RestaurantDto>>>>();
         }
-        [Fact]
-        public void GetRestaurantTest()
-        {
-            var controller = new RestaurantController(context, mapper, logger);
-            
-            var result = controller.GetRestaurant(1);
 
+        [Fact]
+        public void RestaurantController_GetRestaurant_ReturnsOk()
+        {
+            //Arrange
+            var restaurantController = new RestaurantController(context, mapper, logger);
+            var restaurant = new Restaurant()
+            {
+                Id = 1,
+                Address = "Test",
+                Name = "Test",
+                PhoneNumber = "32131321",
+            };
+
+            //Act
+            var result = restaurantController.GetRestaurant(restaurant.Id);
+
+            //Assert
             result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
         }
 
         [Fact]
-        public void AddRestaurantTest() 
+        public void RestaurantController_AddRestaurant_ReturnsCreatedAtAction()
         {
-            var controller = new RestaurantController(context, mapper, logger);
-
-            var restaurant = new RestaurantDto
+            //Arrange
+            var restaurantController = new RestaurantController(context, mapper, logger);
+            var restaurantDto = new RestaurantDto()
             {
-                Name = "TestRestaurant",
-                Address = "TestAddress",
-                PhoneNumber = "123456",
+                Id = 1,
+                Address = "Test",
+                Name = "Test",
+                PhoneNumber = "12321312312",
             };
 
-            var result = controller.AddRestaurant(restaurant);
+            //Act
+            var result = restaurantController.AddRestaurant(restaurantDto);
 
+            //Assert
             result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
+        }
 
+        [Fact]
+        public void RestaurantController_UpdateRestaurant_ReturnsNoContent()
+        {
+            //Arrange
+            var restaurantController = new RestaurantController(context, mapper, logger);
+            var restaurant = new Restaurant()
+            {
+                Id = 1,
+                Address = "Test",
+                Name = "Test",
+                PhoneNumber = "32131321",
+            };
+            var restaurantDto = new RestaurantDto()
+            {
+                Id = 1,
+                Address = "Test",
+                Name = "Test",
+                PhoneNumber = "12321312312",
+            };
+
+            //Act
+            var result = restaurantController.UpdateRestaurant(restaurant.Id, restaurantDto);
+
+            //Assert
+            result.Should().BeOfType<Task<ActionResult<RestaurantDto>>>();
+        }
+
+        [Fact]
+        public void RestaurantController_DeleteRestaurant_ReturnsNoContent()
+        {
+            //Arrange
+            var restaurantController = new RestaurantController(context, mapper, logger);
+            var restaurant = new Restaurant()
+            {
+                Id = 1,
+                Address = "Test",
+                Name = "Test",
+                PhoneNumber = "32131321",
+            };
+
+            //Act
+            var result = restaurantController.DeleteRestaurant(restaurant.Id);
+
+            //Assert
+            result.Should().BeOfType<Task<ActionResult>>();
         }
     }
 }
+
