@@ -2,28 +2,15 @@
 using OrdersApi.Entities;
 using OrdersApi.Dto;
 using FluentAssertions;
-using OrdersApi;
 
 namespace OrdersUnitTests.AutoMapperTest
 {
-    public static class RestaurantMapper
-    {
-        public static IMapper Initialize()
-        {
-            var mapperConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapperProfile>();
-            });
-
-            return mapperConfig.CreateMapper();
-        }
-    }
     public class RestaurantMapperTest
     {
         private readonly IMapper mapper;
         public RestaurantMapperTest()
         {
-            mapper = RestaurantMapper.Initialize();
+            mapper = InitializeMapper.Initialize();
         }
 
         [Fact]
