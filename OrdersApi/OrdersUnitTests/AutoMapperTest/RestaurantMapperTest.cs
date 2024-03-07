@@ -6,7 +6,7 @@ using OrdersApi.Entities;
 
 namespace OrdersUnitTests.AutoMapperTest
 {
-    public static class RestaurantMapper
+    public static class RestaurantMapperTest
     {
         public static IMapper Initialize()
         {
@@ -25,7 +25,7 @@ namespace OrdersUnitTests.AutoMapperTest
 
         public RestaurantMapperTests()
         {
-            _mapper = RestaurantMapper.Initialize();
+            _mapper = RestaurantMapperTest.Initialize();
         }
 
         [Fact]
