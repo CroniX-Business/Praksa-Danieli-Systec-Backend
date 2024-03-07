@@ -17,7 +17,7 @@ namespace OrdersUnitTests.AutoMapperTests
         public void RestaurantToRestaurantDtoMappingTest()
         {
 
-            var restaurant = new Restaurant
+            var restaurant = new Restaurant()
             {
                 Id = 1,
                 Name = "TestRestaurant",
@@ -38,7 +38,7 @@ namespace OrdersUnitTests.AutoMapperTests
         public void RestaurantDtoToRestaurantMappingTest()
         {
 
-            var restaurantDto = new RestaurantDto
+            var restaurantDto = new RestaurantDto()
             {
                 //Id = 1,
                 Name = "TestRestaurant",
