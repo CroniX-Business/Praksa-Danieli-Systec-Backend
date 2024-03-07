@@ -39,8 +39,8 @@ namespace OrdersUnitTests.AutoMapperTests
 
             var customerDto = new CustomerDto()
             {
-                Id = 1,
-                FirstName= "Test",
+                //Id = 1,
+                FirstName = "Test",
                 LastName = "Test",
                 PhoneNumber = "1234567890",
             };

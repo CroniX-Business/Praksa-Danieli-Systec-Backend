@@ -27,4 +27,12 @@
     <ProjectReference Include="..\OrdersApi\OrdersApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Legion\Documents\backend\OrdersApi\OrdersUnitTests\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Legion\Documents\backend\OrdersApi\OrdersUnitTests\.editorconfig" />
+  </ItemGroup>
+
 </Project>

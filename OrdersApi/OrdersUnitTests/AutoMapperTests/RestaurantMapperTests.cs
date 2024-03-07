@@ -40,7 +40,7 @@ namespace OrdersUnitTests.AutoMapperTests
 
             var restaurantDto = new RestaurantDto
             {
-                Id = 1,
+                //Id = 1,
                 Name = "TestRestaurant",
                 Address = "TestAddress",
                 PhoneNumber = "123456",

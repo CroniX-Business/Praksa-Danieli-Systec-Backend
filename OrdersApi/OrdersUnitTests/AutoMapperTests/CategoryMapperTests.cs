@@ -37,7 +37,7 @@ namespace OrdersUnitTests.AutoMapperTests
 
             var categoryDto = new CategoryDto()
             {
-                Id = 1,
+                //Id = 1,
                 Name = "Test",
                 Sort = 1,
             };
