@@ -25,4 +25,12 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Mario\Desktop\praksa\backend\OrdersApi\OrdersUnitTests\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Mario\Desktop\praksa\backend\OrdersApi\OrdersUnitTests\.editorconfig" />
+  </ItemGroup>
+
 </Project>

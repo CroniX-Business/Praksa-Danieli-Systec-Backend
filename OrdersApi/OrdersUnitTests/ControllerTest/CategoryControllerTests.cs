@@ -50,7 +50,7 @@ namespace OrdersUnitTests.ControllerTest
 
         }
         [Fact]
-        public void UpdateCategoryTest()
+        public async void UpdateCategoryTest()
         {
             var controller = new CategoryController(context, mapper, logger);
 
@@ -68,7 +68,7 @@ namespace OrdersUnitTests.ControllerTest
                 Sort = 2,
             };
 
-            controller.AddCategory(category);
+            await controller.AddCategory(category);
 
             var result = controller.UpdateCategory(category.Id, newCategory);
 

@@ -28,16 +28,27 @@ namespace OrdersApi.Controllers
 
         /// <summary>Gets the restaurant data.</summary>
         /// <returns>Returns data of all restaurants.</returns>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAllRestaurants()
+        [HttpGet( "page={page}/page_results={pageResults}")]
+        public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAllRestaurants(int page, int pageResults)
         {
             try
             {
-                var restaurants = await this.context.Restaurants.Where(r => r.IsActive).ToListAsync();
+                var pageCount = Math.Ceiling((double)(this.context.Restaurants.Count() / pageResults));
+                var restaurants = await this.context.Restaurants.Where(r => r.IsActive)
+                    .Skip((page - 1) * (int)pageResults)
+                    .Take((int)pageResults)
+                    .ToListAsync();
 
                 this.logger.LogDebug("Retrieved {Count} restaurants successfully.", restaurants.Count);
 
-                return this.Ok(this.mapper.Map<List<RestaurantDto>>(restaurants));
+                var response = new Response<RestaurantDto>
+                {
+                    Objects = this.mapper.Map<List<RestaurantDto>>(restaurants),
+                    Pages = (int)pageCount,
+                    CurrentPage = page,
+                };
+                return this.Ok(response);
+                //return this.Ok(this.mapper.Map<List<RestaurantDto>>(restaurants));
             }
             catch (Exception ex)
             {
@@ -72,6 +83,7 @@ namespace OrdersApi.Controllers
                 return this.StatusCode(500, "Error occurred while processing request.");
             }
         }
+
 
         /// <summary>Adds the restaurant.</summary>
         /// <param name="newRestaurant">The new restaurant.</param>
